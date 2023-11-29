@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:front_scaffold_flutter/data/api/response.dart';
-import 'package:front_scaffold_flutter/domain/usecase/example_usecase.dart';
+import 'package:recipe_finder/data/api/response.dart';
+import 'package:recipe_finder/domain/usecase/example_usecase.dart';
 
 part 'example_event.dart';
 part 'example_state.dart';

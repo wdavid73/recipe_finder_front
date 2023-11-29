@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:front_scaffold_flutter/dependencies.dart';
-import 'package:front_scaffold_flutter/routes/app_routes.dart';
-import 'package:front_scaffold_flutter/routes/routes.dart';
-import 'package:front_scaffold_flutter/ui/bloc/bloc_imports.dart';
-import 'package:front_scaffold_flutter/ui/pages/home.dart';
-import 'package:front_scaffold_flutter/ui/pages/not_found.dart';
-import 'package:front_scaffold_flutter/ui/theme_manager.dart';
+import 'package:recipe_finder/dependencies.dart';
+import 'package:recipe_finder/routes/app_routes.dart';
+import 'package:recipe_finder/routes/routes.dart';
+import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
+import 'package:recipe_finder/ui/pages/home.dart';
+import 'package:recipe_finder/ui/pages/not_found.dart';
+import 'package:recipe_finder/ui/theme_manager.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

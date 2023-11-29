@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:front_scaffold_flutter/data/api/api_endpoint.dart';
-import 'package:front_scaffold_flutter/data/api/interceptors/api_errors_interceptor.dart';
-import 'package:front_scaffold_flutter/data/api/interceptors/api_token_interceptor.dart';
+import 'package:recipe_finder/data/api/api_endpoint.dart';
+import 'package:recipe_finder/data/api/interceptors/api_errors_interceptor.dart';
+import 'package:recipe_finder/data/api/interceptors/api_token_interceptor.dart';
 
 String baseUrl = ApiEndpoint.baseUrl;
 

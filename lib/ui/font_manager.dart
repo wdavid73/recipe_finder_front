@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:front_scaffold_flutter/ui/responsive_manager.dart';
+import 'package:recipe_finder/ui/responsive_manager.dart';
 
 class FontConstants {
   static const String fontFamily = 'Roboto';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:front_scaffold_flutter/ui/color_manager.dart';
-import 'package:front_scaffold_flutter/ui/style_text_manager.dart';
+import 'package:recipe_finder/ui/color_manager.dart';
+import 'package:recipe_finder/ui/style_text_manager.dart';
 
 ThemeData getApplicationTheme() {
   return ThemeData(

@@ -1,8 +1,8 @@
-import 'package:front_scaffold_flutter/data/repository_impl/example_repository_impl.dart';
-import 'package:front_scaffold_flutter/domain/repository/example_repository.dart';
-import 'package:front_scaffold_flutter/domain/usecase/example_usecase.dart';
-import 'package:front_scaffold_flutter/ui/bloc/bloc_imports.dart';
-import 'package:front_scaffold_flutter/ui/bloc/example_bloc/example_bloc.dart';
+import 'package:recipe_finder/data/repository_impl/example_repository_impl.dart';
+import 'package:recipe_finder/domain/repository/example_repository.dart';
+import 'package:recipe_finder/domain/usecase/example_usecase.dart';
+import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
+import 'package:recipe_finder/ui/bloc/example_bloc/example_bloc.dart';
 
 List<RepositoryProvider> buildRepositories() {
   return [

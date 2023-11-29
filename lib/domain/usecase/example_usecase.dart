@@ -1,5 +1,5 @@
-import 'package:front_scaffold_flutter/data/api/response.dart';
-import 'package:front_scaffold_flutter/domain/repository/example_repository.dart';
+import 'package:recipe_finder/data/api/response.dart';
+import 'package:recipe_finder/domain/repository/example_repository.dart';
 
 class ExampleUseCase {
   final ExampleRepository _exampleRepository;

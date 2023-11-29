@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:front_scaffold_flutter/ui/color_manager.dart';
-import 'package:front_scaffold_flutter/ui/font_manager.dart';
-import 'package:front_scaffold_flutter/ui/responsive_manager.dart';
-import 'package:front_scaffold_flutter/ui/style_text_manager.dart';
+import 'package:recipe_finder/ui/color_manager.dart';
+import 'package:recipe_finder/ui/font_manager.dart';
+import 'package:recipe_finder/ui/responsive_manager.dart';
+import 'package:recipe_finder/ui/style_text_manager.dart';
 
 class NotFound extends StatelessWidget {
   const NotFound({super.key});

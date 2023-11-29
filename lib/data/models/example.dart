@@ -1,4 +1,4 @@
-import 'package:front_scaffold_flutter/domain/entity/example_entity.dart';
+import 'package:recipe_finder/domain/entity/example_entity.dart';
 
 class Example implements ExampleEntity {
   final String name;

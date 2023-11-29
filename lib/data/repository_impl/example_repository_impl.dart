@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:front_scaffold_flutter/data/api/api_client.dart';
-import 'package:front_scaffold_flutter/data/api/api_endpoint.dart';
-import 'package:front_scaffold_flutter/data/api/response.dart';
-import 'package:front_scaffold_flutter/domain/repository/example_repository.dart';
+import 'package:recipe_finder/data/api/api_client.dart';
+import 'package:recipe_finder/data/api/api_endpoint.dart';
+import 'package:recipe_finder/data/api/response.dart';
+import 'package:recipe_finder/domain/repository/example_repository.dart';
 
 class ExampleRepositoryImpl extends ExampleRepository {
   final ApiClient _client;

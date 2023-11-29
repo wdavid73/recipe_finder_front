@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:front_scaffold_flutter/app/app.dart';
+import 'package:recipe_finder/app/app.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
