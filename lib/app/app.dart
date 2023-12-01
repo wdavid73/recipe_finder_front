@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: buildBlocs(),
         child: MaterialApp(
-          title: 'Front Scaffold Flutter',
+          title: 'Recipe Finder',
           debugShowCheckedModeBanner: false,
           theme: getApplicationTheme(),
           home: const HomePage(),
