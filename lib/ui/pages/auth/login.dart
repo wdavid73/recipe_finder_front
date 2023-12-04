@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:recipe_finder/app/app.dart';
 import 'package:recipe_finder/routes/navigation_manager.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
@@ -18,7 +19,7 @@ class Login extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Login",
+          context.translate('login'),
           style: getBoldStyle(
             color: Colors.white,
             fontSize: responsive.dp(3),
