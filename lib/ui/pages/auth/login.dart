@@ -1,0 +1,213 @@
+import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:recipe_finder/routes/navigation_manager.dart';
+import 'package:recipe_finder/ui/managers/color_manager.dart';
+import 'package:recipe_finder/ui/managers/responsive_manager.dart';
+import 'package:recipe_finder/ui/managers/style_text_manager.dart';
+import 'package:recipe_finder/widgets/button_custom.dart';
+import 'package:recipe_finder/widgets/icon_app.dart';
+import 'package:recipe_finder/widgets/input_custom.dart';
+import 'package:recipe_finder/widgets/logo_app.dart';
+
+class Login extends StatelessWidget {
+  const Login({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final Responsive responsive = Responsive(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Login",
+          style: getBoldStyle(
+            color: Colors.white,
+            fontSize: responsive.dp(3),
+          ),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        scrolledUnderElevation: 0,
+      ),
+      body: SafeArea(
+        child: Container(
+          width: responsive.width,
+          height: responsive.height,
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              LogoApp(size: responsive.dp(25)),
+              const Gap(50),
+              const Expanded(child: LoginContainer()),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class LoginContainer extends StatefulWidget {
+  const LoginContainer({super.key});
+
+  @override
+  State<LoginContainer> createState() => _LoginContainerState();
+}
+
+class _LoginContainerState extends State<LoginContainer> {
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
+  bool showPassword = true;
+  bool obscureText = true;
+  String _email = '', _password = '';
+  @override
+  Widget build(BuildContext context) {
+    final Responsive responsive = Responsive(context);
+
+    return Form(
+      key: _formKey,
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InputCustom(
+              onChange: (value) {
+                setState(() => _email = value);
+              },
+              hint: "Email Address",
+              label: "Email",
+              keyboardType: TextInputType.emailAddress,
+              iconPrefix: const Icon(Icons.person),
+            ),
+            InputCustom(
+              onChange: (value) {
+                setState(() => _password = value);
+              },
+              hint: "Password",
+              label: "Password",
+              isPassword: showPassword,
+              obscureText: obscureText,
+              showPassword: () {
+                setState(() => obscureText = !obscureText);
+              },
+              bottomPadding: 0,
+              iconPrefix: const Icon(Icons.lock),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Text(
+                  "Forget Password?",
+                  style: getRegularStyle(
+                    color: Colors.white,
+                    textDecoration: TextDecoration.underline,
+                    fontSize: responsive.dp(1.5),
+                  ),
+                ),
+              ),
+            ),
+            const Gap(20),
+            ButtonCustom(
+              onPressed: () {},
+              width: responsive.wp(60),
+              child: Text(
+                "Login",
+                style: getMediumStyle(
+                  color: Colors.white,
+                  fontSize: responsive.dp(2),
+                ),
+              ),
+            ),
+            const OtherLoginOptions(),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Not a user yet? ",
+                  style: getRegularStyle(
+                    color: Colors.white,
+                    fontSize: responsive.dp(2),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => NavigationManager.go(
+                    context,
+                    "sign_up",
+                    transition: "slide",
+                  ),
+                  child: Text(
+                    "Sign up",
+                    style: getSemiBoldStyle(
+                      color: ColorManager.primaryColor,
+                      fontSize: responsive.dp(2),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class OtherLoginOptions extends StatelessWidget {
+  const OtherLoginOptions({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final Responsive responsive = Responsive(context);
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                const Expanded(child: Divider()),
+                const Gap(20),
+                Text(
+                  "Or",
+                  style: getMediumStyle(
+                    color: Colors.white,
+                    fontSize: responsive.dp(1.6),
+                  ),
+                ),
+                const Gap(20),
+                const Expanded(child: Divider()),
+              ],
+            ),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconApp(
+                icon: "assets/icons/facebook.svg",
+                size: responsive.dp(6),
+              ),
+              const Gap(20),
+              IconApp(
+                icon: "assets/icons/google_icon.svg",
+                size: responsive.dp(6),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -15,6 +15,8 @@ ThemeData getApplicationTheme() {
       primary: Colors.white,
       onPrimary: Colors.white,
       background: ColorManager.backgroundColor,
+      surface: Colors.white,
+      onSurface: Colors.white,
     ),
     dialogBackgroundColor: ColorManager.secondaryBackgroundColor,
     cardTheme: const CardTheme(
@@ -62,12 +64,12 @@ ThemeData getApplicationTheme() {
       hintStyle: getRegularStyle(color: ColorManager.textSecondary),
       labelStyle: getMediumStyle(color: ColorManager.textPrimary),
       errorStyle: getRegularStyle(color: ColorManager.error),
-      enabledBorder: OutlineInputBorder(
+      enabledBorder: const OutlineInputBorder(
         borderSide: BorderSide(
-          color: ColorManager.primaryColor,
+          color: Colors.white,
           width: 1.5,
         ),
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
       disabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
@@ -78,7 +80,7 @@ ThemeData getApplicationTheme() {
       ),
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(
-          color: ColorManager.primaryColorDark,
+          color: ColorManager.secondaryAccentColor,
           width: 1.5,
         ),
         borderRadius: const BorderRadius.all(Radius.circular(8)),

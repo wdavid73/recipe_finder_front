@@ -45,7 +45,9 @@ class ButtonCustom extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor,
           side: BorderSide(
-            color: borderColor ?? backgroundColor ?? ColorManager.primaryColor,
+            color: borderColor ??
+                backgroundColor ??
+                ColorManager.secondaryAccentColor,
             width: 1,
           ),
         ),

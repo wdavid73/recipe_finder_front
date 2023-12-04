@@ -5,7 +5,7 @@ import 'package:recipe_finder/widgets/layout_custom.dart';
 class IconApp extends StatelessWidget {
   final double size;
   final String icon;
-  final Color? color;
+  final ColorFilter? color;
   final double sizeFactorPortrait;
   final double sizeFactorLandscape;
 
@@ -23,7 +23,7 @@ class IconApp extends StatelessWidget {
     return OrientationLayoutCustom(
       portrait: (context) => SvgPicture.asset(
         icon,
-        colorFilter: ColorFilter.mode(color ?? Colors.white, BlendMode.srcIn),
+        colorFilter: color,
         width: size * sizeFactorPortrait,
       ),
     );

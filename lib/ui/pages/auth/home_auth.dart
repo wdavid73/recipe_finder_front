@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
+import 'package:recipe_finder/routes/navigation_manager.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/widgets/button_custom.dart';
+import 'package:recipe_finder/widgets/logo_app.dart';
 
 class HomeAuth extends StatelessWidget {
   const HomeAuth({super.key});
@@ -22,42 +24,16 @@ class HomeAuth extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Animate(
-                effects: const [FadeEffect()],
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: responsive.dp(35),
-                        padding: EdgeInsets.zero,
-                        margin: EdgeInsets.zero,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Image(
-                          image: AssetImage("assets/logos/Logo.png"),
-                          alignment: Alignment.center,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      Text(
-                        "Recipe Finder",
-                        style: getMediumStyle(
-                          color: Colors.white,
-                          fontSize: responsive.dp(3.5),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+              LogoApp(
+                size: responsive.dp(35),
               ),
               Gap(spaceBetween * 4),
               ButtonCustom(
-                onPressed: () {},
+                onPressed: () => NavigationManager.go(
+                  context,
+                  "login",
+                  transition: 'slide',
+                ),
                 width: responsive.wp(70),
                 height: responsive.hp(5),
                 text: "Login",
@@ -67,7 +43,11 @@ class HomeAuth extends StatelessWidget {
               ),
               Gap(spaceBetween),
               ButtonCustom(
-                onPressed: () {},
+                onPressed: () => NavigationManager.go(
+                  context,
+                  "sign_up",
+                  transition: 'slide',
+                ),
                 width: responsive.wp(70),
                 height: responsive.hp(5),
                 text: "Sign up",
