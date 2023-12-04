@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
 import 'package:recipe_finder/routes/navigation_manager.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
-import 'package:recipe_finder/ui/managers/style_text_manager.dart';
+import 'package:recipe_finder/utils/extensions.dart';
 import 'package:recipe_finder/widgets/button_custom.dart';
 import 'package:recipe_finder/widgets/logo_app.dart';
 
@@ -36,7 +35,7 @@ class HomeAuth extends StatelessWidget {
                 ),
                 width: responsive.wp(70),
                 height: responsive.hp(5),
-                text: "Login",
+                text: context.translate('login'),
                 backgroundColor: ColorManager.primaryColor,
                 fontColor: Colors.white,
                 fontSize: responsive.dp(2),
@@ -50,7 +49,7 @@ class HomeAuth extends StatelessWidget {
                 ),
                 width: responsive.wp(70),
                 height: responsive.hp(5),
-                text: "Sign up",
+                text: context.translate('sign_up'),
                 backgroundColor: Colors.white,
                 fontColor: ColorManager.primaryColor,
                 fontSize: responsive.dp(2),

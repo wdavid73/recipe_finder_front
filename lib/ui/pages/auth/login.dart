@@ -5,6 +5,7 @@ import 'package:recipe_finder/routes/navigation_manager.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
+import 'package:recipe_finder/utils/extensions.dart';
 import 'package:recipe_finder/widgets/button_custom.dart';
 import 'package:recipe_finder/widgets/icon_app.dart';
 import 'package:recipe_finder/widgets/input_custom.dart';
@@ -79,8 +80,8 @@ class _LoginContainerState extends State<LoginContainer> {
               onChange: (value) {
                 setState(() => _email = value);
               },
-              hint: "Email Address",
-              label: "Email",
+              hint: context.translate('email_address'),
+              label: context.translate('email'),
               keyboardType: TextInputType.emailAddress,
               iconPrefix: const Icon(Icons.person),
             ),
@@ -88,8 +89,8 @@ class _LoginContainerState extends State<LoginContainer> {
               onChange: (value) {
                 setState(() => _password = value);
               },
-              hint: "Password",
-              label: "Password",
+              hint: context.translate('password'),
+              label: context.translate('password'),
               isPassword: showPassword,
               obscureText: obscureText,
               showPassword: () {
@@ -103,7 +104,7 @@ class _LoginContainerState extends State<LoginContainer> {
               child: Align(
                 alignment: Alignment.topRight,
                 child: Text(
-                  "Forget Password?",
+                  context.translate('forget_password'),
                   style: getRegularStyle(
                     color: Colors.white,
                     textDecoration: TextDecoration.underline,
@@ -117,7 +118,7 @@ class _LoginContainerState extends State<LoginContainer> {
               onPressed: () {},
               width: responsive.wp(60),
               child: Text(
-                "Login",
+                context.translate('login'),
                 style: getMediumStyle(
                   color: Colors.white,
                   fontSize: responsive.dp(2),
@@ -130,7 +131,7 @@ class _LoginContainerState extends State<LoginContainer> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Not a user yet? ",
+                  "${context.translate('not_user_yet')} ",
                   style: getRegularStyle(
                     color: Colors.white,
                     fontSize: responsive.dp(2),
@@ -143,7 +144,7 @@ class _LoginContainerState extends State<LoginContainer> {
                     transition: "slide",
                   ),
                   child: Text(
-                    "Sign up",
+                    context.translate('sign_up'),
                     style: getSemiBoldStyle(
                       color: ColorManager.primaryColor,
                       fontSize: responsive.dp(2),
@@ -166,7 +167,7 @@ class OtherLoginOptions extends StatelessWidget {
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive(context);
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
+      margin: EdgeInsets.symmetric(vertical: responsive.hp(2)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -192,6 +193,7 @@ class OtherLoginOptions extends StatelessWidget {
               ],
             ),
           ),
+          const Gap(20),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -207,6 +209,7 @@ class OtherLoginOptions extends StatelessWidget {
               ),
             ],
           ),
+          const Gap(30),
         ],
       ),
     );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_finder/dependencies.dart';
-import 'package:recipe_finder/i10n/app_localizations.dart';
 import 'package:recipe_finder/routes/app_routes.dart';
 import 'package:recipe_finder/routes/routes.dart';
 import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
@@ -8,12 +7,6 @@ import 'package:recipe_finder/ui/managers/locale_manager.dart';
 import 'package:recipe_finder/ui/pages/home.dart';
 import 'package:recipe_finder/ui/pages/not_found.dart';
 import 'package:recipe_finder/ui/managers/theme_manager.dart';
-
-extension AppLocalization on BuildContext {
-  String translate(String key) {
-    return AppLocalizations.of(this).translate(key);
-  }
-}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

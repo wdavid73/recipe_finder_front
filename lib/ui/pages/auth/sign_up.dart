@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
+import 'package:recipe_finder/utils/extensions.dart';
 import 'package:recipe_finder/widgets/button_custom.dart';
 import 'package:recipe_finder/widgets/input_custom.dart';
 import 'package:recipe_finder/widgets/logo_app.dart';
@@ -22,7 +23,7 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Sign Up",
+          context.translate('sign_up'),
           style: getBoldStyle(
             color: Colors.white,
             fontSize: responsive.dp(3),
@@ -55,36 +56,36 @@ class _SignUpState extends State<SignUp> {
                       children: [
                         InputCustom(
                           onChange: (value) {},
-                          hint: "Name",
-                          label: "Name",
+                          hint: context.translate('name'),
+                          label: context.translate('name'),
                           keyboardType: TextInputType.emailAddress,
                           iconPrefix: const Icon(Icons.person),
                         ),
                         InputCustom(
                           onChange: (value) {},
-                          hint: "Email Address",
-                          label: "Email",
+                          hint: context.translate('email_address'),
+                          label: context.translate('email'),
                           keyboardType: TextInputType.emailAddress,
                           iconPrefix: const Icon(Icons.email),
                         ),
                         InputCustom(
                           onChange: (value) {},
-                          hint: "Password",
-                          label: "Password",
+                          hint: context.translate('password'),
+                          label: context.translate('password'),
                           keyboardType: TextInputType.emailAddress,
                           iconPrefix: const Icon(Icons.lock),
                         ),
                         InputCustom(
                           onChange: (value) {},
-                          hint: "Confirm Password",
-                          label: "Confirm Password",
+                          hint: context.translate('confirm_password'),
+                          label: context.translate('confirm_password'),
                           keyboardType: TextInputType.emailAddress,
                           iconPrefix: const Icon(Icons.lock_outline),
                         ),
                         InputCustom(
                           onChange: (value) {},
-                          hint: "Birthday",
-                          label: "Birthday",
+                          hint: context.translate('birthday'),
+                          label: context.translate('birthday'),
                           keyboardType: TextInputType.emailAddress,
                           iconPrefix: const Icon(Icons.calendar_month),
                         ),
@@ -92,7 +93,7 @@ class _SignUpState extends State<SignUp> {
                           onPressed: () {},
                           width: responsive.wp(60),
                           child: Text(
-                            "Sign up",
+                            context.translate('sign_up'),
                             style: getMediumStyle(
                               color: Colors.white,
                               fontSize: responsive.dp(2),
