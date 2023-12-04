@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_finder/ui/responsive_manager.dart';
+import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 
 class LayoutBuildCustom extends StatelessWidget {
   final WidgetBuilder mobile;

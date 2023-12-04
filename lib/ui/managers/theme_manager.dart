@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_finder/ui/color_manager.dart';
-import 'package:recipe_finder/ui/style_text_manager.dart';
+import 'package:recipe_finder/ui/managers/color_manager.dart';
+import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 
 ThemeData getApplicationTheme() {
   return ThemeData(
@@ -12,7 +12,7 @@ ThemeData getApplicationTheme() {
     splashColor: ColorManager.splashColor,
     colorScheme: ColorScheme.fromSwatch().copyWith(
       secondary: ColorManager.secondaryColor,
-      primary: ColorManager.primaryColor,
+      primary: Colors.white,
       onPrimary: Colors.white,
       background: ColorManager.backgroundColor,
     ),
@@ -33,23 +33,28 @@ ThemeData getApplicationTheme() {
     buttonTheme: ButtonThemeData(
       shape: const StadiumBorder(),
       disabledColor: Colors.grey,
-      buttonColor: ColorManager.secondaryColor,
-      splashColor: ColorManager.secondaryAccentColor,
+      buttonColor: ColorManager.secondaryAccentColor,
+      splashColor: ColorManager.splashColor,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         textStyle: getRegularStyle(color: Colors.white),
-        backgroundColor: ColorManager.secondaryColor,
+        backgroundColor: ColorManager.secondaryAccentColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
       ),
     ),
+    dividerColor: ColorManager.divider,
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: ColorManager.secondaryAccentColor,
+    ),
+    scaffoldBackgroundColor: ColorManager.backgroundDarkColor,
     textTheme: TextTheme(
-      displayLarge: getSemiBoldStyle(color: ColorManager.textPrimary),
-      titleMedium: getMediumStyle(color: ColorManager.textPrimary),
+      displayLarge: getSemiBoldStyle(color: ColorManager.textPrimaryLight),
+      titleMedium: getMediumStyle(color: ColorManager.textPrimaryLight),
       bodySmall: getRegularStyle(color: ColorManager.textSecondary),
-      bodyLarge: getRegularStyle(color: ColorManager.textPrimary),
+      bodyLarge: getRegularStyle(color: ColorManager.textPrimaryLight),
       labelSmall: getRegularStyle(color: Colors.white),
     ),
     inputDecorationTheme: InputDecorationTheme(

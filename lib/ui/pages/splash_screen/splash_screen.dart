@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:recipe_finder/routes/navigation_manager.dart';
-import 'package:recipe_finder/ui/color_manager.dart';
-import 'package:recipe_finder/ui/responsive_manager.dart';
+import 'package:recipe_finder/ui/managers/color_manager.dart';
+import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _navigate() {
-    NavigationManager.go(context, "home");
+    NavigationManager.go(context, "home_auth");
   }
 
   @override

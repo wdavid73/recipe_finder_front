@@ -5,7 +5,7 @@ import 'package:recipe_finder/routes/routes.dart';
 import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
 import 'package:recipe_finder/ui/pages/home.dart';
 import 'package:recipe_finder/ui/pages/not_found.dart';
-import 'package:recipe_finder/ui/theme_manager.dart';
+import 'package:recipe_finder/ui/managers/theme_manager.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
