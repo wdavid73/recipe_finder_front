@@ -1,11 +1,11 @@
 name: recipe_finder
 description: Explore and cook with Recipe Finder in Flutter. Search for recipes, save your favorites and enjoy cooking easily. Download now and cook in style!
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 0.0.1+1
 
 environment:
-  sdk: '>=3.1.3 <4.0.0'
+  sdk: ">=3.1.3 <4.0.0"
 
 dependencies:
   flutter:
@@ -26,6 +26,7 @@ dependencies:
   bloc_test: ^9.1.5
   mocktail: ^1.0.1
   mockito: ^5.4.3
+  flutter_animate: ^4.3.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -36,14 +37,13 @@ dev_dependencies:
   test: ^1.24.3
 
 flutter:
-
   uses-material-design: true
 
   assets:
-    - assets/icons
-    - assets/images
-    - assets/logos
-    - assets/launcher
+    - assets/icons/
+    - assets/images/
+    - assets/logos/
+    - assets/launcher/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -54,28 +54,28 @@ flutter:
   fonts:
     - family: Nunito
       fonts:
-        - asset: assets/fonts/Nunito-Light.tff
+        - asset: assets/fonts/Nunito-Light.ttf
           weight: 300
-        - asset: assets/fonts/Nunito-Regular.tff
+        - asset: assets/fonts/Nunito-Regular.ttf
           weight: 400
-        - asset: assets/fonts/Nunito-Medium.tff
+        - asset: assets/fonts/Nunito-Medium.ttf
           weight: 500
-        - asset: assets/fonts/Nunito-SemiBold.tff
+        - asset: assets/fonts/Nunito-SemiBold.ttf
           weight: 600
-        - asset: assets/fonts/Nunito-Bold.tff
+        - asset: assets/fonts/Nunito-Bold.ttf
           weight: 700
-        - asset: assets/fonts/Nunito-Italic.tff
+        - asset: assets/fonts/Nunito-Italic.ttf
           weight: 400
     - family: Caveat
       fonts:
-        - asset: assets/fonts/Caveat/Caveat-Regular.tff
+        - asset: assets/fonts/Caveat/Caveat-Regular.ttf
           weight: 400
-        - asset: assets/fonts/Caveat/Caveat-Medium.tff
+        - asset: assets/fonts/Caveat/Caveat-Medium.ttf
           weight: 500
-        - asset: assets/fonts/Caveat/Caveat-SemiBold.tff
+        - asset: assets/fonts/Caveat/Caveat-SemiBold.ttf
           weight: 600
-        - asset: assets/fonts/Caveat/Caveat-Bold.tff
+        - asset: assets/fonts/Caveat/Caveat-Bold.ttf
           weight: 700
-  
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

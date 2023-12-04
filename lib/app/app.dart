@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: getApplicationTheme(),
           home: const HomePage(),
-          initialRoute: Routes.home,
+          initialRoute: Routes.splash,
           routes: appRoutes,
           onUnknownRoute: (settings) {
             return MaterialPageRoute(
