@@ -66,11 +66,11 @@ class _LoginContainerState extends State<LoginContainer> {
   Map<String, dynamic> data = {};
 
   void _login() {
-    var isOk = _formKey.currentState!.validate();
+    /* var isOk = _formKey.currentState!.validate();
 
-    if (isOk) {
-      NavigationManager.goAndRemove(context, "home");
-    }
+    if (isOk) { */
+    NavigationManager.goAndRemove(context, "home");
+    /* } */
   }
 
   @override

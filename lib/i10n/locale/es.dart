@@ -15,4 +15,13 @@ Map<String, String> es = {
   'is_email': 'Por favor ingrese un correo valido',
   'is_not_equal': 'Los valores no son iguales',
   'is_not_equal_password': 'Las contraseñas no coinciden',
+  // HOME
+  'your_recipes': 'Tus Recetas',
+  'its_empty': '¡Uy! Está vacío',
+  'list_empty_home': 'Parece que no tienes nada en tu lista',
+  'add_new_recipe': 'Crear nueva',
+  'find_by_category': 'Buscar por categoría',
+  // FOUND
+  'not_found_title': 'No encontrado',
+  'not_found_info': 'No pudimos encontrar lo que buscabas',
 };

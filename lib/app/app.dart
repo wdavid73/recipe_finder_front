@@ -4,7 +4,7 @@ import 'package:recipe_finder/routes/app_routes.dart';
 import 'package:recipe_finder/routes/routes.dart';
 import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
 import 'package:recipe_finder/ui/managers/locale_manager.dart';
-import 'package:recipe_finder/ui/pages/home.dart';
+import 'package:recipe_finder/ui/pages/home/home.dart';
 import 'package:recipe_finder/ui/pages/not_found.dart';
 import 'package:recipe_finder/ui/managers/theme_manager.dart';
 
