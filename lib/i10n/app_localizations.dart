@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:recipe_finder/i10n/strings_translate.dart';
 
 class AppLocalizations {
@@ -30,7 +30,7 @@ class _AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {
 
   @override
   bool isSupported(Locale locale) {
-    return ['en', 'es'].contains(locale.languageCode);
+    return ['es_ES', 'es', 'en'].contains(locale.languageCode);
   }
 
   @override
@@ -43,4 +43,21 @@ class _AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {
   @override
   bool shouldReload(covariant LocalizationsDelegate<AppLocalizations> old) =>
       false;
+}
+
+class AppCupertinoLocalizationsDelegate
+    extends LocalizationsDelegate<CupertinoLocalizations> {
+  const AppCupertinoLocalizationsDelegate();
+
+  @override
+  bool isSupported(Locale locale) {
+    return ['es_ES', 'es', 'en'].contains(locale.languageCode);
+  }
+
+  @override
+  Future<CupertinoLocalizations> load(Locale locale) =>
+      DefaultCupertinoLocalizations.load(locale);
+
+  @override
+  bool shouldReload(AppCupertinoLocalizationsDelegate old) => false;
 }

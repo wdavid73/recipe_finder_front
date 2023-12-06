@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:recipe_finder/app/app.dart';
 import 'package:recipe_finder/routes/navigation_manager.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/utils/extensions.dart';
+import 'package:recipe_finder/utils/validations.dart';
 import 'package:recipe_finder/widgets/button_custom.dart';
 import 'package:recipe_finder/widgets/icon_app.dart';
 import 'package:recipe_finder/widgets/input_custom.dart';
@@ -63,7 +63,16 @@ class _LoginContainerState extends State<LoginContainer> {
 
   bool showPassword = true;
   bool obscureText = true;
-  String _email = '', _password = '';
+  Map<String, dynamic> data = {};
+
+  void _login() {
+    var isOk = _formKey.currentState!.validate();
+
+    if (isOk) {
+      NavigationManager.goAndRemove(context, "home");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive(context);
@@ -78,16 +87,25 @@ class _LoginContainerState extends State<LoginContainer> {
           children: [
             InputCustom(
               onChange: (value) {
-                setState(() => _email = value);
+                setState(() => data["email"] = value);
               },
               hint: context.translate('email_address'),
               label: context.translate('email'),
               keyboardType: TextInputType.emailAddress,
               iconPrefix: const Icon(Icons.person),
+              validator: (value) =>
+                  pipeFirstNotNullOrNull<String, String>(value!, [
+                (value) => Validations.isRequired(value,
+                    message: context.translate('is_required')),
+                (value) => Validations.isNotEmpty(value,
+                    message: context.translate('is_empty')),
+                (value) => Validations.isEmail(value,
+                    message: context.translate('is_email'))
+              ]),
             ),
             InputCustom(
               onChange: (value) {
-                setState(() => _password = value);
+                setState(() => data["password"] = value);
               },
               hint: context.translate('password'),
               label: context.translate('password'),
@@ -98,6 +116,13 @@ class _LoginContainerState extends State<LoginContainer> {
               },
               bottomPadding: 0,
               iconPrefix: const Icon(Icons.lock),
+              validator: (value) =>
+                  pipeFirstNotNullOrNull<String, String>(value!, [
+                (value) => Validations.isRequired(value,
+                    message: context.translate('is_required')),
+                (value) => Validations.isNotEmpty(value,
+                    message: context.translate('is_empty')),
+              ]),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -115,7 +140,7 @@ class _LoginContainerState extends State<LoginContainer> {
             ),
             const Gap(20),
             ButtonCustom(
-              onPressed: () {},
+              onPressed: () => _login(),
               width: responsive.wp(60),
               child: Text(
                 context.translate('login'),

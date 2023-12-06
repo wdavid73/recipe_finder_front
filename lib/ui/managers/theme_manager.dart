@@ -17,6 +17,7 @@ ThemeData getApplicationTheme() {
       background: ColorManager.backgroundColor,
       surface: Colors.white,
       onSurface: Colors.white,
+      error: ColorManager.error,
     ),
     dialogBackgroundColor: ColorManager.secondaryBackgroundColor,
     cardTheme: const CardTheme(
@@ -100,6 +101,55 @@ ThemeData getApplicationTheme() {
         borderRadius: const BorderRadius.all(Radius.circular(8)),
       ),
       prefixIconColor: ColorManager.textPrimary,
+    ),
+    datePickerTheme: DatePickerThemeData(
+      backgroundColor: ColorManager.backgroundDarkColor,
+      headerBackgroundColor: ColorManager.primaryColorDark,
+      headerForegroundColor: Colors.white,
+      headerHeadlineStyle: getBoldStyle(fontSize: 30),
+      headerHelpStyle: getMediumStyle(fontSize: 16),
+      dividerColor: ColorManager.divider,
+      dayBackgroundColor: MaterialStatePropertyAll<Color>(
+        ColorManager.secondaryAccentColor.withOpacity(0.8),
+      ),
+      dayForegroundColor: const MaterialStatePropertyAll<Color>(
+        Colors.white,
+      ),
+      dayOverlayColor: MaterialStatePropertyAll<Color>(
+        ColorManager.primaryColorDark.withOpacity(0.8),
+      ),
+      dayStyle: getRegularStyle(fontSize: 14),
+      inputDecorationTheme: InputDecorationTheme(
+        contentPadding: const EdgeInsets.all(8),
+        hintStyle: getRegularStyle(color: ColorManager.textSecondary),
+        labelStyle: getMediumStyle(color: ColorManager.textPrimary),
+        errorStyle: getRegularStyle(color: ColorManager.error),
+      ),
+      rangePickerBackgroundColor: Colors.blue,
+      rangePickerElevation: 0,
+      rangePickerHeaderBackgroundColor: ColorManager.primaryColorDark,
+      rangePickerHeaderForegroundColor: Colors.white,
+      rangePickerHeaderHeadlineStyle: getBoldStyle(fontSize: 30),
+      rangePickerHeaderHelpStyle: getMediumStyle(fontSize: 16),
+      surfaceTintColor: Colors.transparent,
+      todayBackgroundColor: MaterialStatePropertyAll<Color>(
+        ColorManager.splashColor,
+      ),
+      todayForegroundColor: const MaterialStatePropertyAll<Color>(
+        Colors.white,
+      ),
+      weekdayStyle: getRegularStyle(
+        color: ColorManager.textPrimaryLight,
+        fontSize: 14,
+      ),
+      yearBackgroundColor: MaterialStatePropertyAll<Color>(
+        ColorManager.secondaryAccentColor,
+      ),
+      yearOverlayColor: MaterialStatePropertyAll<Color>(
+        ColorManager.primaryColorDark.withOpacity(0.8),
+      ),
+      yearStyle: getMediumStyle(fontSize: 14),
+      yearForegroundColor: const MaterialStatePropertyAll<Color>(Colors.white),
     ),
   );
 }

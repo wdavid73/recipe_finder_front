@@ -7,11 +7,13 @@ abstract class LocaleManager {
       [
     AppLocalizations.delegate,
     GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate
+    GlobalWidgetsLocalizations.delegate,
+    AppCupertinoLocalizationsDelegate(),
   ];
 
   static const List<Locale> supportedLocales = [
-    Locale('en', 'US'),
     Locale('es', 'ES'),
+    Locale('es'),
+    Locale('en', 'US'),
   ];
 }
