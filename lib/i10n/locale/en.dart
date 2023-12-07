@@ -1,6 +1,7 @@
 Map<String, String> en = {
   'login': 'Login',
   'sign_up': 'Sign up',
+  'logout': 'Log Out',
   'not_user_yet': 'Not a user yet?',
   'name': 'Name',
   'email': 'Email',
@@ -16,6 +17,7 @@ Map<String, String> en = {
   'is_not_equal': 'Values are not equal',
   'is_not_equal_password': 'Passwords do not match',
   // HOME
+  'title_home': '¡Welcome to RecipeFinder!',
   'your_recipes': 'Your Recipes',
   'its_empty': 'Oops! It’s Empty',
   'list_empty_home': 'Looks like you don’t have anything in your list',
@@ -24,4 +26,9 @@ Map<String, String> en = {
   // NOT FOUND
   'not_found_title': 'Not found',
   'not_found_info': 'We could not find what you were looking for',
+  // DRAWER
+  'profile': 'Profile',
+  'settings': 'Settings',
+  'my_recipes': 'My Recipes',
+  'create_recipe': 'Create Recipe',
 };

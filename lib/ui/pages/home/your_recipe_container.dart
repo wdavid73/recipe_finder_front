@@ -70,6 +70,7 @@ class YourRecipesContainer extends StatelessWidget {
           const Gap(10),
           ButtonCustom(
             onPressed: () {},
+            height: 30,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -81,7 +82,7 @@ class YourRecipesContainer extends StatelessWidget {
                   context.translate('add_new_recipe'),
                   style: getRegularStyle(
                     color: Colors.white,
-                    fontSize: responsive.dp(2),
+                    fontSize: responsive.dp(1.6),
                   ),
                 )
               ],

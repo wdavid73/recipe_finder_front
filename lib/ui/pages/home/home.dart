@@ -1,13 +1,12 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:recipe_finder/routes/navigation_manager.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/ui/pages/home/categories_container.dart';
+import 'package:recipe_finder/ui/pages/home/widgets/drawer_home.dart';
 import 'package:recipe_finder/ui/pages/home/your_recipe_container.dart';
-import 'package:recipe_finder/widgets/bottom_app_bar.dart';
+import 'package:recipe_finder/utils/extensions.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,20 +16,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<HomePage> {
-  String _selectedPage = "home";
-
-  void _onItemTapped(String page) {
-    setState(() => _selectedPage = page);
-    NavigationManager.go(context, page);
-  }
-
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Welcome to RecipeFinder',
+          context.translate('title_home'),
           style: getSemiBoldStyle(
             color: Colors.white,
             fontSize: responsive.dp(1.8),
@@ -43,15 +35,12 @@ class _MyHomePageState extends State<HomePage> {
             icon: Icon(Icons.search, size: responsive.dp(2.5)),
           )
         ],
-        leading: Icon(
-          Icons.menu,
-          size: responsive.dp(2.5),
-        ),
         backgroundColor: ColorManager.backgroundDarkColor,
         shadowColor: Colors.black87,
         surfaceTintColor: ColorManager.backgroundDarkColor,
         toolbarHeight: responsive.hp(8),
       ),
+      drawer: const DrawerHome(),
       body: SafeArea(
         child: Container(
           width: responsive.width,
@@ -68,12 +57,6 @@ class _MyHomePageState extends State<HomePage> {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomAppBarCustom(
-        onTap: (String page) {
-          _onItemTapped(page);
-        },
-        selectedPage: _selectedPage,
       ),
     );
   }

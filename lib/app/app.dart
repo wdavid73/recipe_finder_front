@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: 'Recipe Finder',
           debugShowCheckedModeBanner: false,
-          theme: getApplicationTheme(),
+          darkTheme: getApplicationDarkTheme(),
+          themeMode: ThemeMode.dark,
           home: const HomePage(),
           initialRoute: Routes.splash,
           routes: appRoutes,

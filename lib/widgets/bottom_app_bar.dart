@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
@@ -27,38 +26,12 @@ class _BottomAppBarCustomState extends State<BottomAppBarCustom> {
     return BottomAppBar(
       color: ColorManager.backgroundDarkColor,
       surfaceTintColor: ColorManager.secondaryBackgroundColor,
-      child: Row(
+      height: 65,
+      child: const Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.max,
-        children: [
-          GestureDetector(
-            onTap: () => onTapItem("home"),
-            child: ItemNav(
-              title: "Home",
-              icon: Icons.home,
-              isSelected: widget.selectedPage == 'home',
-            ),
-          ),
-          const Gap(20),
-          GestureDetector(
-            onTap: () => onTapItem("profile"),
-            child: ItemNav(
-              title: "Profile",
-              icon: Icons.person,
-              isSelected: widget.selectedPage == 'profile',
-            ),
-          ),
-          const Gap(20),
-          GestureDetector(
-            onTap: () => onTapItem("settings"),
-            child: ItemNav(
-              title: "Settings",
-              icon: Icons.settings,
-              isSelected: widget.selectedPage == 'setting',
-            ),
-          ),
-        ],
+        children: [],
       ),
     );
   }

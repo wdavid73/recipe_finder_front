@@ -41,7 +41,7 @@ class Login extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               LogoApp(size: responsive.dp(25)),
-              const Gap(50),
+              const Gap(30),
               const Expanded(child: LoginContainer()),
             ],
           ),
@@ -80,7 +80,6 @@ class _LoginContainerState extends State<LoginContainer> {
     return Form(
       key: _formKey,
       child: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -234,7 +233,6 @@ class OtherLoginOptions extends StatelessWidget {
               ),
             ],
           ),
-          const Gap(30),
         ],
       ),
     );

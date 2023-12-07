@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 
-ThemeData getApplicationTheme() {
+ThemeData getApplicationDarkTheme() {
   return ThemeData(
     useMaterial3: true,
     primaryColor: ColorManager.primaryColor,
@@ -150,6 +150,12 @@ ThemeData getApplicationTheme() {
       ),
       yearStyle: getMediumStyle(fontSize: 14),
       yearForegroundColor: const MaterialStatePropertyAll<Color>(Colors.white),
+    ),
+    drawerTheme: DrawerThemeData(
+      backgroundColor: ColorManager.backgroundDarkColor,
+      surfaceTintColor: ColorManager.secondaryBackgroundColor,
+      scrimColor: Colors.black54,
+      shadowColor: ColorManager.shadowColorDark,
     ),
   );
 }

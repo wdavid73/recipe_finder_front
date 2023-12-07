@@ -55,19 +55,20 @@ PageRouteBuilder<dynamic> pageRouteBuilder({
   dynamic data,
 }) {
   return PageRouteBuilder(
-      settings: RouteSettings(arguments: data),
-      pageBuilder: (context, animation, anotherAnimation) {
-        if (appRoutes[routeName] != null) {
-          return appRoutes[routeName]!(context);
-        }
-        return appRoutes['not_found']!(context);
-      },
-      transitionDuration: const Duration(milliseconds: 300),
-      reverseTransitionDuration: const Duration(microseconds: 300),
-      transitionsBuilder: (BuildContext context, Animation<double> animation,
-          Animation<double> secondaryAnimation, Widget child) {
-        return transitions[transition](animation, child);
-      });
+    settings: RouteSettings(arguments: data),
+    pageBuilder: (context, animation, anotherAnimation) {
+      if (appRoutes[routeName] != null) {
+        return appRoutes[routeName]!(context);
+      }
+      return appRoutes['not_found']!(context);
+    },
+    transitionDuration: const Duration(milliseconds: 300),
+    reverseTransitionDuration: const Duration(microseconds: 2000),
+    transitionsBuilder: (BuildContext context, Animation<double> animation,
+        Animation<double> secondaryAnimation, Widget child) {
+      return transitions[transition](animation, child);
+    },
+  );
 }
 
 Map<String, dynamic> get transitions => {

@@ -5,6 +5,7 @@ import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/utils/constants.dart';
 import 'package:recipe_finder/utils/extensions.dart';
+import 'package:recipe_finder/widgets/button_custom.dart';
 
 class CategoriesContainer extends StatelessWidget {
   const CategoriesContainer({
@@ -41,32 +42,28 @@ class CategoriesContainer extends StatelessWidget {
               ),
             ),
           ),
-          const Gap(25),
+          const Gap(5),
           Expanded(
             child: GridView.count(
-              crossAxisCount: 4,
-              mainAxisSpacing: 20,
-              children: List.generate(16, (index) {
+              crossAxisCount: 3,
+              mainAxisSpacing: 0,
+              crossAxisSpacing: 0,
+              padding: EdgeInsets.zero,
+              children: List.generate(categories.length, (index) {
                 return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Container(
-                        margin: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: ColorManager.secondaryBackgroundColor,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Image(
-                          image:
-                              const AssetImage("assets/images/not_found.png"),
-                          alignment: Alignment.center,
-                          fit: BoxFit.fitHeight,
-                          width: responsive.dp(10),
-                        ),
-                      ),
+                    ButtonCustom(
+                      onPressed: () {},
+                      height: 70,
+                      child: categories[index]["icon"],
                     ),
                     Text(
-                      "Category",
+                      categories[index]["name"],
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: getMediumStyle(
                         color: Colors.white,
                         fontSize: responsive.dp(1.6),
