@@ -59,14 +59,19 @@ class CategoriesContainer extends StatelessWidget {
                       height: 70,
                       child: categories[index]["icon"],
                     ),
-                    Text(
-                      categories[index]["name"],
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: getMediumStyle(
-                        color: Colors.white,
-                        fontSize: responsive.dp(1.6),
+                    const Gap(5),
+                    SizedBox(
+                      width: responsive.wp(20),
+                      child: Text(
+                        categories[index]["name"],
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: getMediumStyle(
+                          color: Colors.white,
+                          fontSize: responsive.dp(1.6),
+                          height: 1,
+                        ),
                       ),
                     )
                   ],

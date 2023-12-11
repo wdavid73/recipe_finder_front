@@ -8,6 +8,7 @@ TextStyle _getTextStyle({
   TextDecoration? textDecoration,
   FontStyle? fontStyle,
   String fontFamily = FontConstants.fontFamily,
+  double? height,
 }) {
   return TextStyle(
     fontSize: fontSize,
@@ -16,6 +17,7 @@ TextStyle _getTextStyle({
     decoration: textDecoration,
     fontStyle: fontStyle,
     fontFamily: fontFamily,
+    height: height,
   );
 }
 
@@ -25,6 +27,7 @@ TextStyle getLightStyle({
   TextDecoration? textDecoration,
   FontStyle? fontStyle,
   String fontFamily = FontConstants.fontFamily,
+  double? height,
 }) {
   return _getTextStyle(
     color: color,
@@ -33,6 +36,7 @@ TextStyle getLightStyle({
     textDecoration: textDecoration,
     fontStyle: fontStyle,
     fontSize: fontSize,
+    height: height,
   );
 }
 
@@ -42,6 +46,7 @@ TextStyle getRegularStyle({
   TextDecoration? textDecoration,
   FontStyle? fontStyle,
   String fontFamily = FontConstants.fontFamily,
+  double? height,
 }) {
   return _getTextStyle(
     color: color,
@@ -50,6 +55,7 @@ TextStyle getRegularStyle({
     textDecoration: textDecoration,
     fontStyle: fontStyle,
     fontSize: fontSize,
+    height: height,
   );
 }
 
@@ -59,6 +65,7 @@ TextStyle getMediumStyle({
   TextDecoration? textDecoration,
   FontStyle? fontStyle,
   String fontFamily = FontConstants.fontFamily,
+  double? height,
 }) {
   return _getTextStyle(
     color: color,
@@ -67,6 +74,7 @@ TextStyle getMediumStyle({
     textDecoration: textDecoration,
     fontStyle: fontStyle,
     fontSize: fontSize,
+    height: height,
   );
 }
 
@@ -76,6 +84,7 @@ TextStyle getSemiBoldStyle({
   TextDecoration? textDecoration,
   FontStyle? fontStyle,
   String fontFamily = FontConstants.fontFamily,
+  double? height,
 }) {
   return _getTextStyle(
     color: color,
@@ -84,6 +93,7 @@ TextStyle getSemiBoldStyle({
     textDecoration: textDecoration,
     fontStyle: fontStyle,
     fontSize: fontSize,
+    height: height,
   );
 }
 
@@ -93,6 +103,7 @@ TextStyle getBoldStyle({
   TextDecoration? textDecoration,
   FontStyle? fontStyle,
   String fontFamily = FontConstants.fontFamily,
+  double? height,
 }) {
   return _getTextStyle(
     color: color,
@@ -101,5 +112,6 @@ TextStyle getBoldStyle({
     textDecoration: textDecoration,
     fontStyle: fontStyle,
     fontSize: fontSize,
+    height: height,
   );
 }
