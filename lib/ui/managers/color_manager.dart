@@ -17,6 +17,7 @@ class ColorManager {
   /* ------------ UTILS COLORS  -------------- */
   static Color disabledColor = HexColor.fromHex("#bcbcbc");
   static Color splashColor = HexColor.fromHex("#c2185b");
+  static Color placeholderColor = HexColor.fromHex('#dadce0');
   /* ------------ VARIATION COLORS  -------------- */
   static Color shadowColorDark = HexColor.fromHex('#171717');
   static Color containerColorDark = HexColor.fromHex('#414141');

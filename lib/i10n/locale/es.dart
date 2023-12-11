@@ -31,4 +31,9 @@ Map<String, String> es = {
   'settings': 'Configuración',
   'my_recipes': 'Mis Recetas',
   'create_recipe': 'Crear Receta',
+  // PROFILE PAGE
+  'edit_profile': 'Editar Perfil',
+  'num_recipes': 'N° Recetas',
+  'favorite_recipes': 'Recetas Favoritas',
+  'show_all': 'Mostrar Todas',
 };

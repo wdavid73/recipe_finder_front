@@ -31,4 +31,9 @@ Map<String, String> en = {
   'settings': 'Settings',
   'my_recipes': 'My Recipes',
   'create_recipe': 'Create Recipe',
+  // PROFILE PAGE
+  'edit_profile': 'Edit Profile',
+  'num_recipes': 'N° Recipes',
+  'favorite_recipes': 'Favorite Recipes',
+  'show_all': 'Show all',
 };

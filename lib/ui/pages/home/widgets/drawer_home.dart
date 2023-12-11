@@ -57,12 +57,10 @@ class DrawerHome extends StatelessWidget {
             title: context.translate('profile'),
             onTap: () {
               Navigator.pop(context);
-              Future.delayed(const Duration(milliseconds: 300)).then(
-                (value) => NavigationManager.go(
-                  context,
-                  'profile',
-                  transition: 'slideInvert',
-                ),
+              NavigationManager.go(
+                context,
+                'profile',
+                transition: 'slide',
               );
             },
           ),
@@ -71,12 +69,10 @@ class DrawerHome extends StatelessWidget {
             title: context.translate('my_recipes'),
             onTap: () {
               Navigator.pop(context);
-              Future.delayed(const Duration(milliseconds: 300)).then(
-                (value) => NavigationManager.go(
-                  context,
-                  'my_recipes',
-                  transition: 'slideInvert',
-                ),
+              NavigationManager.go(
+                context,
+                'my_recipes',
+                transition: 'slide',
               );
             },
           ),
@@ -85,12 +81,10 @@ class DrawerHome extends StatelessWidget {
             title: context.translate('settings'),
             onTap: () {
               Navigator.pop(context);
-              Future.delayed(const Duration(milliseconds: 300)).then(
-                (value) => NavigationManager.go(
-                  context,
-                  'settings',
-                  transition: 'slideInvert',
-                ),
+              NavigationManager.go(
+                context,
+                'settings',
+                transition: 'slide',
               );
             },
           ),
@@ -100,12 +94,10 @@ class DrawerHome extends StatelessWidget {
             title: context.translate('logout'),
             onTap: () {
               Navigator.pop(context);
-              Future.delayed(const Duration(milliseconds: 300)).then(
-                (value) => NavigationManager.goAndRemove(
-                  context,
-                  'login',
-                  transition: 'slideInvert',
-                ),
+              NavigationManager.goAndRemove(
+                context,
+                'login',
+                transition: 'slide',
               );
             },
           ),
