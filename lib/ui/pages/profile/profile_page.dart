@@ -23,9 +23,6 @@ class ProfilePage extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        backgroundColor: ColorManager.backgroundDarkColor,
-        shadowColor: Colors.black87,
-        surfaceTintColor: ColorManager.backgroundDarkColor,
         toolbarHeight: responsive.hp(8),
       ),
       body: SafeArea(
@@ -39,13 +36,13 @@ class ProfilePage extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: responsive.dp(9),
-                backgroundColor: ColorManager.backgroundDarkColor,
+                backgroundColor: ColorManager.primaryColorDark,
                 child: Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: Colors.white,
-                      width: 5,
+                      color: ColorManager.backgroundColor,
+                      width: 1,
                     ),
                   ),
                   child: const Image(
@@ -78,38 +75,39 @@ class InformationContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive(context);
-    return Container(
-      width: responsive.width,
-      height: responsive.hp(10),
+    return Card(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
-        color: ColorManager.backgroundDarkColor,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: ColorManager.secondaryBackgroundColor,
-          width: 5,
+      child: Container(
+        width: responsive.width,
+        height: responsive.hp(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: ColorManager.secondaryBackgroundColor,
+            width: 5,
+          ),
         ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _itemTextInformation(
-            responsive,
-            title: context.translate('num_recipes'),
-            value: '12',
-          ),
-          _itemTextInformation(
-            responsive,
-            title: 'Label',
-            value: 'Value',
-          ),
-          _itemTextInformation(
-            responsive,
-            title: 'Label',
-            value: 'Value',
-          ),
-        ],
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _itemTextInformation(
+              responsive,
+              title: context.translate('num_recipes'),
+              value: '12',
+            ),
+            _itemTextInformation(
+              responsive,
+              title: 'Label',
+              value: 'Value',
+            ),
+            _itemTextInformation(
+              responsive,
+              title: 'Label',
+              value: 'Value',
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -123,14 +121,12 @@ class InformationContainer extends StatelessWidget {
         Text(
           title,
           style: getSemiBoldStyle(
-            color: Colors.white,
             fontSize: responsive.dp(1.8),
           ),
         ),
         Text(
           value,
           style: getMediumStyle(
-            color: Colors.white,
             fontSize: responsive.dp(1.6),
           ),
         ),
@@ -157,14 +153,12 @@ class FavoritesRecipes extends StatelessWidget {
               Text(
                 context.translate('favorite_recipes'),
                 style: getMediumStyle(
-                  color: Colors.white,
                   fontSize: responsive.dp(2),
                 ),
               ),
               Text(
                 context.translate('show_all'),
                 style: getMediumStyle(
-                  color: Colors.white,
                   fontSize: responsive.dp(2),
                   textDecoration: TextDecoration.underline,
                 ),

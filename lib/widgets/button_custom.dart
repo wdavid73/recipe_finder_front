@@ -7,7 +7,6 @@ class ButtonCustom extends StatelessWidget {
   final double? height;
   final void Function() onPressed;
   final String? text;
-  final Color fontColor;
   final bool isLoading;
   final Color? backgroundColor;
   final Color? borderColor;
@@ -20,7 +19,6 @@ class ButtonCustom extends StatelessWidget {
   const ButtonCustom({
     super.key,
     required this.onPressed,
-    this.fontColor = Colors.white,
     this.isLoading = false,
     this.elevation = 10,
     this.isDisable = false,
@@ -50,6 +48,7 @@ class ButtonCustom extends StatelessWidget {
                 ColorManager.secondaryAccentColor,
             width: 1,
           ),
+          textStyle: getRegularStyle(),
         ),
         onPressed: !isLoading && !isDisable ? onPressed : null,
         child: Wrap(
@@ -75,7 +74,6 @@ class ButtonCustom extends StatelessWidget {
                   "$text",
                   textAlign: TextAlign.center,
                   style: getMediumStyle(
-                    color: fontColor,
                     fontSize: fontSize ?? 14,
                   ),
                 ),

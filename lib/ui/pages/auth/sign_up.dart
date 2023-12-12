@@ -63,11 +63,9 @@ class _SignUpState extends State<SignUp> {
         title: Text(
           context.translate('sign_up'),
           style: getBoldStyle(
-            color: Colors.white,
             fontSize: responsive.dp(3),
           ),
         ),
-        backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
         scrolledUnderElevation: 0,

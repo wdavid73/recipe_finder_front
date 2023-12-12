@@ -34,6 +34,8 @@ class InputDateCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive(context);
+    final InputDecorationTheme inputTheme =
+        Theme.of(context).inputDecorationTheme;
     return Container(
       width: width ?? responsive.wp(90),
       margin: EdgeInsets.only(bottom: bottomPadding),
@@ -50,17 +52,18 @@ class InputDateCustom extends StatelessWidget {
         ),
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: getRegularStyle(
-            color: ColorManager.textSecondary,
-            fontSize: responsive.dp(1.5),
+          hintStyle: inputTheme.hintStyle?.merge(
+            getRegularStyle(
+              fontSize: responsive.dp(1.5),
+            ),
           ),
           labelText: label,
-          labelStyle: getRegularStyle(
-            color: Colors.white,
-            fontSize: responsive.dp(1.5),
+          labelStyle: inputTheme.labelStyle?.merge(
+            getRegularStyle(
+              fontSize: responsive.dp(1.5),
+            ),
           ),
           prefixIcon: iconPrefix,
-          prefixIconColor: ColorManager.textSecondary,
         ),
         textAlign: TextAlign.start,
         validator: validator,

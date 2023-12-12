@@ -49,9 +49,6 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: ColorManager.backgroundDarkColor,
-        shadowColor: Colors.black87,
-        surfaceTintColor: ColorManager.backgroundDarkColor,
         toolbarHeight: responsive.hp(8),
       ),
       body: SafeArea(
@@ -65,7 +62,6 @@ class _SettingsPageState extends State<SettingsPage> {
               Text(
                 context.translate('general'),
                 style: getSemiBoldStyle(
-                  color: Colors.white,
                   fontSize: responsive.dp(2),
                 ),
               ),
@@ -85,7 +81,6 @@ class _SettingsPageState extends State<SettingsPage> {
               Text(
                 context.translate('feedback'),
                 style: getSemiBoldStyle(
-                  color: Colors.white,
                   fontSize: responsive.dp(2),
                 ),
               ),
@@ -101,7 +96,6 @@ class _SettingsPageState extends State<SettingsPage> {
               Text(
                 context.translate('theme'),
                 style: getSemiBoldStyle(
-                  color: Colors.white,
                   fontSize: responsive.dp(2),
                 ),
               ),
@@ -134,7 +128,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     const Gap(10),
                     Text(
                       context.translate('dark_theme'),
-                      style: getRegularStyle(color: Colors.white),
+                      style: getRegularStyle(),
                     ),
                   ],
                 ),
@@ -168,14 +162,13 @@ class ItemSetting extends StatelessWidget {
     return Column(
       children: [
         ListTile(
-          leading: Icon(icon, color: Colors.white),
+          leading: Icon(icon),
           title: Text(
             title,
-            style: getRegularStyle(color: Colors.white),
+            style: getRegularStyle(),
           ),
           trailing: const Icon(
             Icons.arrow_forward_ios,
-            color: Colors.white,
           ),
           contentPadding: EdgeInsets.zero,
         ),

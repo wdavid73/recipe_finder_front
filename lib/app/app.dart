@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
           child: MaterialApp(
             title: 'Recipe Finder',
             debugShowCheckedModeBanner: false,
-            darkTheme: getApplicationDarkTheme(),
+            theme: getApplicationDarkTheme(isDark: themeMode == ThemeMode.dark),
             themeMode: themeMode,
             home: const HomePage(),
             initialRoute: Routes.splash,

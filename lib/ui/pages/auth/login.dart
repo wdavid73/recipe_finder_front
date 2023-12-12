@@ -22,11 +22,9 @@ class Login extends StatelessWidget {
         title: Text(
           context.translate('login'),
           style: getBoldStyle(
-            color: Colors.white,
             fontSize: responsive.dp(3),
           ),
         ),
-        backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
         scrolledUnderElevation: 0,
@@ -84,6 +82,7 @@ class _LoginContainerState extends State<LoginContainer> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Gap(5),
             InputCustom(
               onChange: (value) {
                 setState(() => data["email"] = value);
@@ -130,7 +129,6 @@ class _LoginContainerState extends State<LoginContainer> {
                 child: Text(
                   context.translate('forget_password'),
                   style: getRegularStyle(
-                    color: Colors.white,
                     textDecoration: TextDecoration.underline,
                     fontSize: responsive.dp(1.5),
                   ),
@@ -144,7 +142,6 @@ class _LoginContainerState extends State<LoginContainer> {
               child: Text(
                 context.translate('login'),
                 style: getMediumStyle(
-                  color: Colors.white,
                   fontSize: responsive.dp(2),
                 ),
               ),
@@ -157,7 +154,6 @@ class _LoginContainerState extends State<LoginContainer> {
                 Text(
                   "${context.translate('not_user_yet')} ",
                   style: getRegularStyle(
-                    color: Colors.white,
                     fontSize: responsive.dp(2),
                   ),
                 ),
@@ -208,7 +204,6 @@ class OtherLoginOptions extends StatelessWidget {
                 Text(
                   "Or",
                   style: getMediumStyle(
-                    color: Colors.white,
                     fontSize: responsive.dp(1.6),
                   ),
                 ),

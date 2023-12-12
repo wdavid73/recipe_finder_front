@@ -2,36 +2,51 @@ import 'package:flutter/material.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 
-ThemeData getApplicationDarkTheme() {
+ThemeData getApplicationDarkTheme({bool isDark = true}) {
   return ThemeData(
     useMaterial3: true,
-    primaryColor: ColorManager.primaryColor,
+    primaryColor: isDark ? ColorManager.primaryColor : Colors.red,
     primaryColorLight: ColorManager.primaryColorLight,
     primaryColorDark: ColorManager.primaryColorDark,
     disabledColor: ColorManager.disabledColor,
     splashColor: ColorManager.splashColor,
     colorScheme: ColorScheme.fromSwatch().copyWith(
       secondary: ColorManager.secondaryColor,
-      primary: Colors.white,
-      onPrimary: Colors.white,
       background: ColorManager.backgroundColor,
-      surface: Colors.white,
-      onSurface: Colors.white,
+      surface: isDark ? Colors.white : ColorManager.primaryColorLight,
+      onSurface: isDark ? Colors.white : Colors.black, // TEXT COLOR
       error: ColorManager.error,
+      primary: ColorManager.primaryColor,
+      primaryContainer: isDark
+          ? ColorManager.backgroundDarkColor
+          : ColorManager.secondaryBackgroundColor,
     ),
+    scaffoldBackgroundColor: isDark
+        ? ColorManager.backgroundDarkColor
+        : ColorManager.backgroundColor,
     dialogBackgroundColor: ColorManager.secondaryBackgroundColor,
-    cardTheme: const CardTheme(
-      color: Colors.black12,
-      shadowColor: Colors.black54,
-      elevation: 4,
+    cardTheme: CardTheme(
+      color: isDark
+          ? ColorManager.backgroundDarkColor
+          : ColorManager.secondaryBackgroundColor.withOpacity(0.5),
+      shadowColor: isDark ? Colors.black54 : Colors.white54,
+      elevation: 1,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      surfaceTintColor:
+          isDark ? ColorManager.backgroundColor : Colors.transparent,
     ),
     appBarTheme: AppBarTheme(
       centerTitle: false,
-      color: ColorManager.primaryColor,
       elevation: 4,
-      shadowColor: Colors.black54,
-      titleTextStyle: getMediumStyle(color: Colors.white),
+      shadowColor: Colors.black87,
+      titleTextStyle: getMediumStyle(),
       iconTheme: const IconThemeData(color: Colors.white),
+      backgroundColor:
+          isDark ? ColorManager.backgroundDarkColor : ColorManager.primaryColor,
+      surfaceTintColor:
+          isDark ? ColorManager.backgroundDarkColor : ColorManager.primaryColor,
     ),
     buttonTheme: ButtonThemeData(
       shape: const StadiumBorder(),
@@ -41,7 +56,10 @@ ThemeData getApplicationDarkTheme() {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        textStyle: getRegularStyle(color: Colors.white),
+        foregroundColor: Colors.white,
+        textStyle: getRegularStyle(
+          color: Colors.white,
+        ),
         backgroundColor: ColorManager.secondaryAccentColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -52,25 +70,28 @@ ThemeData getApplicationDarkTheme() {
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: ColorManager.secondaryAccentColor,
     ),
-    scaffoldBackgroundColor: ColorManager.backgroundDarkColor,
     textTheme: TextTheme(
       displayLarge: getSemiBoldStyle(color: ColorManager.textPrimaryLight),
       titleMedium: getMediumStyle(color: ColorManager.textPrimaryLight),
       bodySmall: getRegularStyle(color: ColorManager.textSecondary),
       bodyLarge: getRegularStyle(color: ColorManager.textPrimaryLight),
-      labelSmall: getRegularStyle(color: Colors.white),
+      labelSmall: getRegularStyle(color: ColorManager.textPrimaryLight),
     ),
     inputDecorationTheme: InputDecorationTheme(
       contentPadding: const EdgeInsets.all(8),
-      hintStyle: getRegularStyle(color: ColorManager.textSecondary),
-      labelStyle: getMediumStyle(color: ColorManager.textPrimary),
+      hintStyle: getRegularStyle(
+        color: isDark ? Colors.white : ColorManager.textPrimary,
+      ),
+      labelStyle: getMediumStyle(
+        color: isDark ? Colors.white : ColorManager.textPrimary,
+      ),
       errorStyle: getRegularStyle(color: ColorManager.error),
-      enabledBorder: const OutlineInputBorder(
+      enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
-          color: Colors.white,
+          color: isDark ? Colors.white : Colors.black,
           width: 1.5,
         ),
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
       ),
       disabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
@@ -100,20 +121,28 @@ ThemeData getApplicationDarkTheme() {
         ),
         borderRadius: const BorderRadius.all(Radius.circular(8)),
       ),
-      prefixIconColor: ColorManager.textPrimary,
+      prefixIconColor: ColorManager.textSecondary,
+      floatingLabelStyle: getMediumStyle(
+        color: isDark ? Colors.white : ColorManager.textPrimary,
+        fontSize: 16,
+      ),
     ),
     datePickerTheme: DatePickerThemeData(
-      backgroundColor: ColorManager.backgroundDarkColor,
+      backgroundColor: isDark
+          ? ColorManager.backgroundDarkColor
+          : ColorManager.backgroundColor,
       headerBackgroundColor: ColorManager.primaryColorDark,
       headerForegroundColor: Colors.white,
       headerHeadlineStyle: getBoldStyle(fontSize: 30),
       headerHelpStyle: getMediumStyle(fontSize: 16),
       dividerColor: ColorManager.divider,
       dayBackgroundColor: MaterialStatePropertyAll<Color>(
-        ColorManager.secondaryAccentColor.withOpacity(0.8),
+        isDark
+            ? ColorManager.secondaryAccentColor.withOpacity(0.8)
+            : Colors.white,
       ),
-      dayForegroundColor: const MaterialStatePropertyAll<Color>(
-        Colors.white,
+      dayForegroundColor: MaterialStatePropertyAll<Color>(
+        isDark ? Colors.white : ColorManager.primaryColorDark,
       ),
       dayOverlayColor: MaterialStatePropertyAll<Color>(
         ColorManager.primaryColorDark.withOpacity(0.8),
@@ -121,11 +150,15 @@ ThemeData getApplicationDarkTheme() {
       dayStyle: getRegularStyle(fontSize: 14),
       inputDecorationTheme: InputDecorationTheme(
         contentPadding: const EdgeInsets.all(8),
-        hintStyle: getRegularStyle(color: ColorManager.textSecondary),
-        labelStyle: getMediumStyle(color: ColorManager.textPrimary),
+        hintStyle: getRegularStyle(
+          color: isDark ? ColorManager.textSecondary : ColorManager.textPrimary,
+        ),
+        labelStyle: getMediumStyle(
+          color: isDark ? ColorManager.textSecondary : ColorManager.textPrimary,
+        ),
         errorStyle: getRegularStyle(color: ColorManager.error),
       ),
-      rangePickerBackgroundColor: Colors.blue,
+      rangePickerBackgroundColor: ColorManager.primaryColorLight,
       rangePickerElevation: 0,
       rangePickerHeaderBackgroundColor: ColorManager.primaryColorDark,
       rangePickerHeaderForegroundColor: Colors.white,
@@ -139,7 +172,8 @@ ThemeData getApplicationDarkTheme() {
         Colors.white,
       ),
       weekdayStyle: getRegularStyle(
-        color: ColorManager.textPrimaryLight,
+        color:
+            isDark ? ColorManager.textPrimaryLight : ColorManager.textPrimary,
         fontSize: 14,
       ),
       yearBackgroundColor: MaterialStatePropertyAll<Color>(
@@ -152,7 +186,9 @@ ThemeData getApplicationDarkTheme() {
       yearForegroundColor: const MaterialStatePropertyAll<Color>(Colors.white),
     ),
     drawerTheme: DrawerThemeData(
-      backgroundColor: ColorManager.backgroundDarkColor,
+      backgroundColor: isDark
+          ? ColorManager.backgroundDarkColor
+          : ColorManager.backgroundColor,
       surfaceTintColor: ColorManager.secondaryBackgroundColor,
       scrimColor: Colors.black54,
       shadowColor: ColorManager.shadowColorDark,
@@ -169,5 +205,12 @@ ThemeData getApplicationDarkTheme() {
       ),
       trackOutlineWidth: const MaterialStatePropertyAll<double>(0),
     ),
+    listTileTheme: ListTileThemeData(
+      iconColor: isDark ? Colors.white : Colors.black,
+    ),
+    dividerTheme: DividerThemeData(
+      color: ColorManager.divider,
+    ),
+    fontFamily: 'Nunito',
   );
 }

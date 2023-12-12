@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
+import 'package:recipe_finder/ui/pages/settings/cubit/settings_cubit.dart';
 
 class InputCustom extends StatelessWidget {
   final String hint;
@@ -57,55 +59,65 @@ class InputCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive(context);
-    return Container(
-      width: width ?? responsive.wp(90),
-      margin: EdgeInsets.only(bottom: bottomPadding),
-      child: TextFormField(
-        textInputAction: inputAction,
-        enabled: enable,
-        readOnly: readOnly,
-        controller: controller,
-        autofocus: false,
-        cursorColor: ColorManager.secondaryAccentColor,
-        initialValue: initialValue,
-        keyboardType: keyboardType,
-        obscureText: obscureText,
-        maxLength: maxLengthInput,
-        inputFormatters: inputFormatters,
-        maxLines: 1,
-        style: getRegularStyle(
-          color: Colors.white,
-          fontSize: responsive.dp(1.5),
-        ),
-        decoration: InputDecoration(
-          hintText: hint,
-          hintStyle: getRegularStyle(
-            color: ColorManager.textSecondary,
-            fontSize: responsive.dp(1.5),
+    final InputDecorationTheme inputTheme =
+        Theme.of(context).inputDecorationTheme;
+    return BlocBuilder<SettingsCubit, SettingsState>(
+      builder: (context, state) {
+        return Container(
+          width: width ?? responsive.wp(90),
+          margin: EdgeInsets.only(bottom: bottomPadding),
+          child: TextFormField(
+            textInputAction: inputAction,
+            enabled: enable,
+            readOnly: readOnly,
+            controller: controller,
+            autofocus: false,
+            cursorColor: ColorManager.secondaryAccentColor,
+            initialValue: initialValue,
+            keyboardType: keyboardType,
+            obscureText: obscureText,
+            maxLength: maxLengthInput,
+            inputFormatters: inputFormatters,
+            maxLines: 1,
+            style: getRegularStyle(
+              fontSize: responsive.dp(1.5),
+              color: state == SettingsState.isDarkTheme
+                  ? Colors.white
+                  : ColorManager.textPrimary,
+              textDecoration: TextDecoration.none,
+            ),
+            decoration: InputDecoration(
+              hintText: hint,
+              hintStyle: inputTheme.hintStyle?.merge(
+                getRegularStyle(
+                  fontSize: responsive.dp(1.5),
+                ),
+              ),
+              labelText: label,
+              labelStyle: inputTheme.labelStyle?.merge(
+                getRegularStyle(
+                  fontSize: responsive.dp(1.5),
+                ),
+              ),
+              prefixIcon: iconPrefix,
+              suffixIcon: isPassword
+                  ? IconButton(
+                      onPressed: () => showPassword!(),
+                      icon: Icon(
+                        obscureText
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                        color: ColorManager.textSecondary,
+                      ),
+                    )
+                  : customSuffixWidget ?? const SizedBox.shrink(),
+            ),
+            textAlign: TextAlign.start,
+            validator: validator,
+            onChanged: onChange,
           ),
-          labelText: label,
-          labelStyle: getRegularStyle(
-            color: Colors.white,
-            fontSize: responsive.dp(1.5),
-          ),
-          prefixIcon: iconPrefix,
-          prefixIconColor: ColorManager.textSecondary,
-          suffixIcon: isPassword
-              ? IconButton(
-                  onPressed: () => showPassword!(),
-                  icon: Icon(
-                    obscureText
-                        ? Icons.visibility_off_outlined
-                        : Icons.visibility_outlined,
-                    color: ColorManager.textSecondary,
-                  ),
-                )
-              : customSuffixWidget ?? const SizedBox.shrink(),
-        ),
-        textAlign: TextAlign.start,
-        validator: validator,
-        onChanged: onChange,
-      ),
+        );
+      },
     );
   }
 }

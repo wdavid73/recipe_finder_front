@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/ui/pages/home/categories_container.dart';
@@ -24,20 +23,16 @@ class _MyHomePageState extends State<HomePage> {
         title: Text(
           context.translate('title_home'),
           style: getSemiBoldStyle(
-            color: Colors.white,
             fontSize: responsive.dp(1.8),
           ),
         ),
-        centerTitle: true,
         actions: [
           IconButton(
             onPressed: () {},
             icon: Icon(Icons.search, size: responsive.dp(2.5)),
           )
         ],
-        backgroundColor: ColorManager.backgroundDarkColor,
-        shadowColor: Colors.black87,
-        surfaceTintColor: ColorManager.backgroundDarkColor,
+        centerTitle: true,
         toolbarHeight: responsive.hp(8),
       ),
       drawer: const DrawerHome(),
