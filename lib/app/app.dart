@@ -7,9 +7,34 @@ import 'package:recipe_finder/ui/managers/locale_manager.dart';
 import 'package:recipe_finder/ui/pages/home/home.dart';
 import 'package:recipe_finder/ui/pages/not_found.dart';
 import 'package:recipe_finder/ui/managers/theme_manager.dart';
+import 'package:recipe_finder/ui/pages/settings/cubit/settings_cubit.dart';
+import 'package:recipe_finder/ui/pages/settings/theme_preference.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final ThemePreference _themePreference = ThemePreference();
+  ThemeMode themeMode = ThemeMode.dark;
+
+  @override
+  void initState() {
+    getCurrentAppTheme();
+    super.initState();
+  }
+
+  void getCurrentAppTheme() async {
+    bool isDarkTheme = await _themePreference.getTheme();
+    if (isDarkTheme) {
+      setState(() => themeMode = ThemeMode.dark);
+    } else {
+      setState(() => themeMode = ThemeMode.light);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,21 +42,26 @@ class MyApp extends StatelessWidget {
       providers: buildRepositories(),
       child: MultiBlocProvider(
         providers: buildBlocs(),
-        child: MaterialApp(
-          title: 'Recipe Finder',
-          debugShowCheckedModeBanner: false,
-          darkTheme: getApplicationDarkTheme(),
-          themeMode: ThemeMode.dark,
-          home: const HomePage(),
-          initialRoute: Routes.splash,
-          routes: appRoutes,
-          onUnknownRoute: (settings) {
-            return MaterialPageRoute(
-              builder: (_) => const NotFound(),
-            );
+        child: BlocListener<SettingsCubit, SettingsState>(
+          listener: (context, state) {
+            getCurrentAppTheme();
           },
-          localizationsDelegates: LocaleManager.localizationsDelegates,
-          supportedLocales: LocaleManager.supportedLocales,
+          child: MaterialApp(
+            title: 'Recipe Finder',
+            debugShowCheckedModeBanner: false,
+            darkTheme: getApplicationDarkTheme(),
+            themeMode: themeMode,
+            home: const HomePage(),
+            initialRoute: Routes.splash,
+            routes: appRoutes,
+            onUnknownRoute: (settings) {
+              return MaterialPageRoute(
+                builder: (_) => const NotFound(),
+              );
+            },
+            localizationsDelegates: LocaleManager.localizationsDelegates,
+            supportedLocales: LocaleManager.supportedLocales,
+          ),
         ),
       ),
     );

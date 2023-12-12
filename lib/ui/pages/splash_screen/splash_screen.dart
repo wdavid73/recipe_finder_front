@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:recipe_finder/routes/navigation_manager.dart';
+import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
+import 'package:recipe_finder/ui/pages/settings/cubit/settings_cubit.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -19,6 +21,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _init() async {
+    final cubit = BlocProvider.of<SettingsCubit>(context);
+    cubit.init();
     await Future.delayed(const Duration(seconds: 3));
     _navigate();
   }

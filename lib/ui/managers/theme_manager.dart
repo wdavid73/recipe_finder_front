@@ -157,5 +157,17 @@ ThemeData getApplicationDarkTheme() {
       scrimColor: Colors.black54,
       shadowColor: ColorManager.shadowColorDark,
     ),
+    switchTheme: SwitchThemeData(
+      trackColor: MaterialStatePropertyAll<Color>(
+        ColorManager.secondaryAccentColor.withOpacity(0.5),
+      ),
+      thumbColor: MaterialStatePropertyAll<Color>(
+        ColorManager.secondaryAccentColor,
+      ),
+      trackOutlineColor: const MaterialStatePropertyAll<Color>(
+        Colors.transparent,
+      ),
+      trackOutlineWidth: const MaterialStatePropertyAll<double>(0),
+    ),
   );
 }
