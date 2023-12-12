@@ -36,4 +36,13 @@ Map<String, String> es = {
   'num_recipes': 'N° Recetas',
   'favorite_recipes': 'Recetas Favoritas',
   'show_all': 'Mostrar Todas',
+  // SETTING PAGE
+  'report_bug': 'Reportar un error',
+  'send_feedback': 'Enviar feedback',
+  'account': 'Cuenta',
+  'delete_account': 'Borrar cuenta',
+  'feedback': 'Feedback',
+  'theme': 'Tema',
+  'dark_theme': 'Tema oscuro',
+  'general': 'General'
 };
