@@ -46,7 +46,7 @@ class DrawerHome extends StatelessWidget {
                 end: Alignment.bottomCenter,
                 colors: [
                   ColorManager.primaryColor,
-                  ColorManager.secondaryAccentColor,
+                  ColorManager.accentColor,
                 ],
               ),
             ),
@@ -71,7 +71,7 @@ class DrawerHome extends StatelessWidget {
               Navigator.pop(context);
               NavigationManager.go(
                 context,
-                'my_recipes',
+                'recipes',
                 transition: 'slide',
               );
             },

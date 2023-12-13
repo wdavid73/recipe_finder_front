@@ -29,7 +29,7 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
       color: isDark
           ? ColorManager.backgroundDarkColor
           : ColorManager.secondaryBackgroundColor.withOpacity(0.5),
-      shadowColor: isDark ? Colors.black54 : Colors.white54,
+      shadowColor: isDark ? ColorManager.shadowColorDark : Colors.white54,
       elevation: 1,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -51,7 +51,7 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
     buttonTheme: ButtonThemeData(
       shape: const StadiumBorder(),
       disabledColor: Colors.grey,
-      buttonColor: ColorManager.secondaryAccentColor,
+      buttonColor: ColorManager.accentColor,
       splashColor: ColorManager.splashColor,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -60,7 +60,7 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
         textStyle: getRegularStyle(
           color: Colors.white,
         ),
-        backgroundColor: ColorManager.secondaryAccentColor,
+        backgroundColor: ColorManager.accentColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -68,7 +68,7 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
     ),
     dividerColor: ColorManager.divider,
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-      backgroundColor: ColorManager.secondaryAccentColor,
+      backgroundColor: ColorManager.accentColor,
     ),
     textTheme: TextTheme(
       displayLarge: getSemiBoldStyle(color: ColorManager.textPrimaryLight),
@@ -102,7 +102,7 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
       ),
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(
-          color: ColorManager.secondaryAccentColor,
+          color: ColorManager.accentColor,
           width: 1.5,
         ),
         borderRadius: const BorderRadius.all(Radius.circular(8)),
@@ -137,9 +137,7 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
       headerHelpStyle: getMediumStyle(fontSize: 16),
       dividerColor: ColorManager.divider,
       dayBackgroundColor: MaterialStatePropertyAll<Color>(
-        isDark
-            ? ColorManager.secondaryAccentColor.withOpacity(0.8)
-            : Colors.white,
+        isDark ? ColorManager.accentColor.withOpacity(0.8) : Colors.white,
       ),
       dayForegroundColor: MaterialStatePropertyAll<Color>(
         isDark ? Colors.white : ColorManager.primaryColorDark,
@@ -177,7 +175,7 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
         fontSize: 14,
       ),
       yearBackgroundColor: MaterialStatePropertyAll<Color>(
-        ColorManager.secondaryAccentColor,
+        ColorManager.accentColor,
       ),
       yearOverlayColor: MaterialStatePropertyAll<Color>(
         ColorManager.primaryColorDark.withOpacity(0.8),
@@ -195,10 +193,10 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
     ),
     switchTheme: SwitchThemeData(
       trackColor: MaterialStatePropertyAll<Color>(
-        ColorManager.secondaryAccentColor.withOpacity(0.5),
+        ColorManager.accentColor.withOpacity(0.5),
       ),
       thumbColor: MaterialStatePropertyAll<Color>(
-        ColorManager.secondaryAccentColor,
+        ColorManager.accentColor,
       ),
       trackOutlineColor: const MaterialStatePropertyAll<Color>(
         Colors.transparent,

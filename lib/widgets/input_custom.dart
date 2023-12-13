@@ -72,7 +72,7 @@ class InputCustom extends StatelessWidget {
             readOnly: readOnly,
             controller: controller,
             autofocus: false,
-            cursorColor: ColorManager.secondaryAccentColor,
+            cursorColor: ColorManager.accentColor,
             initialValue: initialValue,
             keyboardType: keyboardType,
             obscureText: obscureText,

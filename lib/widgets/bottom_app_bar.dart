@@ -63,9 +63,7 @@ class ItemNav extends StatelessWidget {
             Flexible(
               child: Icon(
                 icon,
-                color: isSelected
-                    ? ColorManager.secondaryAccentColor
-                    : Colors.white,
+                color: isSelected ? ColorManager.accentColor : Colors.white,
                 size: isSelected ? responsive.dp(3) : responsive.dp(2.6),
               ),
             ),
@@ -73,7 +71,7 @@ class ItemNav extends StatelessWidget {
               title,
               style: isSelected
                   ? getBoldStyle(
-                      color: ColorManager.secondaryAccentColor,
+                      color: ColorManager.accentColor,
                       fontSize: responsive.dp(1.6),
                     )
                   : getMediumStyle(

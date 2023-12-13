@@ -44,7 +44,7 @@ class InputDateCustom extends StatelessWidget {
         readOnly: readOnly,
         controller: controller,
         autofocus: false,
-        cursorColor: ColorManager.secondaryAccentColor,
+        cursorColor: ColorManager.accentColor,
         maxLines: 1,
         style: getRegularStyle(
           color: Colors.white,

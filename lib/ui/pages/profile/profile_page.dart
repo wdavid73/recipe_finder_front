@@ -18,7 +18,6 @@ class ProfilePage extends StatelessWidget {
         title: Text(
           context.translate('profile'),
           style: getSemiBoldStyle(
-            color: Colors.white,
             fontSize: responsive.dp(1.8),
           ),
         ),

@@ -13,7 +13,8 @@ class ColorManager {
   static Color primaryColorDark = HexColor.fromHex("#c2185b");
   /* ------------ SECONDARY ---------------- */
   static Color secondaryColor = HexColor.fromHex("#e040fb");
-  static Color secondaryAccentColor = HexColor.fromHex("#ff5722");
+  static Color accentColor = HexColor.fromHex("#ff5722");
+  static Color accentColorLight = HexColor.fromHex("#ff6d40");
   /* ------------ UTILS COLORS  -------------- */
   static Color disabledColor = HexColor.fromHex("#bcbcbc");
   static Color splashColor = HexColor.fromHex("#c2185b");
