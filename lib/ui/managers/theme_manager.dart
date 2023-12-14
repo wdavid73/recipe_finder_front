@@ -85,6 +85,9 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
       labelStyle: getMediumStyle(
         color: isDark ? Colors.white : ColorManager.textPrimary,
       ),
+      suffixStyle: getMediumStyle(
+        color: ColorManager.placeholderColor,
+      ),
       errorStyle: getRegularStyle(color: ColorManager.error),
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
@@ -210,5 +213,65 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
       color: ColorManager.divider,
     ),
     fontFamily: 'Nunito',
+    bottomSheetTheme: BottomSheetThemeData(
+      backgroundColor: isDark
+          ? ColorManager.backgroundDarkColor
+          : ColorManager.backgroundColor,
+      dragHandleColor: isDark ? Colors.white : ColorManager.backgroundDarkColor,
+      surfaceTintColor: isDark ? ColorManager.containerColorDark : Colors.white,
+    ),
+    radioTheme: RadioThemeData(
+      fillColor: isDark
+          ? const MaterialStatePropertyAll<Color>(Colors.white)
+          : MaterialStatePropertyAll<Color>(ColorManager.accentColor),
+    ),
+    searchBarTheme: SearchBarThemeData(
+      backgroundColor: MaterialStatePropertyAll<Color>(
+        isDark
+            ? ColorManager.backgroundDarkColor
+            : ColorManager.backgroundColor,
+      ),
+      surfaceTintColor: MaterialStatePropertyAll<Color>(
+        isDark
+            ? ColorManager.backgroundDarkColor
+            : ColorManager.backgroundColor,
+      ),
+      hintStyle: MaterialStatePropertyAll<TextStyle>(
+        getRegularStyle(
+          color: isDark ? Colors.white : ColorManager.textPrimary,
+        ),
+      ),
+      shape: MaterialStatePropertyAll<OutlinedBorder>(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+          side: BorderSide(
+            color: isDark ? Colors.white : Colors.black,
+            width: 1.5,
+          ),
+        ),
+      ),
+      elevation: const MaterialStatePropertyAll<double>(0),
+      overlayColor: MaterialStatePropertyAll<Color>(
+        isDark
+            ? ColorManager.backgroundDarkColor
+            : ColorManager.backgroundColor,
+      ),
+    ),
+    searchViewTheme: SearchViewThemeData(
+      backgroundColor: isDark
+          ? ColorManager.backgroundDarkColor
+          : ColorManager.backgroundColor,
+      surfaceTintColor: isDark
+          ? ColorManager.backgroundDarkColor
+          : ColorManager.backgroundColor,
+      headerHintStyle: getRegularStyle(
+        color: isDark ? Colors.white : ColorManager.textPrimary,
+      ),
+      headerTextStyle: getMediumStyle(
+        color: isDark ? Colors.white : ColorManager.textPrimary,
+      ),
+      dividerColor: ColorManager.divider,
+      elevation: 0,
+    ),
   );
 }

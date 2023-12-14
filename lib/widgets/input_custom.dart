@@ -100,6 +100,12 @@ class InputCustom extends StatelessWidget {
                 ),
               ),
               prefixIcon: iconPrefix,
+              suffixText: textSuffix,
+              suffixStyle: inputTheme.suffixStyle?.merge(
+                getRegularStyle(
+                  fontSize: responsive.dp(1.5),
+                ),
+              ),
               suffixIcon: isPassword
                   ? IconButton(
                       onPressed: () => showPassword!(),

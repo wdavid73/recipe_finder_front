@@ -62,4 +62,14 @@ Map<String, String> en = {
   'mexican_food': 'Mexican Food',
   'vegetarian_food': 'Vegetarian Food',
   'other': 'Other',
+  // RECIPES PAGE
+  'filters': 'Filters',
+  'rating': 'Rating',
+  'category': 'Category',
+  'cooking_time': 'Preparation time',
+  'minute': 'Minute',
+  'search': 'Search',
+  'enter_keyword': 'Enter keyword here',
+  'tap_search': 'Tap to search',
+  'apply_filter': 'Apply Filter',
 };

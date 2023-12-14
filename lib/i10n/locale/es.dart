@@ -62,4 +62,14 @@ Map<String, String> es = {
   'mexican_food': 'Comida mexicana',
   'vegetarian_food': 'Comida vegetariana',
   'other': 'Otros',
+  // RECIPES PAGE
+  'filters': 'Filtros',
+  'rating': 'Calificación',
+  'category': 'Categoría',
+  'cooking_time': 'Tiempo de preparación',
+  'minute': 'Minutos',
+  'search': 'Buscar',
+  'enter_keyword': 'Introduzca aquí la palabra clave',
+  'tap_search': 'Toque para buscar',
+  'apply_filter': 'Aplicar Filtro',
 };
