@@ -72,4 +72,14 @@ Map<String, String> es = {
   'enter_keyword': 'Introduzca aquí la palabra clave',
   'tap_search': 'Toque para buscar',
   'apply_filter': 'Aplicar Filtro',
+  // CREATE RECIPE
+  'name_recipe': 'Nombre de receta',
+  'description_recipe': 'Descripción de receta',
+  'tip_photo_recipe': 'Consejo: ¡foto de la receta terminada!',
+  'tap_search_categories': 'Toque para buscar una categoría',
+  'enter_keyword_categories': 'Introduzca aquí la categoría',
+  // GENERAL
+  'error': '¡Error!',
+  'loading': 'Cargando...',
+  'not_found_item': '¡No se han encontrado elementos!',
 };

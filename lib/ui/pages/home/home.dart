@@ -6,6 +6,7 @@ import 'package:recipe_finder/ui/pages/home/categories_container.dart';
 import 'package:recipe_finder/ui/pages/home/widgets/drawer_home.dart';
 import 'package:recipe_finder/ui/pages/home/your_recipe_container.dart';
 import 'package:recipe_finder/utils/extensions.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,7 +15,24 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<HomePage> {
+class _MyHomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive(context);
@@ -41,14 +59,38 @@ class _MyHomePageState extends State<HomePage> {
           width: responsive.width,
           height: responsive.height,
           alignment: Alignment.center,
-          child: const Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Gap(20),
-              YourRecipesContainer(),
-              Gap(25),
-              CategoriesContainer(),
+              const Gap(20),
+              Animate(
+                effects: const [
+                  FadeEffect(),
+                  SlideEffect(
+                    begin: Offset(-1.0, 0.0),
+                    end: Offset.zero,
+                    curve: Curves.decelerate,
+                  ),
+                ],
+                onComplete: (controller) {
+                  // call service get list
+                },
+                delay: const Duration(milliseconds: 500),
+                child: const YourRecipesContainer(),
+              ),
+              const Gap(20),
+              Animate(
+                effects: const [
+                  FadeEffect(),
+                  SlideEffect(
+                    begin: Offset(-1.0, 0.0),
+                    end: Offset.zero,
+                    curve: Curves.decelerate,
+                  ),
+                ],
+                child: const CategoriesContainer(),
+              ),
             ],
           ),
         ),

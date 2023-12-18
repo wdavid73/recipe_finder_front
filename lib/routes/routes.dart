@@ -9,6 +9,7 @@ abstract class Routes {
   static const String profile = 'profile';
   static const String settings = 'settings';
   static const String recipes = 'recipes';
+  static const String createRecipe = 'create_recipe';
   // ------- NOT FOUND ------- //
   static const String notFound = 'not_found';
 }

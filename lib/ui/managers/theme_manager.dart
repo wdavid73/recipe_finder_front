@@ -38,10 +38,10 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
           isDark ? ColorManager.backgroundColor : Colors.transparent,
     ),
     appBarTheme: AppBarTheme(
-      centerTitle: false,
+      centerTitle: true,
       elevation: 4,
       shadowColor: Colors.black87,
-      titleTextStyle: getMediumStyle(),
+      titleTextStyle: getSemiBoldStyle(fontSize: 16),
       iconTheme: const IconThemeData(color: Colors.white),
       backgroundColor:
           isDark ? ColorManager.backgroundDarkColor : ColorManager.primaryColor,
@@ -208,6 +208,12 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
     ),
     listTileTheme: ListTileThemeData(
       iconColor: isDark ? Colors.white : Colors.black,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      textColor:
+          isDark ? ColorManager.textPrimaryLight : ColorManager.textPrimary,
+      titleTextStyle: getMediumStyle(),
     ),
     dividerTheme: DividerThemeData(
       color: ColorManager.divider,
@@ -272,6 +278,26 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
       ),
       dividerColor: ColorManager.divider,
       elevation: 0,
+    ),
+    iconTheme: IconThemeData(
+      color: isDark ? Colors.white : Colors.black,
+    ),
+    progressIndicatorTheme: ProgressIndicatorThemeData(
+      circularTrackColor: ColorManager.primaryColorLight,
+      color: ColorManager.primaryColorDark,
+      linearTrackColor: ColorManager.primaryColorLight,
+      linearMinHeight: 4.5,
+    ),
+    chipTheme: ChipThemeData(
+      backgroundColor: ColorManager.accentColor,
+      labelStyle: getMediumStyle(),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      side: BorderSide(
+        color: ColorManager.accentColor,
+        width: 1,
+      ),
     ),
   );
 }

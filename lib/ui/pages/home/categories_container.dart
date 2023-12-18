@@ -21,7 +21,7 @@ class CategoriesContainer extends StatelessWidget {
       ),
       child: SizedBox(
         width: responsive.width,
-        height: responsive.hp(45),
+        height: responsive.hp(40),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
