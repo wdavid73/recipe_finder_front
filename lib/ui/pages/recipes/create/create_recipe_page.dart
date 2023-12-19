@@ -6,6 +6,7 @@ import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/ui/pages/recipes/widgets/input_autocomplete_search.dart';
 import 'package:recipe_finder/ui/pages/recipes/widgets/list_ingredient_selected.dart';
 import 'package:recipe_finder/ui/pages/recipes/widgets/search_input.dart';
+import 'package:recipe_finder/ui/pages/recipes/widgets/step_input.dart';
 import 'package:recipe_finder/utils/constants.dart';
 import 'package:recipe_finder/utils/extensions.dart';
 import 'package:recipe_finder/widgets/button_custom.dart';
@@ -24,6 +25,17 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
   File? _file;
   final SearchController _searchController = SearchController();
   final List<String> _selectedIngredients = [];
+  final List<Map<String, dynamic>> _steps = [];
+
+  Map<String, dynamic> data = {
+    'name': '',
+    'description': '',
+    'cooking_time': null,
+    'category': '',
+    'main_picture': null,
+    'ingredients': [],
+    'steps': [],
+  };
 
   handlePickImage(file) {
     if (file != null) {
@@ -31,6 +43,19 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
     } else {
       setState(() => _file = null);
     }
+  }
+
+  void parseData() {
+    data["ingredients"] = _selectedIngredients;
+    data['main_picture'] = _file;
+    data['steps'] = _steps;
+    data['category'] = _searchController.value.text;
+  }
+
+  void _saveRecipe() {
+    parseData();
+    debugPrint("prueba");
+    debugPrint("$data");
   }
 
   @override
@@ -60,19 +85,20 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                   onFileChanged: (file) => handlePickImage(file),
                 ),
                 InputCustom(
-                  onChange: (value) {},
+                  onChange: (value) => data["name"] = value,
                   hint: context.translate('name_recipe'),
                   label: context.translate('name_recipe'),
                 ),
                 InputCustom(
-                  onChange: (value) {},
+                  onChange: (value) => data["description"] = value,
                   hint: context.translate('description_recipe'),
                   label: context.translate('description_recipe'),
                 ),
                 InputCustom(
-                  onChange: (value) {},
+                  onChange: (value) => data["cooking_time"] = value,
                   hint: context.translate('cooking_time'),
                   label: context.translate('cooking_time'),
+                  keyboardType: TextInputType.number,
                 ),
                 SearchInputCustom(
                   items: categories,
@@ -81,7 +107,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                   viewHintText: context.translate('enter_keyword_categories'),
                 ),
                 InputAutoCompleteSearch(
-                  label: 'Find Ingredient',
+                  label: context.translate('find_ingredient'),
                   items: List.generate(20, (index) => 'Ingredient #$index'),
                   selectedItems: _selectedIngredients,
                   onSelected: (value) {
@@ -94,10 +120,10 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                     setState(() => _selectedIngredients.removeAt(index));
                   },
                 ),
-                const Text("Steps"),
+                StepInput(steps: _steps),
                 const UploadVideoInput(),
                 ButtonCustom(
-                  onPressed: () {},
+                  onPressed: () => _saveRecipe(),
                   text: "Save",
                   width: responsive.wp(90),
                 )

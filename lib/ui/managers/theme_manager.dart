@@ -299,5 +299,11 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
         width: 1,
       ),
     ),
+    scrollbarTheme: ScrollbarThemeData(
+      radius: const Radius.circular(12),
+      thumbColor: MaterialStatePropertyAll<Color>(
+        ColorManager.accentColor,
+      ),
+    ),
   );
 }

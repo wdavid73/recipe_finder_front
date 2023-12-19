@@ -60,6 +60,7 @@ class InputAutoCompleteSearch extends StatelessWidget {
                     fontSize: responsive.dp(1.5),
                   ),
                 ),
+                prefixIcon: const Icon(Icons.search),
                 labelText: label,
                 hintText: hintText,
               ),

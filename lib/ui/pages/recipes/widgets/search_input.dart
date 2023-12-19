@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 
@@ -30,16 +31,19 @@ class _SearchInputCustomState extends State<SearchInputCustom> {
       height: 50,
       child: SearchAnchor.bar(
         searchController: widget.searchController,
-        barLeading: const Icon(Icons.search),
+        barLeading: Icon(
+          Icons.search,
+          color: ColorManager.textSecondary,
+        ),
         barHintText: widget.barHintText,
         constraints: BoxConstraints(
           maxWidth: responsive.width,
         ),
         viewTrailing: [
           IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.close,
-              color: Colors.white,
+              color: ColorManager.textSecondary,
             ),
             onPressed: () => widget.searchController.clear(),
           ),

@@ -15,6 +15,7 @@ class ButtonCustom extends StatelessWidget {
   final Widget? child;
   final EdgeInsetsGeometry? padding;
   final double? fontSize;
+  final Icon? icon;
 
   const ButtonCustom({
     super.key,
@@ -30,6 +31,7 @@ class ButtonCustom extends StatelessWidget {
     this.child,
     this.padding,
     this.fontSize,
+    this.icon,
   }) : assert(
           (text == null && child != null) || (child == null && text != null),
         );
@@ -68,12 +70,20 @@ class ButtonCustom extends StatelessWidget {
               height: isLoading ? 24 : 0,
             ),
             child ??
-                Text(
-                  "$text",
-                  textAlign: TextAlign.center,
-                  style: getMediumStyle(
-                    fontSize: fontSize ?? 14,
-                  ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    icon ?? const SizedBox.shrink(),
+                    Text(
+                      "$text",
+                      textAlign: TextAlign.center,
+                      style: getMediumStyle(
+                        fontSize: fontSize ?? 14,
+                      ),
+                    ),
+                  ],
                 ),
           ],
         ),
