@@ -1,3 +1,3 @@
 import 'base_entity.dart';
 
-abstract class ExampleEntity with BaseEntity {}
+abstract class ExampleEntity extends BaseEntity {}

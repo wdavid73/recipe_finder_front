@@ -56,12 +56,14 @@ class ButtonCustom extends StatelessWidget {
           alignment: WrapAlignment.center,
           children: [
             isLoading
-                ? const SizedBox(
+                ? SizedBox(
                     width: 24,
                     height: 24,
                     child: CircularProgressIndicator(
-                      color: Colors.white,
                       strokeWidth: 3,
+                      backgroundColor:
+                          ColorManager.accentColorLight.withOpacity(0.5),
+                      color: ColorManager.accentColor,
                     ),
                   )
                 : const SizedBox.shrink(),

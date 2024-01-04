@@ -4,6 +4,7 @@ import 'package:recipe_finder/routes/navigation_manager.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
+import 'package:recipe_finder/utils/config.dart';
 import 'package:recipe_finder/utils/extensions.dart';
 import 'package:recipe_finder/utils/validations.dart';
 import 'package:recipe_finder/widgets/button_custom.dart';
@@ -90,7 +91,7 @@ class _LoginContainerState extends State<LoginContainer> {
               hint: context.translate('email_address'),
               label: context.translate('email'),
               keyboardType: TextInputType.emailAddress,
-              iconPrefix: const Icon(Icons.person),
+              iconPrefix: const Icon(Icons.email),
               validator: (value) =>
                   pipeFirstNotNullOrNull<String, String>(value!, [
                 (value) => Validations.isRequired(value,

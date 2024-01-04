@@ -12,4 +12,5 @@ abstract class Routes {
   static const String createRecipe = 'create_recipe';
   // ------- NOT FOUND ------- //
   static const String notFound = 'not_found';
+  static const String testPage = 'test_page';
 }

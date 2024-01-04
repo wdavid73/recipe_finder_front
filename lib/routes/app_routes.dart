@@ -10,6 +10,7 @@ import 'package:recipe_finder/ui/pages/recipes/create/create_recipe_page.dart';
 import 'package:recipe_finder/ui/pages/recipes/recipes_page.dart';
 import 'package:recipe_finder/ui/pages/settings/settings_page.dart';
 import 'package:recipe_finder/ui/pages/splash_screen/splash_screen.dart';
+import 'package:recipe_finder/ui/pages/test_page.dart';
 
 Map<String, Widget Function(BuildContext)> get appRoutes => {
       Routes.splash: (_) => const SplashScreen(),
@@ -23,4 +24,5 @@ Map<String, Widget Function(BuildContext)> get appRoutes => {
       Routes.createRecipe: (_) => const CreateRecipePage(),
       // ----- NOT FOUND ------ //
       Routes.notFound: (_) => const NotFound(),
+      Routes.testPage: (_) => const TestPage(),
     };

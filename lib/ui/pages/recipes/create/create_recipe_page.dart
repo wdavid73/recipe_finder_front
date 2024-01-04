@@ -124,7 +124,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                 const UploadVideoInput(),
                 ButtonCustom(
                   onPressed: () => _saveRecipe(),
-                  text: "Save",
+                  text: context.translate('save'),
                   width: responsive.wp(90),
                 )
               ],

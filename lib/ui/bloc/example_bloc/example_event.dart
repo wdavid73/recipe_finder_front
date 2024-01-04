@@ -6,3 +6,5 @@ sealed class ExampleEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class GetExample extends ExampleEvent {}

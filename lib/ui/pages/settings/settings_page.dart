@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:recipe_finder/routes/navigation_manager.dart';
 import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
@@ -69,9 +70,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 icon: Icons.person_rounded,
                 title: context.translate('account'),
               ),
-              const ItemSetting(
-                icon: Icons.abc,
-                title: "title",
+              ItemSetting(
+                icon: Icons.cruelty_free,
+                title: "TEST",
+                onTap: () {
+                  NavigationManager.go(context, 'test_page');
+                },
               ),
               ItemSetting(
                 icon: Icons.delete_forever_rounded,
@@ -85,7 +89,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               ItemSetting(
-                icon: Icons.warning_rounded,
+                icon: Icons.bug_report,
                 title: context.translate('report_bug'),
               ),
               ItemSetting(
@@ -151,10 +155,12 @@ class _SettingsPageState extends State<SettingsPage> {
 class ItemSetting extends StatelessWidget {
   final IconData icon;
   final String title;
+  final void Function()? onTap;
   const ItemSetting({
     super.key,
     required this.icon,
     required this.title,
+    this.onTap,
   });
 
   @override
@@ -162,6 +168,7 @@ class ItemSetting extends StatelessWidget {
     return Column(
       children: [
         ListTile(
+          onTap: onTap != null ? () => onTap!() : null,
           leading: Icon(icon),
           title: Text(
             title,

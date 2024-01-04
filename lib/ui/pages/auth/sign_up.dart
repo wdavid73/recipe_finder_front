@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:recipe_finder/routes/navigation_manager.dart';
+import 'package:recipe_finder/ui/bloc/auth/auth_bloc.dart';
+import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
+import 'package:recipe_finder/ui/managers/snack_bar_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/utils/extensions.dart';
 import 'package:recipe_finder/utils/validations.dart';
@@ -31,8 +34,10 @@ class _SignUpState extends State<SignUp> {
     var isOk = _formKey.currentState!.validate();
     if (isOk) {
       FocusManager.instance.primaryFocus?.unfocus();
+      final authBloc = BlocProvider.of<AuthBloc>(context);
+      authBloc.add(RegisterUser(data));
       // SERVICE REGISTER USER
-      NavigationManager.goAndRemove(context, "login");
+      // NavigationManager.goAndRemove(context, "login");
     }
   }
 
@@ -40,7 +45,7 @@ class _SignUpState extends State<SignUp> {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
+      firstDate: DateTime(1950),
       lastDate: DateTime(3000),
       initialEntryMode: DatePickerEntryMode.calendarOnly,
       confirmText: "Aceptar",
@@ -53,6 +58,18 @@ class _SignUpState extends State<SignUp> {
         data["birthday"] = date;
       });
     }
+  }
+
+  void _showSnackBar(String message) {
+    SnackBarManager.showSnackBar(
+      context,
+      message: message,
+    );
+  }
+
+  void _clearForm() {
+    _formKey.currentState!.reset();
+    _dateController.text = '';
   }
 
   @override
@@ -70,121 +87,137 @@ class _SignUpState extends State<SignUp> {
         centerTitle: true,
         scrolledUnderElevation: 0,
       ),
-      body: SafeArea(
-        child: Container(
-          width: responsive.width,
-          height: responsive.height,
-          margin: const EdgeInsets.symmetric(vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              LogoApp(size: responsive.dp(20)),
-              const Gap(50),
-              Expanded(
-                child: Form(
-                  key: _formKey,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InputCustom(
-                          onChange: (value) {
-                            setState(() => data["name"] = value);
-                          },
-                          hint: context.translate('name'),
-                          label: context.translate('name'),
-                          keyboardType: TextInputType.emailAddress,
-                          iconPrefix: const Icon(Icons.person),
-                          validator: (value) =>
-                              pipeFirstNotNullOrNull<String, String>(value!, [
-                            (value) => Validations.isRequired(value,
-                                message: context.translate('is_required')),
-                            (value) => Validations.isNotEmpty(value,
-                                message: context.translate('is_empty')),
-                          ]),
-                        ),
-                        InputCustom(
-                          onChange: (value) {
-                            setState(() => data["email"] = value);
-                          },
-                          hint: context.translate('email_address'),
-                          label: context.translate('email'),
-                          keyboardType: TextInputType.emailAddress,
-                          iconPrefix: const Icon(Icons.email),
-                          validator: (value) =>
-                              pipeFirstNotNullOrNull<String, String>(value!, [
-                            (value) => Validations.isRequired(value,
-                                message: context.translate('is_required')),
-                            (value) => Validations.isNotEmpty(value,
-                                message: context.translate('is_empty')),
-                            (value) => Validations.isEmail(value,
-                                message: context.translate('is_email'))
-                          ]),
-                        ),
-                        InputCustom(
-                          onChange: (value) {
-                            setState(() => data["password"] = value);
-                          },
-                          isPassword: showPassword,
-                          obscureText: obscureText,
-                          showPassword: () {
-                            setState(() => obscureText = !obscureText);
-                          },
-                          hint: context.translate('password'),
-                          label: context.translate('password'),
-                          keyboardType: TextInputType.emailAddress,
-                          iconPrefix: const Icon(Icons.lock),
-                          validator: (value) =>
-                              pipeFirstNotNullOrNull<String, String>(value!, [
-                            (value) => Validations.isRequired(value,
-                                message: context.translate('is_required')),
-                            (value) => Validations.isNotEmpty(value,
-                                message: context.translate('is_empty')),
-                          ]),
-                        ),
-                        _inputDate(context),
-                        InputDateCustom(
-                          onTap: () => _openDatePicker(),
-                          hint: context.translate('birthday'),
-                          label: context.translate('birthday'),
-                          iconPrefix: const Icon(Icons.calendar_month),
-                          readOnly: true,
-                          controller: _dateController,
-                          validator: (value) => pipeFirstNotNullOrNull(value, [
-                            (value) => Validations.isNotEmptyDate(value,
-                                message: context.translate('is_empty')),
-                          ]),
-                        ),
-                        ButtonCustom(
-                          onPressed: () => _registerUser(),
-                          width: responsive.wp(60),
-                          child: Text(
-                            context.translate('sign_up'),
-                            style: getMediumStyle(
-                              color: Colors.white,
-                              fontSize: responsive.dp(2),
+      body: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state.status == AuthStatus.isCreate) {
+            _showSnackBar(context.translate('register_success'));
+            //  _clearForm();
+          } else if (state.status == AuthStatus.hasError) {
+            _showSnackBar(context.translate('register_error'));
+            _showSnackBar(state.errorMessage);
+          }
+        },
+        builder: (context, state) {
+          return SafeArea(
+            child: Container(
+              width: responsive.width,
+              height: responsive.height,
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  LogoApp(size: responsive.dp(20)),
+                  const Gap(50),
+                  Expanded(
+                    child: Form(
+                      key: _formKey,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            InputCustom(
+                              onChange: (value) {
+                                setState(() => data["name"] = value);
+                              },
+                              hint: context.translate('name'),
+                              label: context.translate('name'),
+                              keyboardType: TextInputType.emailAddress,
+                              iconPrefix: const Icon(Icons.person),
+                              validator: (value) =>
+                                  pipeFirstNotNullOrNull<String, String>(
+                                      value!, [
+                                (value) => Validations.isRequired(value,
+                                    message: context.translate('is_required')),
+                                (value) => Validations.isNotEmpty(value,
+                                    message: context.translate('is_empty')),
+                              ]),
                             ),
-                          ),
+                            InputCustom(
+                              onChange: (value) {
+                                setState(() => data["email"] = value);
+                              },
+                              hint: context.translate('email_address'),
+                              label: context.translate('email'),
+                              keyboardType: TextInputType.emailAddress,
+                              iconPrefix: const Icon(Icons.email),
+                              validator: (value) =>
+                                  pipeFirstNotNullOrNull<String, String>(
+                                      value!, [
+                                (value) => Validations.isRequired(value,
+                                    message: context.translate('is_required')),
+                                (value) => Validations.isNotEmpty(value,
+                                    message: context.translate('is_empty')),
+                                (value) => Validations.isEmail(value,
+                                    message: context.translate('is_email'))
+                              ]),
+                            ),
+                            InputCustom(
+                              onChange: (value) {
+                                setState(() => data["password"] = value);
+                              },
+                              isPassword: showPassword,
+                              obscureText: obscureText,
+                              showPassword: () {
+                                setState(() => obscureText = !obscureText);
+                              },
+                              hint: context.translate('password'),
+                              label: context.translate('password'),
+                              keyboardType: TextInputType.emailAddress,
+                              iconPrefix: const Icon(Icons.lock),
+                              validator: (value) =>
+                                  pipeFirstNotNullOrNull<String, String>(
+                                      value!, [
+                                (value) => Validations.isRequired(value,
+                                    message: context.translate('is_required')),
+                                (value) => Validations.isNotEmpty(value,
+                                    message: context.translate('is_empty')),
+                              ]),
+                            ),
+                            _inputConfirmPassword(context),
+                            InputDateCustom(
+                              onTap: () => _openDatePicker(),
+                              hint: context.translate('birthday'),
+                              label: context.translate('birthday'),
+                              iconPrefix: const Icon(Icons.calendar_month),
+                              readOnly: true,
+                              controller: _dateController,
+                              validator: (value) =>
+                                  pipeFirstNotNullOrNull(value, [
+                                (value) => Validations.isNotEmptyDate(value,
+                                    message: context.translate('is_empty')),
+                              ]),
+                            ),
+                            ButtonCustom(
+                              onPressed: () => _registerUser(),
+                              width: responsive.wp(60),
+                              isLoading: state.loading,
+                              child: Text(
+                                context.translate('sign_up'),
+                                style: getMediumStyle(
+                                  color: Colors.white,
+                                  fontSize: responsive.dp(2),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
 
-  InputCustom _inputDate(BuildContext context) {
+  InputCustom _inputConfirmPassword(BuildContext context) {
     return InputCustom(
-      onChange: (value) {
-        setState(() => data["confirmPassword"] = value);
-      },
+      onChange: (value) {},
       isPassword: showPasswordConfirm,
       obscureText: obscureTextConfirm,
       showPassword: () {

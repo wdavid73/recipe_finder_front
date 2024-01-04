@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:recipe_finder/data/api/dio_error_handler.dart';
 
 class ApiErrorsInterceptor extends Interceptor {
   final Dio dio;
@@ -8,55 +9,54 @@ class ApiErrorsInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) {
     if (err.response != null) {
       int statusCode = err.response!.statusCode!;
+      ErrorHandler errorHandler = handlerErrorResponse(err, handler);
       switch (statusCode) {
         case 400:
           return handler.reject(
-            DioException(
-              error: err.error,
-              message: err.message,
-              requestOptions: err.requestOptions,
+            BadRequestException(
+              requestOptions: errorHandler.requestOptions,
+              error: errorHandler.error,
+              message: errorHandler.message,
             ),
           );
         case 401:
           return handler.reject(
-            DioException(
-              error: err.error,
-              message: err.message,
-              requestOptions: err.requestOptions,
+            UnauthorizedException(
+              requestOptions: errorHandler.requestOptions,
+              error: errorHandler.error,
+              message: errorHandler.message,
             ),
           );
         case 404:
           return handler.reject(
-            DioException(
-              error: err.error,
-              message: err.message,
-              requestOptions: err.requestOptions,
+            NotFoundException(
+              requestOptions: errorHandler.requestOptions,
+              error: errorHandler.error,
+              message: errorHandler.message,
             ),
           );
         case 422:
           return handler.reject(
-            DioException(
-              error: err.error,
-              message: err.message,
-              requestOptions: err.requestOptions,
+            ConflictException(
+              requestOptions: errorHandler.requestOptions,
+              error: errorHandler.error,
+              message: errorHandler.message,
             ),
           );
         case 500:
           return handler.reject(
-            DioException(
-              error: err.error,
-              message: err.message,
-              requestOptions: err.requestOptions,
+            InternalServerErrorException(
+              requestOptions: errorHandler.requestOptions,
+              error: errorHandler.error,
+              message: errorHandler.message,
             ),
           );
         default:
-          return handler.resolve(
-            Response(
-              requestOptions: err.requestOptions,
-              data: err.response!.data!,
-              statusCode: statusCode,
-              statusMessage:
-                  'An unknown error occurred processing the request.',
+          return handler.reject(
+            UnknownException(
+              requestOptions: errorHandler.requestOptions,
+              error: errorHandler.error,
+              message: errorHandler.message,
             ),
           );
       }
@@ -74,9 +74,9 @@ class ApiErrorsInterceptor extends Interceptor {
         case DioExceptionType.sendTimeout:
           throw SendTimeout(err.requestOptions);
         case DioExceptionType.receiveTimeout:
-          throw DeadlineExceededException(err.requestOptions);
+          throw DeadlineExceeded(err.requestOptions);
         case DioExceptionType.connectionError:
-          throw NoInternetConnectionException(err.requestOptions);
+          throw NoInternetConnection(err.requestOptions);
         case DioExceptionType.badCertificate:
           throw BadCertificate(err.requestOptions);
         case DioExceptionType.badResponse:
@@ -91,67 +91,89 @@ class ApiErrorsInterceptor extends Interceptor {
 }
 
 class BadRequestException extends DioException {
-  final int statusCode;
-
-  BadRequestException(RequestOptions r, this.statusCode)
-      : super(requestOptions: r);
+  BadRequestException({
+    required super.requestOptions,
+    super.error,
+    super.message,
+  });
 
   @override
   String toString() {
-    return 'Invalid request: $statusCode';
+    return 'DioException [BadRequest]: $message';
   }
 }
 
 class UnauthorizedException extends DioException {
-  final int statusCode;
 
-  UnauthorizedException(RequestOptions r, this.statusCode)
-      : super(requestOptions: r);
+  UnauthorizedException({
+    required super.requestOptions,
+    super.error,
+    super.message,
+  });
 
   @override
   String toString() {
-    return 'Unauthorized: $statusCode';
+    return 'DioException [Unauthorized]: $message';
   }
 }
 
 class NotFoundException extends DioException {
-  final int statusCode;
 
-  NotFoundException(RequestOptions r, this.statusCode)
-      : super(requestOptions: r);
+  NotFoundException({
+    required super.requestOptions,
+    super.error,
+    super.message,
+  });
 
-  @override
+ @override
   String toString() {
-    return 'The requested information could not be found: $statusCode';
+    return 'DioException [NotFound]: $message';
   }
 }
 
 class ConflictException extends DioException {
-  final int statusCode;
-
-  ConflictException(RequestOptions r, this.statusCode)
-      : super(requestOptions: r);
+  ConflictException({
+    required super.requestOptions,
+    super.error,
+    super.message,
+  });
 
   @override
   String toString() {
-    return 'Conflict occurred';
+    return 'DioException [Conflict]: $message';
   }
 }
 
 class InternalServerErrorException extends DioException {
-  final int statusCode;
 
-  InternalServerErrorException(RequestOptions r, this.statusCode)
-      : super(requestOptions: r);
+  InternalServerErrorException({
+    required super.requestOptions,
+    super.error,
+    super.message,
+  });
 
   @override
   String toString() {
-    return 'Internal Server Error: $statusCode';
+    return 'DioException [InternalServerError]: $message';
   }
 }
 
-class NoInternetConnectionException extends DioException {
-  NoInternetConnectionException(RequestOptions r) : super(requestOptions: r);
+class UnknownException extends DioException {
+
+  UnknownException({
+    required super.requestOptions,
+    super.error,
+    super.message,
+  });
+
+  @override
+  String toString() {
+    return 'DioException [UnknownException]: $message';
+  }
+}
+
+class NoInternetConnection extends DioException {
+  NoInternetConnection(RequestOptions r) : super(requestOptions: r);
 
   @override
   String toString() {
@@ -159,8 +181,8 @@ class NoInternetConnectionException extends DioException {
   }
 }
 
-class DeadlineExceededException extends DioException {
-  DeadlineExceededException(RequestOptions r) : super(requestOptions: r);
+class DeadlineExceeded extends DioException {
+  DeadlineExceeded(RequestOptions r) : super(requestOptions: r);
 
   @override
   String toString() {

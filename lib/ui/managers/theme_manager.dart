@@ -305,5 +305,22 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
         ColorManager.accentColor,
       ),
     ),
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: ColorManager.containerColorDark,
+      showCloseIcon: true,
+      closeIconColor: Colors.white,
+      behavior: SnackBarBehavior.floating,
+      insetPadding: const EdgeInsets.all(10),
+      actionBackgroundColor: ColorManager.accentColor,
+      disabledActionBackgroundColor: ColorManager.disabledColor,
+      disabledActionTextColor: Colors.white,
+      contentTextStyle: getMediumStyle(
+        color: Colors.white,
+        fontSize: 16,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+    ),
   );
 }

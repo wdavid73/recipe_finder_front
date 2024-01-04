@@ -12,8 +12,8 @@ class ExampleRepositoryImpl extends ExampleRepository {
   @override
   Future<ResponseState> get() async {
     try {
-      final response = await _client.get('$ApiEndpoint');
-      return ResponseSuccess(null, response.statusCode!);
+      final response = await _client.get('${ApiEndpoint.baseUrl}/test');
+      return ResponseSuccess(response.data, response.statusCode!);
     } catch (e) {
       return ResponseFailed(
         DioException(

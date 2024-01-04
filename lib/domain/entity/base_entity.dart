@@ -1,7 +1,4 @@
-/* abstract class BaseEntity {
-  Map<String, dynamic> toJson();
-} */
-
-mixin BaseEntity {
+abstract class BaseEntity {
+  int get id;
   Map<String, dynamic> toJson();
 }

@@ -90,4 +90,11 @@ Map<String, String> en = {
   'error': 'Error!',
   'loading': 'Loading...',
   'not_found_item': 'No items found!',
+  'save': 'Save',
+  'update': 'Update',
+  'delete': 'Delete',
+  'close': 'Close',
+  'open': 'Open',
+  'register_success': 'Register Successfully',
+  'register_error': 'An error occurred during registration!'
 };
