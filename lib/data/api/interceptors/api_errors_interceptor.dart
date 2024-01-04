@@ -204,7 +204,7 @@ class BadResponse extends DioException {
 
   @override
   String toString() {
-    return 'Error al procesar la respuesta ';
+    return 'Error processing the response';
   }
 }
 
@@ -231,7 +231,7 @@ class SendTimeout extends DioException {
 
   @override
   String toString() {
-    return 'Shend lead time has been exceeded';
+    return 'Send lead time has been exceeded';
   }
 }
 
