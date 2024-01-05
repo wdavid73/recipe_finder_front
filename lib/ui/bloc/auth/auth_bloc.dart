@@ -26,6 +26,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ));
       emit.call(await _login(event.data));
     });
+
+    on<GetUser>((event, emit) async {
+      emit.call(await _getUser(event.token));
+    });
   }
 
   Future<AuthState> _register(Map<String, dynamic> data) async {
@@ -60,5 +64,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       token: response.data["token"],
       user: User.fromJson(response.data["user"]),
     );
+  }
+
+  Future<AuthState> _getUser(String token) async {
+    ResponseState response = await _authUseCase.getUser();
+    return state.copyWith(user: response.data, token: token);
   }
 }

@@ -16,3 +16,8 @@ class LoginUser extends AuthEvent {
   final Map<String, dynamic> data;
   const LoginUser(this.data);
 }
+
+class GetUser extends AuthEvent {
+  final String token;
+  const GetUser(this.token);
+}

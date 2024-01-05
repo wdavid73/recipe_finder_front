@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:recipe_finder/data/api/api_client.dart';
 import 'package:recipe_finder/data/api/api_endpoint.dart';
 import 'package:recipe_finder/data/api/response.dart';
+import 'package:recipe_finder/data/models/user.dart';
 import 'package:recipe_finder/domain/repository/auth_repository.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
@@ -61,4 +62,25 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<ResponseState> recoveryPassword() => throw UnimplementedError();
+
+  @override
+  Future<ResponseState> getUser() async {
+    try {
+      final response = await _client.get('${ApiEndpoint.auth}/get_user');
+      User user = User.fromJson(response.data);
+      return ResponseSuccess(user, response.statusCode!);
+    } catch (e) {
+      DioException error = e as DioException;
+      return ResponseFailed(
+        DioException(
+          error: e,
+          type: error.type,
+          message: error.message,
+          requestOptions: RequestOptions(
+            path: "${ApiEndpoint.auth}/get_user",
+          ),
+        ),
+      );
+    }
+  }
 }

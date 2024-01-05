@@ -6,6 +6,7 @@ enum LoginStatus { none, isLogged, hasError }
 
 class AuthState extends Equatable {
   final bool loading;
+  final bool loadingUser;
   final AuthStatus status;
   final LoginStatus loginStatus;
   final String errorMessage;
@@ -14,6 +15,7 @@ class AuthState extends Equatable {
 
   const AuthState({
     this.loading = false,
+    this.loadingUser = false,
     this.status = AuthStatus.none,
     this.loginStatus = LoginStatus.none,
     this.errorMessage = '',
@@ -26,6 +28,7 @@ class AuthState extends Equatable {
 
   AuthState copyWith({
     bool? loading,
+    bool? loadingUser,
     AuthStatus? status,
     LoginStatus? loginStatus,
     String? errorMessage,
@@ -39,6 +42,7 @@ class AuthState extends Equatable {
       errorMessage: errorMessage ?? this.errorMessage,
       token: token ?? this.token,
       user: user ?? this.user,
+      loadingUser: loadingUser ?? this.loadingUser,
     );
   }
 

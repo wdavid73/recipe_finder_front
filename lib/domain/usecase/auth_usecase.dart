@@ -15,4 +15,9 @@ class AuthUseCase {
     final response = await _authRepository.login(data);
     return response;
   }
+
+  Future<ResponseState> getUser() async {
+    final response = await _authRepository.getUser();
+    return response;
+  }
 }
