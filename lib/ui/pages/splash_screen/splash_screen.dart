@@ -4,7 +4,7 @@ import 'package:recipe_finder/routes/navigation_manager.dart';
 import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
-import 'package:recipe_finder/ui/pages/settings/cubit/settings_cubit.dart';
+import 'package:recipe_finder/ui/pages/splash_screen/cubit/splash_screen_cubit.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -21,50 +21,59 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _init() async {
-    final cubit = BlocProvider.of<SettingsCubit>(context);
+    final cubit = BlocProvider.of<SplashScreenCubit>(context);
     cubit.init();
-    await Future.delayed(const Duration(seconds: 3));
-    _navigate();
   }
 
-  void _navigate() {
-    NavigationManager.go(context, "home_auth");
+  void _navigate(SplashScreenState state) {
+    if (state == SplashScreenState.authenticated) {
+      NavigationManager.goAndRemove(context, "home");
+    } else if (state == SplashScreenState.unAuthenticated) {
+      NavigationManager.goAndRemove(context, "login");
+    } else {
+      NavigationManager.goAndRemove(context, "home_auth");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive(context);
-    return Scaffold(
-      body: Container(
-        width: responsive.width,
-        height: responsive.height,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              ColorManager.primaryColor,
-              ColorManager.accentColor,
+    return BlocListener<SplashScreenCubit, SplashScreenState>(
+      listener: (context, state) {
+        _navigate(state);
+      },
+      child: Scaffold(
+        body: Container(
+          width: responsive.width,
+          height: responsive.height,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                ColorManager.primaryColor,
+                ColorManager.accentColor,
+              ],
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Animate(
+                effects: const [
+                  ScaleEffect(duration: Duration(milliseconds: 1000)),
+                  FadeEffect(duration: Duration(milliseconds: 1000))
+                ],
+                child: Image(
+                  image: const AssetImage("assets/logos/Logo_white.png"),
+                  alignment: Alignment.center,
+                  fit: BoxFit.fill,
+                  width: responsive.dp(50),
+                ),
+              ),
             ],
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Animate(
-              effects: const [
-                ScaleEffect(duration: Duration(milliseconds: 1000)),
-                FadeEffect(duration: Duration(milliseconds: 1000))
-              ],
-              child: Image(
-                image: const AssetImage("assets/logos/Logo_white.png"),
-                alignment: Alignment.center,
-                fit: BoxFit.fill,
-                width: responsive.dp(50),
-              ),
-            ),
-          ],
         ),
       ),
     );

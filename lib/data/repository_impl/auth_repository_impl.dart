@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:recipe_finder/data/api/api_client.dart';
 import 'package:recipe_finder/data/api/api_endpoint.dart';
@@ -6,7 +8,6 @@ import 'package:recipe_finder/domain/repository/auth_repository.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   final ApiClient _client;
-
   AuthRepositoryImpl(this._client);
 
   @override
@@ -15,7 +16,6 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<ResponseState> login(Map<String, dynamic> data) async {
     try {
-      print(data);
       final response = await _client.post('${ApiEndpoint.auth}/login/', data);
       return ResponseSuccess(response.data, response.statusCode!);
     } catch (e) {

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:recipe_finder/data/api/response.dart';
 import 'package:recipe_finder/data/models/user.dart';
 import 'package:recipe_finder/domain/usecase/auth_usecase.dart';
