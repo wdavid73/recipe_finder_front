@@ -58,10 +58,11 @@ class _SignUpState extends State<SignUp> {
     }
   }
 
-  void _showSnackBar(String message) {
+  void _showSnackBar(String message, IconData icon) {
     SnackBarManager.showSnackBar(
       context,
       message: message,
+      icon: icon,
     );
   }
 
@@ -92,12 +93,17 @@ class _SignUpState extends State<SignUp> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state.status == AuthStatus.isCreate) {
-            _showSnackBar(context.translate('register_success'));
+            _showSnackBar(
+              context.translate('register_success'),
+              Icons.check_circle,
+            );
             _clearForm();
-            Future.delayed(const Duration(milliseconds: 1000)).then((value) => _goToLogin());
+            Future.delayed(const Duration(milliseconds: 1000)).then(
+              (value) => _goToLogin(),
+            );
           } else if (state.status == AuthStatus.hasError) {
-            _showSnackBar(context.translate('register_error'));
-            _showSnackBar(state.errorMessage);
+            _showSnackBar(context.translate('register_error'), Icons.error);
+            _showSnackBar(state.errorMessage, Icons.error);
           }
         },
         builder: (context, state) {

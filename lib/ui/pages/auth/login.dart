@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:recipe_finder/routes/navigation_manager.dart';
+import 'package:recipe_finder/ui/bloc/auth/auth_bloc.dart';
+import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
+import 'package:recipe_finder/ui/managers/snack_bar_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
-import 'package:recipe_finder/utils/config.dart';
 import 'package:recipe_finder/utils/extensions.dart';
 import 'package:recipe_finder/utils/validations.dart';
 import 'package:recipe_finder/widgets/button_custom.dart';
 import 'package:recipe_finder/widgets/icon_app.dart';
 import 'package:recipe_finder/widgets/input_custom.dart';
 import 'package:recipe_finder/widgets/logo_app.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -65,118 +68,149 @@ class _LoginContainerState extends State<LoginContainer> {
   Map<String, dynamic> data = {};
 
   void _login() {
-    /* var isOk = _formKey.currentState!.validate();
+    var isOk = _formKey.currentState!.validate();
 
-    if (isOk) { */
-    NavigationManager.goAndRemove(context, "home");
-    /* } */
+    if (isOk) {
+      final authBloc = BlocProvider.of<AuthBloc>(context);
+      authBloc.add(LoginUser(data));
+    }
+  }
+
+  void _showSnackBar(String message, IconData icon) {
+    SnackBarManager.showSnackBar(
+      context,
+      message: message,
+      icon: icon,
+    );
+  }
+
+  void _loginSuccess() async {
+    final authBloc = BlocProvider.of<AuthBloc>(context);
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString("email", data["username"]);
+    pref.setString('token', authBloc.state.token);
+    await Future.delayed(const Duration(milliseconds: 1000)).then((_) {
+      NavigationManager.goAndRemove(context, "home", transition: "slide");
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive(context);
 
-    return Form(
-      key: _formKey,
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Gap(5),
-            InputCustom(
-              onChange: (value) {
-                setState(() => data["email"] = value);
-              },
-              hint: context.translate('email_address'),
-              label: context.translate('email'),
-              keyboardType: TextInputType.emailAddress,
-              iconPrefix: const Icon(Icons.email),
-              validator: (value) =>
-                  pipeFirstNotNullOrNull<String, String>(value!, [
-                (value) => Validations.isRequired(value,
-                    message: context.translate('is_required')),
-                (value) => Validations.isNotEmpty(value,
-                    message: context.translate('is_empty')),
-                (value) => Validations.isEmail(value,
-                    message: context.translate('is_email'))
-              ]),
-            ),
-            InputCustom(
-              onChange: (value) {
-                setState(() => data["password"] = value);
-              },
-              hint: context.translate('password'),
-              label: context.translate('password'),
-              isPassword: showPassword,
-              obscureText: obscureText,
-              showPassword: () {
-                setState(() => obscureText = !obscureText);
-              },
-              bottomPadding: 0,
-              iconPrefix: const Icon(Icons.lock),
-              validator: (value) =>
-                  pipeFirstNotNullOrNull<String, String>(value!, [
-                (value) => Validations.isRequired(value,
-                    message: context.translate('is_required')),
-                (value) => Validations.isNotEmpty(value,
-                    message: context.translate('is_empty')),
-              ]),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Align(
-                alignment: Alignment.topRight,
-                child: Text(
-                  context.translate('forget_password'),
-                  style: getRegularStyle(
-                    textDecoration: TextDecoration.underline,
-                    fontSize: responsive.dp(1.5),
-                  ),
-                ),
-              ),
-            ),
-            const Gap(20),
-            ButtonCustom(
-              onPressed: () => _login(),
-              width: responsive.wp(60),
-              child: Text(
-                context.translate('login'),
-                style: getMediumStyle(
-                  fontSize: responsive.dp(2),
-                ),
-              ),
-            ),
-            const OtherLoginOptions(),
-            Row(
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state.loginStatus == LoginStatus.isLogged) {
+          _loginSuccess();
+        } else if (state.loginStatus == LoginStatus.hasError) {
+          _showSnackBar(state.errorMessage, Icons.error);
+        }
+      },
+      builder: (context, state) {
+        return Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "${context.translate('not_user_yet')} ",
-                  style: getRegularStyle(
-                    fontSize: responsive.dp(2),
+                const Gap(5),
+                InputCustom(
+                  onChange: (value) {
+                    setState(() => data["username"] = value);
+                  },
+                  hint: context.translate('email_address'),
+                  label: context.translate('email'),
+                  keyboardType: TextInputType.emailAddress,
+                  iconPrefix: const Icon(Icons.email),
+                  validator: (value) =>
+                      pipeFirstNotNullOrNull<String, String>(value!, [
+                    (value) => Validations.isRequired(value,
+                        message: context.translate('is_required')),
+                    (value) => Validations.isNotEmpty(value,
+                        message: context.translate('is_empty')),
+                    (value) => Validations.isEmail(value,
+                        message: context.translate('is_email'))
+                  ]),
+                ),
+                InputCustom(
+                  onChange: (value) {
+                    setState(() => data["password"] = value);
+                  },
+                  hint: context.translate('password'),
+                  label: context.translate('password'),
+                  isPassword: showPassword,
+                  obscureText: obscureText,
+                  showPassword: () {
+                    setState(() => obscureText = !obscureText);
+                  },
+                  bottomPadding: 0,
+                  iconPrefix: const Icon(Icons.lock),
+                  validator: (value) =>
+                      pipeFirstNotNullOrNull<String, String>(value!, [
+                    (value) => Validations.isRequired(value,
+                        message: context.translate('is_required')),
+                    (value) => Validations.isNotEmpty(value,
+                        message: context.translate('is_empty')),
+                  ]),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      context.translate('forget_password'),
+                      style: getRegularStyle(
+                        textDecoration: TextDecoration.underline,
+                        fontSize: responsive.dp(1.5),
+                      ),
+                    ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () => NavigationManager.go(
-                    context,
-                    "sign_up",
-                    transition: "slide",
-                  ),
+                const Gap(20),
+                ButtonCustom(
+                  onPressed: () => _login(),
+                  width: responsive.wp(60),
+                  isLoading: state.loading,
                   child: Text(
-                    context.translate('sign_up'),
-                    style: getSemiBoldStyle(
-                      color: ColorManager.primaryColor,
+                    context.translate('login'),
+                    style: getMediumStyle(
                       fontSize: responsive.dp(2),
                     ),
                   ),
                 ),
+                const OtherLoginOptions(),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "${context.translate('not_user_yet')} ",
+                      style: getRegularStyle(
+                        fontSize: responsive.dp(2),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => NavigationManager.go(
+                        context,
+                        "sign_up",
+                        transition: "slide",
+                      ),
+                      child: Text(
+                        context.translate('sign_up'),
+                        style: getSemiBoldStyle(
+                          color: ColorManager.primaryColor,
+                          fontSize: responsive.dp(2),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

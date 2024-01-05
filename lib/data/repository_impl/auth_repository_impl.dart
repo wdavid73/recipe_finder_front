@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:recipe_finder/data/api/api_client.dart';
 import 'package:recipe_finder/data/api/api_endpoint.dart';
-import 'package:recipe_finder/data/api/interceptors/api_errors_interceptor.dart';
 import 'package:recipe_finder/data/api/response.dart';
 import 'package:recipe_finder/domain/repository/auth_repository.dart';
 
@@ -14,14 +13,25 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<bool> isTokenExpired(String token) => throw UnimplementedError();
 
   @override
-  Future<ResponseState> login(Map<String, dynamic> data) =>
-      throw UnimplementedError();
-
-  @override
-  Future<void> logout() => throw UnimplementedError();
-
-  @override
-  Future<ResponseState> recoveryPassword() => throw UnimplementedError();
+  Future<ResponseState> login(Map<String, dynamic> data) async {
+    try {
+      print(data);
+      final response = await _client.post('${ApiEndpoint.auth}/login/', data);
+      return ResponseSuccess(response.data, response.statusCode!);
+    } catch (e) {
+      DioException error = e as DioException;
+      return ResponseFailed(
+        DioException(
+          error: e,
+          type: error.type,
+          message: error.message,
+          requestOptions: RequestOptions(
+            path: "${ApiEndpoint.auth}/login",
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Future<ResponseState> register(Map<String, dynamic> data) async {
@@ -45,4 +55,10 @@ class AuthRepositoryImpl extends AuthRepository {
       );
     }
   }
+
+  @override
+  Future<void> logout() => throw UnimplementedError();
+
+  @override
+  Future<ResponseState> recoveryPassword() => throw UnimplementedError();
 }

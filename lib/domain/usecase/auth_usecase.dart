@@ -10,4 +10,9 @@ class AuthUseCase {
     final response = await _authRepository.register(data);
     return response;
   }
+
+  Future<ResponseState> login(Map<String, dynamic> data) async {
+    final response = await _authRepository.login(data);
+    return response;
+  }
 }

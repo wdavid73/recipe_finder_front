@@ -7,12 +7,14 @@ class User extends UserEntity {
   String name;
   String? profilePicture;
   DateTime birthday;
+  String email;
 
   User({
     required this.idUser,
     required this.username,
     required this.name,
     this.profilePicture,
+    required this.email,
     required this.birthday,
   });
 
@@ -24,6 +26,7 @@ class User extends UserEntity {
       "name": name,
       "profile_picture": profilePicture,
       "birthday": birthday,
+      'email': email,
     };
   }
 
@@ -37,6 +40,12 @@ class User extends UserEntity {
       name: json['name'] as String,
       birthday: parseStringToDateTime(json['birthday'] as String),
       profilePicture: json['profile_picture'] as String?,
+      email: json["email"] as String,
     );
+  }
+
+  @override
+  String toString() {
+    return "User: $id, $name, $email";
   }
 }
