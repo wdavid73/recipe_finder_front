@@ -36,8 +36,6 @@ class _SignUpState extends State<SignUp> {
       FocusManager.instance.primaryFocus?.unfocus();
       final authBloc = BlocProvider.of<AuthBloc>(context);
       authBloc.add(RegisterUser(data));
-      // SERVICE REGISTER USER
-      // NavigationManager.goAndRemove(context, "login");
     }
   }
 
@@ -72,6 +70,10 @@ class _SignUpState extends State<SignUp> {
     _dateController.text = '';
   }
 
+  void _goToLogin() {
+    NavigationManager.goAndRemove(context, "login");
+  }
+
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive(context);
@@ -91,7 +93,8 @@ class _SignUpState extends State<SignUp> {
         listener: (context, state) {
           if (state.status == AuthStatus.isCreate) {
             _showSnackBar(context.translate('register_success'));
-            //  _clearForm();
+            _clearForm();
+            Future.delayed(const Duration(milliseconds: 1000)).then((value) => _goToLogin());
           } else if (state.status == AuthStatus.hasError) {
             _showSnackBar(context.translate('register_error'));
             _showSnackBar(state.errorMessage);
