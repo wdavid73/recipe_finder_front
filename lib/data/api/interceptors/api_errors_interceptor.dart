@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:recipe_finder/data/api/dio_error_handler.dart';
 import 'package:recipe_finder/data/api/http_exceptions.dart';
-import 'package:recipe_finder/i10n/app_localizations.dart';
-import 'package:recipe_finder/utils/navigation_key.dart';
 
 class ApiErrorsInterceptor extends Interceptor {
   final Dio dio;
