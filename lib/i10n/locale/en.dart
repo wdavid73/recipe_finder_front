@@ -96,5 +96,17 @@ Map<String, String> en = {
   'close': 'Close',
   'open': 'Open',
   'register_success': 'Register Successfully',
-  'register_error': 'An error occurred during registration!'
+  'register_error': 'An error occurred during registration!',
+  'not_user': 'Not User',
+  'connection_time_out':
+      'The connection request took a long time and was aborted.',
+  'send_time_out': 'The connection request took a long time and was aborted.',
+  'receive_time_out': 'The connection has timed out, please try again.',
+  'bad_response':
+      'Response with a non-standard status code, possibly due to server software. ',
+  'connection_error': 'The connection errored.',
+  'bad_certificate': 'Bad certificate',
+  'unknown': 'An unknown error occurred processing the request.',
+  'cancel': 'The request was manually cancelled by the user.',
+  'not_internet': 'No internet connection detected, please try again.',
 };
