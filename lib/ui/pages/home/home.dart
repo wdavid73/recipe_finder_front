@@ -4,12 +4,14 @@ import 'package:recipe_finder/routes/navigation_manager.dart';
 import 'package:recipe_finder/ui/bloc/auth/auth_bloc.dart';
 import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
+import 'package:recipe_finder/ui/managers/snack_bar_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/ui/pages/home/categories_container.dart';
 import 'package:recipe_finder/ui/pages/home/widgets/drawer_home.dart';
 import 'package:recipe_finder/ui/pages/home/your_recipe_container.dart';
 import 'package:recipe_finder/utils/extensions.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:recipe_finder/widgets/loading_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
@@ -49,6 +51,14 @@ class _MyHomePageState extends State<HomePage>
     NavigationManager.goAndRemove(context, "login");
   }
 
+  void _errorServices(String message) {
+    SnackBarManager.showSnackBar(
+      context,
+      message: message,
+      icon: Icons.error,
+    );
+  }
+
   @override
   void dispose() {
     _animationController.dispose();
@@ -58,65 +68,83 @@ class _MyHomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          context.translate('title_home'),
-          style: getSemiBoldStyle(
-            fontSize: responsive.dp(1.8),
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.search, size: responsive.dp(2.5)),
-          )
-        ],
-        centerTitle: true,
-        toolbarHeight: responsive.hp(8),
-      ),
-      drawer: const DrawerHome(),
-      body: SafeArea(
-        child: Container(
-          width: responsive.width,
-          height: responsive.height,
-          alignment: Alignment.center,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              const Gap(20),
-              Animate(
-                effects: const [
-                  FadeEffect(),
-                  SlideEffect(
-                    begin: Offset(-1.0, 0.0),
-                    end: Offset.zero,
-                    curve: Curves.decelerate,
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state.userLoading == false &&
+            state.userStatus == UserStatus.hasError) {
+          _errorServices(state.errorMessage);
+        }
+      },
+      builder: (context, state) {
+        return Stack(
+          children: [
+            Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  context.translate('title_home'),
+                  style: getSemiBoldStyle(
+                    fontSize: responsive.dp(1.8),
                   ),
+                ),
+                actions: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.search, size: responsive.dp(2.5)),
+                  )
                 ],
-                onComplete: (controller) {
-                  // call service get list
-                },
-                delay: const Duration(milliseconds: 500),
-                child: const YourRecipesContainer(),
+                centerTitle: true,
+                toolbarHeight: responsive.hp(8),
               ),
-              const Gap(20),
-              Animate(
-                effects: const [
-                  FadeEffect(),
-                  SlideEffect(
-                    begin: Offset(-1.0, 0.0),
-                    end: Offset.zero,
-                    curve: Curves.decelerate,
+              drawer: const DrawerHome(),
+              body: SafeArea(
+                child: Container(
+                  width: responsive.width,
+                  height: responsive.height,
+                  alignment: Alignment.center,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      const Gap(20),
+                      Animate(
+                        effects: const [
+                          FadeEffect(),
+                          SlideEffect(
+                            begin: Offset(-1.0, 0.0),
+                            end: Offset.zero,
+                            curve: Curves.decelerate,
+                          ),
+                        ],
+                        onComplete: (controller) {
+                          // call service get list
+                        },
+                        delay: const Duration(milliseconds: 500),
+                        child: const YourRecipesContainer(),
+                      ),
+                      const Gap(20),
+                      Animate(
+                        effects: const [
+                          FadeEffect(),
+                          SlideEffect(
+                            begin: Offset(-1.0, 0.0),
+                            end: Offset.zero,
+                            curve: Curves.decelerate,
+                          ),
+                        ],
+                        child: const CategoriesContainer(),
+                      ),
+                    ],
                   ),
-                ],
-                child: const CategoriesContainer(),
+                ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
+            ...overlayLoading(
+              show: state.userLoading,
+              text: context.translate('loading'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
