@@ -28,6 +28,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<GetUser>((event, emit) async {
+      emit.call(state.copyWith(
+        userLoading: true,
+        userStatus: UserStatus.none,
+      ));
       emit.call(await _getUser(event.token));
     });
   }
@@ -68,6 +72,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<AuthState> _getUser(String token) async {
     ResponseState response = await _authUseCase.getUser();
-    return state.copyWith(user: response.data, token: token);
+    if (response is ResponseFailed) {
+      return state.copyWith(
+        user: response.data,
+        token: token,
+        userLoading: false,
+        userStatus: UserStatus.hasError,
+        errorMessage: response.error!.error.toString(),
+      );
+    }
+    return state.copyWith(
+      user: response.data,
+      token: token,
+      userLoading: true,
+      userStatus: UserStatus.none,
+    );
   }
 }
