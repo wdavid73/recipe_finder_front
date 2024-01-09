@@ -9,6 +9,7 @@ import 'package:recipe_finder/ui/pages/not_found.dart';
 import 'package:recipe_finder/ui/managers/theme_manager.dart';
 import 'package:recipe_finder/ui/pages/settings/cubit/settings_cubit.dart';
 import 'package:recipe_finder/ui/pages/settings/theme_preference.dart';
+import 'package:recipe_finder/utils/navigation_key.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -61,6 +62,7 @@ class _MyAppState extends State<MyApp> {
             },
             localizationsDelegates: LocaleManager.localizationsDelegates,
             supportedLocales: LocaleManager.supportedLocales,
+            navigatorKey: navigatorKey,
           ),
         ),
       ),
