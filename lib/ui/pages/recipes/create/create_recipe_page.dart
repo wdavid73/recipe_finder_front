@@ -54,6 +54,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
 
   void _saveRecipe() {
     parseData();
+    print(data);
   }
 
   @override

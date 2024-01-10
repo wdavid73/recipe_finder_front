@@ -84,7 +84,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     return state.copyWith(
       user: response.data,
       token: token,
-      userLoading: true,
+      userLoading: false,
       userStatus: UserStatus.none,
     );
   }
