@@ -6,7 +6,7 @@ class CategoryUseCase {
 
   CategoryUseCase(this._categoryRepository);
 
-  Future<ResponseState> get(Map<String, dynamic>? queryParams) async {
+  Future<ResponseState> get({Map<String, dynamic>? queryParams}) async {
     final response = await _categoryRepository.get(queryParams);
     return response;
   }
