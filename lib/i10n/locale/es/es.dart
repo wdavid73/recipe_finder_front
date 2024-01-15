@@ -1,4 +1,8 @@
-Map<String, String> es = {
+import 'package:recipe_finder/i10n/locale/es/form_validation.dart';
+import 'package:recipe_finder/i10n/locale/es/ingredients.dart';
+import 'package:recipe_finder/i10n/locale/es/categories.dart';
+
+Map<String, String> esBase = {
   'login': 'Iniciar Sesión',
   'sign_up': 'Regístrate',
   'logout': 'Cerrar Sesión',
@@ -10,12 +14,6 @@ Map<String, String> es = {
   'confirm_password': 'Confirmar contraseña',
   'birthday': 'Fecha de nacimiento',
   'forget_password': '¿Olvidaste tu contraseña?',
-  // FORM VALIDATIONS
-  'is_required': 'El campo es requerido',
-  'is_empty': 'Por favor llene el campo',
-  'is_email': 'Por favor ingrese un correo valido',
-  'is_not_equal': 'Los valores no son iguales',
-  'is_not_equal_password': 'Las contraseñas no coinciden',
   // HOME
   'title_home': '¡Bienvenido a RecipeFinder!',
   'your_recipes': 'Tus Recetas',
@@ -45,23 +43,6 @@ Map<String, String> es = {
   'theme': 'Tema',
   'dark_theme': 'Tema oscuro',
   'general': 'General',
-  // CATEGORIES
-  'starters': 'Entrantes',
-  'main_courses': 'Platos Principales',
-  'desserts': 'Postres',
-  'appetizers': 'Aperitivos',
-  'salads': 'Ensaladas',
-  'soups_and_stews': 'Sopas y guisos',
-  'breakfasts': 'Desayunos',
-  'beverages': 'Bebidas',
-  'vegan_food': 'Comida vegana',
-  'seafood': 'Marisco',
-  'barbecues_and_grills': 'Barbacoas y parrillas',
-  'asian_food': 'Comida asiática',
-  'italian_food': 'Comida italiana',
-  'mexican_food': 'Comida mexicana',
-  'vegetarian_food': 'Comida vegetariana',
-  'other': 'Otros',
   // RECIPES PAGE
   'filters': 'Filtros',
   'rating': 'Calificación',
@@ -110,4 +91,11 @@ Map<String, String> es = {
   'unknown': 'Se ha producido un error desconocido al procesar la solicitud.',
   'cancel': 'La solicitud ha sido cancelada manualmente por el usuario.',
   'not_internet': 'No se ha detectado conexión a Internet, inténtelo de nuevo.',
+};
+
+Map<String, String> es = {
+  ...esBase,
+  ...formValidations,
+  ...categoriesTranslate,
+  ...ingredientsTranslate
 };

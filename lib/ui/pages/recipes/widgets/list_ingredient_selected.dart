@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
-import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 
 class ListIngredientsSelected extends StatelessWidget {
-  final List<String> items;
+  final List<dynamic> items;
   final void Function(int index)? onDeleted;
+  final Widget Function(dynamic value) itemBuilder;
+
   const ListIngredientsSelected({
     super.key,
     required this.items,
+    required this.itemBuilder,
     this.onDeleted,
   });
 
@@ -17,7 +19,8 @@ class ListIngredientsSelected extends StatelessWidget {
     return Container(
       width: responsive.width,
       constraints: BoxConstraints(
-        minHeight: responsive.hp(3),
+        minHeight: responsive.hp(0),
+        maxHeight: responsive.hp(12),
       ),
       margin: const EdgeInsets.symmetric(horizontal: 10),
       child: SingleChildScrollView(
@@ -25,21 +28,7 @@ class ListIngredientsSelected extends StatelessWidget {
         child: Wrap(
           alignment: WrapAlignment.start,
           crossAxisAlignment: WrapCrossAlignment.start,
-          children: List.generate(
-            items.length,
-            (index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 1.0),
-                child: Chip(
-                  onDeleted: () => onDeleted!(index),
-                  label: Text(
-                    items[index],
-                    style: getRegularStyle(),
-                  ),
-                ),
-              );
-            },
-          ),
+          children: List.generate(items.length, itemBuilder),
         ),
       ),
     );

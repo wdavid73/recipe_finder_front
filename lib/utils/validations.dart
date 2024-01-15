@@ -15,6 +15,9 @@ class Validations {
   static String? isNotEmptyDate(dynamic value, {String? message}) =>
       value != null && value.isNotEmpty ? null : message ?? 'Is Empty';
 
+  static String? isNotEmptyList(List<dynamic> list, {String? message}) =>
+      list.isNotEmpty ? null : message ?? 'Is Empty';
+
   static String? isEqual(String value, String compare, {String? message}) =>
       value == compare ? null : message ?? 'Values are not equal';
 }

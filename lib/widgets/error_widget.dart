@@ -21,6 +21,7 @@ class ShowError extends StatelessWidget {
         ),
         Text(
           error,
+          textAlign: TextAlign.center,
           style: getMediumStyle(
             color: Colors.white,
             fontSize: responsive.dp(2),

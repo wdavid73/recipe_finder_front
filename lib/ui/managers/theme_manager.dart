@@ -213,7 +213,9 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
       ),
       textColor:
           isDark ? ColorManager.textPrimaryLight : ColorManager.textPrimary,
-      titleTextStyle: getMediumStyle(),
+      titleTextStyle: getMediumStyle(fontSize: 14),
+      subtitleTextStyle: getLightStyle(fontSize: 12),
+      selectedColor: ColorManager.accentColor,
     ),
     dividerTheme: DividerThemeData(
       color: ColorManager.divider,

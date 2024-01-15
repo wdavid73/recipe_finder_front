@@ -1,124 +1,88 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:gap/gap.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/utils/extensions.dart';
 
-class InputAutoCompleteSearch extends StatelessWidget {
-  final List<String> items;
-  final List<String> selectedItems;
-  final double? width;
+class InputSearchSuggestion extends StatelessWidget {
+  final Widget childBuilder;
   final String label;
-  final String hintText;
-  final void Function(String) onSelected;
-  const InputAutoCompleteSearch({
+  final FocusNode focusNode;
+  final TextEditingController controller;
+  final void Function(String)? onChanged;
+  final double bottomMargin;
+  final String? Function(String?)? validator;
+  const InputSearchSuggestion({
     super.key,
-    required this.items,
+    required this.childBuilder,
     required this.label,
-    required this.onSelected,
-    this.width,
-    this.hintText = '',
-    this.selectedItems = const [],
+    required this.focusNode,
+    required this.controller,
+    this.onChanged,
+    this.bottomMargin = 20,
+    this.validator,
   });
 
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive(context);
-    final InputDecorationTheme inputTheme =
-        Theme.of(context).inputDecorationTheme;
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () {
-        FocusScope.of(context).requestFocus(FocusNode());
-      },
-      child: Container(
-        width: width ?? responsive.width,
-        height: 50,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        margin: const EdgeInsets.only(top: 20),
-        child: TypeAheadField(
-          builder: (context, controller, focusNode) {
-            return TextField(
+    return Container(
+      width: responsive.width,
+      margin: EdgeInsets.only(bottom: bottomMargin),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: TextFormField(
               controller: controller,
               focusNode: focusNode,
-              autofocus: false,
+              onChanged: onChanged,
+              validator: validator,
               decoration: InputDecoration(
-                hintStyle: inputTheme.hintStyle?.merge(
-                  getRegularStyle(
-                    fontSize: responsive.dp(1.5),
-                  ),
-                ),
-                labelStyle: inputTheme.labelStyle?.merge(
-                  getRegularStyle(
-                    fontSize: responsive.dp(1.5),
-                  ),
-                ),
-                suffixStyle: inputTheme.suffixStyle?.merge(
-                  getRegularStyle(
-                    fontSize: responsive.dp(1.5),
-                  ),
-                ),
-                prefixIcon: const Icon(Icons.search),
                 labelText: label,
-                hintText: hintText,
+                prefixIcon: const Icon(Icons.search),
               ),
-            );
-          },
-          itemBuilder: (context, value) {
-            final isSelected = selectedItems.contains(value);
-            return ListTile(
-              title: Text(
-                value,
-                style: getMediumStyle(
-                  color: ColorManager.textPrimary,
-                ),
-              ),
-              trailing: isSelected
-                  ? Icon(
-                      Icons.check_circle_rounded,
-                      color: ColorManager.accentColor,
-                    )
-                  : null,
-            );
-          },
-          onSelected: (value) {
-            if (!selectedItems.contains(value)) {
-              onSelected(value);
-            }
-          },
-          suggestionsCallback: (pattern) async {
-            await Future.delayed(const Duration(seconds: 2));
-            return items
-                .where((element) =>
-                    element.toLowerCase().contains(pattern.toLowerCase()) &&
-                    !selectedItems.contains(element))
-                .toList();
-          },
-          offset: const Offset(0, 0),
-          loadingBuilder: (context) => _loadingBuilder(context),
-          errorBuilder: (context, error) => _errorBuilder(context),
-          emptyBuilder: (context) => _emptyBuilder(context),
-        ),
+            ),
+          ),
+          Container(
+            constraints: BoxConstraints(maxHeight: responsive.hp(30)),
+            padding: EdgeInsets.symmetric(
+              vertical: focusNode.hasFocus ? 10 : 0,
+            ),
+            child: Card(
+              margin: EdgeInsets.zero,
+              child:
+                  focusNode.hasFocus ? childBuilder : const SizedBox.shrink(),
+            ),
+          )
+        ],
       ),
     );
   }
+}
 
-  Widget _emptyBuilder(BuildContext context) {
+class EmptyBuilder extends StatelessWidget {
+  const EmptyBuilder({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       height: 100,
       alignment: Alignment.center,
       child: Text(
         context.translate('not_found_item'),
-        style: getMediumStyle(
-          color: ColorManager.textPrimary,
-        ),
+        style: getMediumStyle(),
       ),
     );
   }
+}
 
-  Widget _errorBuilder(BuildContext context) {
+class ErrorBuilder extends StatelessWidget {
+  const ErrorBuilder({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       height: 100,
       alignment: Alignment.center,
@@ -130,8 +94,13 @@ class InputAutoCompleteSearch extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _loadingBuilder(BuildContext context) {
+class LoadingBuilder extends StatelessWidget {
+  const LoadingBuilder({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       height: 100,
       alignment: Alignment.center,
@@ -148,9 +117,7 @@ class InputAutoCompleteSearch extends StatelessWidget {
           const Gap(10),
           Text(
             context.translate('loading'),
-            style: getMediumStyle(
-              color: ColorManager.textPrimary,
-            ),
+            style: getMediumStyle(),
           ),
         ],
       ),

@@ -1,0 +1,18 @@
+Map<String, String> categoriesTranslate = {
+  'starters': 'Starters',
+  'main_courses': 'Main Courses',
+  'desserts': 'Desserts',
+  'appetizers': 'Appetizers',
+  'salads': 'Salads',
+  'soups_and_stews': 'Soups and Stews',
+  'breakfasts': 'Breakfasts',
+  'beverages': 'Beverages',
+  'vegan_food': 'Vegan Food',
+  'seafood': 'Seafood',
+  'barbecues_and_grills': 'Barbecues and Grills',
+  'asian_food': 'Asian Food',
+  'italian_food': 'Italian Food',
+  'mexican_food': 'Mexican Food',
+  'vegetarian_food': 'Vegetarian Food',
+  'other': 'Other',
+};

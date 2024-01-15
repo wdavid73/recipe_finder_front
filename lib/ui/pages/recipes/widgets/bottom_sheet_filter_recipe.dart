@@ -117,6 +117,25 @@ class _BottomSheetFiltersRecipeState extends State<BottomSheetFiltersRecipe> {
                       searchController: _searchController,
                       barHintText: context.translate('tap_search'),
                       viewHintText: context.translate('enter_keyword'),
+                      itemBuilder: (item) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() => _searchController.closeView(item));
+                          },
+                          child: ListTile(
+                            title: Text(
+                              item,
+                              style: getRegularStyle(),
+                            ),
+                            onTap: () {
+                              setState(() {
+                                _searchController.closeView(item);
+                                FocusScope.of(context).unfocus();
+                              });
+                            },
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ],

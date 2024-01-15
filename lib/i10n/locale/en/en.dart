@@ -1,4 +1,8 @@
-Map<String, String> en = {
+import 'package:recipe_finder/i10n/locale/en/categories.dart';
+import 'package:recipe_finder/i10n/locale/en/form_validation.dart';
+import 'package:recipe_finder/i10n/locale/en/ingredients.dart';
+
+Map<String, String> enBase = {
   'login': 'Login',
   'sign_up': 'Sign up',
   'logout': 'Log Out',
@@ -10,12 +14,6 @@ Map<String, String> en = {
   'confirm_password': 'Confirm Password',
   'birthday': 'Birthday',
   'forget_password': 'Forget Password?',
-  // FORM VALIDATIONS
-  'is_required': 'This field is required',
-  'is_empty': 'This field is empty',
-  'is_email': 'Please input a valid email format',
-  'is_not_equal': 'Values are not equal',
-  'is_not_equal_password': 'Passwords do not match',
   // HOME
   'title_home': '¡Welcome to RecipeFinder!',
   'your_recipes': 'Your Recipes',
@@ -45,23 +43,6 @@ Map<String, String> en = {
   'theme': 'Theme',
   'dark_theme': 'Dark Theme',
   'general': 'General',
-  // CATEGORIES
-  'starters': 'Starters',
-  'main_courses': 'Main Courses',
-  'desserts': 'Desserts',
-  'appetizers': 'Appetizers',
-  'salads': 'Salads',
-  'soups_and_stews': 'Soups and Stews',
-  'breakfasts': 'Breakfasts',
-  'beverages': 'Beverages',
-  'vegan_food': 'Vegan Food',
-  'seafood': 'Seafood',
-  'barbecues_and_grills': 'Barbecues and Grills',
-  'asian_food': 'Asian Food',
-  'italian_food': 'Italian Food',
-  'mexican_food': 'Mexican Food',
-  'vegetarian_food': 'Vegetarian Food',
-  'other': 'Other',
   // RECIPES PAGE
   'filters': 'Filters',
   'rating': 'Rating',
@@ -109,4 +90,11 @@ Map<String, String> en = {
   'unknown': 'An unknown error occurred processing the request.',
   'cancel': 'The request was manually cancelled by the user.',
   'not_internet': 'No internet connection detected, please try again.',
+};
+
+Map<String, String> en = {
+  ...enBase,
+  ...formValidations,
+  ...categoriesTranslate,
+  ...ingredientsTranslate
 };
