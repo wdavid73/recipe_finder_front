@@ -39,14 +39,22 @@ class _MyHomePageState extends State<HomePage>
     final authBloc = BlocProvider.of<AuthBloc>(context);
     SharedPreferences pref = await SharedPreferences.getInstance();
     String? token = pref.getString("token");
-    String tokenBloc = authBloc.state.token;
-    bool validTokenBloc = tokenBloc != '';
-    if (!validTokenBloc) {
+    String? tokenBloc = await validateToken();
+    bool validTokenBloc = tokenBloc != '' && tokenBloc != null;
+    if (validTokenBloc) {
       authBloc.add(GetUser("$token"));
       _initServices();
     } else {
       _navigateToLogin();
     }
+  }
+
+  Future<String?> validateToken() async {
+    final authBloc = BlocProvider.of<AuthBloc>(context);
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String? token = pref.getString("token");
+    String authBlocToken = authBloc.state.token;
+    return authBlocToken != '' ? authBlocToken : token;
   }
 
   void _navigateToLogin() {
@@ -108,39 +116,50 @@ class _MyHomePageState extends State<HomePage>
                   width: responsive.width,
                   height: responsive.height,
                   alignment: Alignment.center,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      const Gap(20),
-                      Animate(
-                        effects: const [
-                          FadeEffect(),
-                          SlideEffect(
-                            begin: Offset(-1.0, 0.0),
-                            end: Offset.zero,
-                            curve: Curves.decelerate,
+                  child: RefreshIndicator(
+                    onRefresh: () async => _init(),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: ListView(
+                        primary: true,
+                        shrinkWrap: true,
+                        addAutomaticKeepAlives: false,
+                        addRepaintBoundaries: true,
+                        children: <Widget>[
+                          const Gap(20),
+                          Animate(
+                            effects: const [
+                              FadeEffect(),
+                              SlideEffect(
+                                begin: Offset(-1.0, 0.0),
+                                end: Offset.zero,
+                                curve: Curves.decelerate,
+                              ),
+                            ],
+                            onComplete: (controller) {
+                              // call service get list
+                            },
+                            delay: const Duration(milliseconds: 500),
+                            child: const YourRecipesContainer(),
+                          ),
+                          const Gap(20),
+                          Animate(
+                            effects: const [
+                              FadeEffect(),
+                              SlideEffect(
+                                begin: Offset(-1.0, 0.0),
+                                end: Offset.zero,
+                                curve: Curves.decelerate,
+                              ),
+                            ],
+                            onComplete: (controller) {
+                              print("complete animation categories");
+                            },
+                            child: const CategoriesContainer(),
                           ),
                         ],
-                        onComplete: (controller) {
-                          // call service get list
-                        },
-                        delay: const Duration(milliseconds: 500),
-                        child: const YourRecipesContainer(),
                       ),
-                      const Gap(20),
-                      Animate(
-                        effects: const [
-                          FadeEffect(),
-                          SlideEffect(
-                            begin: Offset(-1.0, 0.0),
-                            end: Offset.zero,
-                            curve: Curves.decelerate,
-                          ),
-                        ],
-                        child: const CategoriesContainer(),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
