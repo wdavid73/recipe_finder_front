@@ -136,9 +136,6 @@ class _MyHomePageState extends State<HomePage>
                                 curve: Curves.decelerate,
                               ),
                             ],
-                            onComplete: (controller) {
-                              // call service get list
-                            },
                             delay: const Duration(milliseconds: 500),
                             child: const YourRecipesContainer(),
                           ),
@@ -152,9 +149,6 @@ class _MyHomePageState extends State<HomePage>
                                 curve: Curves.decelerate,
                               ),
                             ],
-                            onComplete: (controller) {
-                              print("complete animation categories");
-                            },
                             child: const CategoriesContainer(),
                           ),
                         ],

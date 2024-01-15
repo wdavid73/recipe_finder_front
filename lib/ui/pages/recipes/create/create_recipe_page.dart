@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:recipe_finder/data/models/category.dart';
 import 'package:recipe_finder/data/models/ingredient.dart';
-import 'package:recipe_finder/i10n/app_localizations.dart';
 import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
 import 'package:recipe_finder/ui/bloc/category/category_bloc.dart';
 import 'package:recipe_finder/ui/bloc/ingredient/ingredient_bloc.dart';
@@ -12,9 +11,7 @@ import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/ui/pages/recipes/widgets/input_autocomplete_search.dart';
 import 'package:recipe_finder/ui/pages/recipes/widgets/list_ingredient_selected.dart';
-import 'package:recipe_finder/ui/pages/recipes/widgets/search_input.dart';
 import 'package:recipe_finder/ui/pages/recipes/widgets/step_input.dart';
-import 'package:recipe_finder/utils/constants.dart';
 import 'package:recipe_finder/utils/extensions.dart';
 import 'package:recipe_finder/utils/validations.dart';
 import 'package:recipe_finder/widgets/button_custom.dart';
@@ -81,7 +78,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
     var isOk = _formKey.currentState!.validate();
     if (isOk) {
       parseData();
-      print(data);
+      // print(data);
     }
   }
 
@@ -106,9 +103,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
   }
 
   void onTapCategory(Category category) {
-    String translateKey = context.translate(
-      category.name.replaceAll(' ', '_').toLowerCase(),
-    );
+    String translateKey = _translateText(category.name);
     _focusNodeCategory.unfocus();
     _searchController.text =
         "${category.name} (${context.translate(translateKey)})";
@@ -194,12 +189,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                             () => _selectedIngredients.removeAt(index),
                           ),
                           label: Text(
-                            context.translate(
-                              _selectedIngredients[index]
-                                  .name
-                                  .replaceAll(' ', '_')
-                                  .toLowerCase(),
-                            ),
+                            _translateText(_selectedIngredients[index].name),
                             style: getRegularStyle(),
                           ),
                         ),
