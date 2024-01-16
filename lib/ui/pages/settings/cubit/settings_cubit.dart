@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 enum SettingsState { isDarkTheme, isLightTheme }
 
 class SettingsCubit extends Cubit<SettingsState> {
-  SettingsCubit() : super(SettingsState.isDarkTheme);
+  SettingsCubit() : super(SettingsState.isLightTheme);
 
   void init() async {
     SharedPreferences pref = await SharedPreferences.getInstance();

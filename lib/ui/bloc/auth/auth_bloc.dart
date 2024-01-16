@@ -58,7 +58,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       return state.copyWith(
         loading: false,
         loginStatus: LoginStatus.hasError,
-        errorMessage: response.error!.message,
+        errorMessage: response.error!.error.toString(),
       );
     }
     return state.copyWith(
