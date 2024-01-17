@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/utils/extensions.dart';
@@ -7,7 +9,12 @@ import 'package:recipe_finder/widgets/input_custom.dart';
 
 class StepInput extends StatefulWidget {
   final List<Map<String, dynamic>> steps;
-  const StepInput({super.key, required this.steps});
+  final String messageError;
+  const StepInput({
+    super.key,
+    required this.steps,
+    this.messageError = '',
+  });
 
   @override
   State<StepInput> createState() => _StepInputState();
@@ -164,7 +171,27 @@ class _StepInputState extends State<StepInput> {
                 },
               ),
             ),
-          )
+          ),
+          widget.messageError != ''
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        widget.messageError,
+                        textAlign: TextAlign.left,
+                        style: getRegularStyle(
+                          color: ColorManager.error,
+                        ),
+                      ),
+                    ),
+                    const Gap(10),
+                  ],
+                )
+              : const SizedBox.shrink(),
         ],
       ),
     );

@@ -4,6 +4,7 @@ import 'package:recipe_finder/routes/navigation_manager.dart';
 import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
+import 'package:recipe_finder/ui/pages/settings/cubit/settings_cubit.dart';
 import 'package:recipe_finder/ui/pages/splash_screen/cubit/splash_screen_cubit.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,6 +24,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void _init() async {
     final cubit = BlocProvider.of<SplashScreenCubit>(context);
     cubit.init();
+
+    final settingCubit = BlocProvider.of<SettingsCubit>(context);
+    settingCubit.init();
   }
 
   void _navigate(SplashScreenState state) {

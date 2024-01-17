@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:recipe_finder/data/models/category.dart';
 import 'package:recipe_finder/data/models/ingredient.dart';
+import 'package:recipe_finder/data/models/step.dart';
 import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
 import 'package:recipe_finder/ui/bloc/category/category_bloc.dart';
 import 'package:recipe_finder/ui/bloc/ingredient/ingredient_bloc.dart';
@@ -13,6 +14,7 @@ import 'package:recipe_finder/ui/pages/recipes/widgets/input_autocomplete_search
 import 'package:recipe_finder/ui/pages/recipes/widgets/list_ingredient_selected.dart';
 import 'package:recipe_finder/ui/pages/recipes/widgets/step_input.dart';
 import 'package:recipe_finder/utils/extensions.dart';
+import 'package:recipe_finder/utils/functions.dart';
 import 'package:recipe_finder/utils/validations.dart';
 import 'package:recipe_finder/widgets/button_custom.dart';
 import 'package:recipe_finder/widgets/image_picker.dart';
@@ -35,6 +37,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
   final List<Ingredient> _selectedIngredients = [];
   final List<Map<String, dynamic>> _steps = [];
   final GlobalKey<FormState> _formKey = GlobalKey();
+  String stepsError = '';
 
   @override
   void initState() {
@@ -76,9 +79,9 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
 
   void _saveRecipe() {
     var isOk = _formKey.currentState!.validate();
-    if (isOk) {
+    if (validateSteps() && isOk) {
       parseData();
-      // print(data);
+      print(data);
     }
   }
 
@@ -112,6 +115,49 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
     );
   }
 
+  bool validateSteps() {
+    if (_steps.isEmpty) {
+      setStepsError('is_step_empty');
+      return false;
+    }
+    for (var e in _steps) {
+      int index = _steps.indexOf(e);
+      StepData step = StepData.fromJson(e);
+      if (step.name == '') {
+        setStepsError('is_step_name_empty', value: ['${index + 1}']);
+        return false;
+      }
+
+      if (step.actions.isEmpty) {
+        setStepsError('is_step_without_actions', value: ['"${step.name}"']);
+        return false;
+      }
+
+      if (step.actions.isNotEmpty) {
+        for (var a in step.actions) {
+          int index = step.actions.indexOf(a);
+          if (a.name == '' || a.name == null) {
+            setStepsError(
+              'is_action_step_empty',
+              value: ['#${index + 1}', '"${step.name}"'],
+            );
+            return false;
+          }
+        }
+      }
+    }
+    clearStepsError();
+    return true;
+  }
+
+  void setStepsError(String key, {List<String> value = const []}) {
+    setState(() => stepsError = formatValidationMessage(key, value, context));
+  }
+
+  void clearStepsError() {
+    setState(() => stepsError = '');
+  }
+
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive(context);
@@ -141,7 +187,10 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                     onFileChanged: (file) => handlePickImage(file),
                   ),
                   InputCustom(
-                    onChange: (value) => data["name"] = value,
+                    formKey: _formKey,
+                    onChange: (value) {
+                      data["name"] = value;
+                    },
                     hint: context.translate('name_recipe'),
                     label: context.translate('name_recipe'),
                     validator: (value) =>
@@ -153,6 +202,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                     ]),
                   ),
                   InputCustom(
+                    formKey: _formKey,
                     onChange: (value) => data["description"] = value,
                     hint: context.translate('description_recipe'),
                     label: context.translate('description_recipe'),
@@ -165,6 +215,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                     ]),
                   ),
                   InputCustom(
+                    formKey: _formKey,
                     onChange: (value) => data["cooking_time"] = value,
                     hint: context.translate('cooking_time'),
                     label: context.translate('cooking_time'),
@@ -196,7 +247,10 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                       );
                     },
                   ),
-                  StepInput(steps: _steps),
+                  StepInput(
+                    steps: _steps,
+                    messageError: stepsError,
+                  ),
                   const UploadVideoInput(),
                   ButtonCustom(
                     onPressed: () => _saveRecipe(),
@@ -223,7 +277,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
         (value) => Validations.isRequired(value,
             message: context.translate('is_required')),
         (_) => Validations.isNotEmptyList(_selectedIngredients,
-            message: context.translate('is_empty_list')),
+            message: context.translate('is_empty_select')),
       ]),
       bottomMargin: 20,
       onChanged: onChangeSearchSuggestionCategory,
@@ -313,7 +367,6 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
   Widget _itemSearchCategory(Category category) {
     return ListTile(
       title: Text(category.name.capitalize()),
-      // subtitle: Text(ingredient.category.capitalize()),
       onTap: () => onTapCategory(category),
     );
   }

@@ -29,6 +29,7 @@ class InputCustom extends StatelessWidget {
   final bool readOnly;
   final Widget? customSuffixWidget;
   final TextInputAction inputAction;
+  final GlobalKey<FormState>? formKey;
 
   const InputCustom({
     super.key,
@@ -54,6 +55,7 @@ class InputCustom extends StatelessWidget {
     this.readOnly = false,
     this.customSuffixWidget,
     this.inputAction = TextInputAction.next,
+    this.formKey,
   });
 
   @override
@@ -120,7 +122,10 @@ class InputCustom extends StatelessWidget {
             ),
             textAlign: TextAlign.start,
             validator: validator,
-            onChanged: onChange,
+            onChanged: (value) {
+              formKey?.currentState?.validate();
+              onChange(value);
+            },
           ),
         );
       },
