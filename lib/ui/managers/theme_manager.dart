@@ -80,10 +80,14 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
     inputDecorationTheme: InputDecorationTheme(
       contentPadding: const EdgeInsets.all(8),
       hintStyle: getRegularStyle(
-        color: isDark ? Colors.white : ColorManager.textPrimary,
+        color: isDark
+            ? Colors.white.withOpacity(0.6)
+            : ColorManager.textPrimary.withOpacity(0.6),
       ),
       labelStyle: getMediumStyle(
-        color: isDark ? Colors.white : ColorManager.textPrimary,
+        color: isDark
+            ? Colors.white.withOpacity(0.6)
+            : ColorManager.textPrimary.withOpacity(0.6),
       ),
       suffixStyle: getMediumStyle(
         color: ColorManager.placeholderColor,

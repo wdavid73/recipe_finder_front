@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_finder/utils/extensions.dart';
 
@@ -20,4 +24,29 @@ String formatValidationMessage(
     message = message.replaceAll('%$index', value);
   });
   return message;
+}
+
+FormData parseMapToFormData(Map<String, dynamic> map) {
+  FormData formData = FormData();
+
+  map.forEach((key, value) {
+    if (value is String) {
+      formData.fields.add(MapEntry(key, value));
+    } else if (value is int) {
+      formData.fields.add(MapEntry(key, value.toString()));
+    } else if (value is List<int>) {
+      formData.fields
+          .add(MapEntry(key, value.map((e) => e.toString()).join(',')));
+    } else if (value is List<Map<String, dynamic>>) {
+      formData.fields.add(MapEntry(key, jsonEncode(value)));
+    } else if (value is File && key == 'main_picture') {
+      String extension = value.path.split('.').last;
+      formData.files.add(MapEntry(
+        key,
+        MultipartFile.fromFileSync(value.path, filename: 'image.$extension'),
+      ));
+    }
+  });
+
+  return formData;
 }

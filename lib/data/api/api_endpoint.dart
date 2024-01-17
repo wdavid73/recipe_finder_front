@@ -5,5 +5,6 @@ class ApiEndpoint {
   static String auth = '/auth';
   static String category = '/category';
   static String ingredient = '/ingredient';
+  static String recipe = '/recipe';
   static String test = 'test/';
 }

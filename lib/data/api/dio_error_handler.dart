@@ -16,9 +16,9 @@ String? buildErrorMessage(dynamic responseData) {
   final List<String> errorMessages = [];
   void processKeyValuePair(dynamic key, dynamic value) {
     if (value is List) {
-      errorMessages.add(value.join(', '));
+      errorMessages.add("$key: ${value.join(', ')}");
     } else {
-      errorMessages.add("$value");
+      errorMessages.add("$key: $value");
     }
   }
 

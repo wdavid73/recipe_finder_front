@@ -1,14 +1,18 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_finder/data/models/category.dart';
 import 'package:recipe_finder/data/models/ingredient.dart';
 import 'package:recipe_finder/data/models/step.dart';
+import 'package:recipe_finder/routes/navigation_manager.dart';
 import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
 import 'package:recipe_finder/ui/bloc/category/category_bloc.dart';
 import 'package:recipe_finder/ui/bloc/ingredient/ingredient_bloc.dart';
+import 'package:recipe_finder/ui/bloc/recipe/recipe_bloc.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
+import 'package:recipe_finder/ui/managers/snack_bar_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/ui/pages/recipes/widgets/input_autocomplete_search.dart';
 import 'package:recipe_finder/ui/pages/recipes/widgets/list_ingredient_selected.dart';
@@ -34,8 +38,8 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
   final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   final FocusNode _focusNodeCategory = FocusNode();
-  final List<Ingredient> _selectedIngredients = [];
-  final List<Map<String, dynamic>> _steps = [];
+  List<Ingredient> _selectedIngredients = [];
+  List<Map<String, dynamic>> _steps = [];
   final GlobalKey<FormState> _formKey = GlobalKey();
   String stepsError = '';
 
@@ -57,7 +61,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
     'name': '',
     'description': '',
     'cooking_time': null,
-    'category': '',
+    'category_id': null,
     'main_picture': null,
     'ingredients': [],
     'steps': [],
@@ -71,17 +75,21 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
     }
   }
 
-  void parseData() {
+  FormData parseData() {
     data["ingredients"] = _selectedIngredients.map((item) => item.id).toList();
-    data['main_picture'] = _file;
+    data["main_picture"] = _file;
     data['steps'] = _steps;
+
+    FormData formData = parseMapToFormData(data);
+    return formData;
   }
 
   void _saveRecipe() {
     var isOk = _formKey.currentState!.validate();
     if (validateSteps() && isOk) {
-      parseData();
-      print(data);
+      FormData formData = parseData();
+      final recipeBloc = BlocProvider.of<RecipeBloc>(context);
+      recipeBloc.add(CreateRecipe(data: formData));
     }
   }
 
@@ -111,7 +119,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
     _searchController.text =
         "${category.name} (${context.translate(translateKey)})";
     setState(
-      () => data["category"] = category.name,
+      () => data["category_id"] = category.id,
     );
   }
 
@@ -158,6 +166,25 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
     setState(() => stepsError = '');
   }
 
+  void _createSuccess() {
+    _formKey.currentState!.reset();
+    FocusManager.instance.primaryFocus?.unfocus();
+    setState(() {
+      _selectedIngredients = [];
+      _steps = [];
+      data = {};
+      _file = null;
+    });
+    SnackBarManager.showSnackBar(
+      context,
+      message: context.translate('recipe_created'),
+      icon: Icons.check_circle_outline,
+      colorIcon: Colors.greenAccent,
+    );
+    Future.delayed(const Duration(milliseconds: 1000))
+        .then((_) => Navigator.pop(context));
+  }
+
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive(context);
@@ -171,96 +198,120 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
         ),
       ),
       body: SafeArea(
-        child: Container(
-          width: responsive.width,
-          height: responsive.height,
-          padding: const EdgeInsets.all(10),
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  ImagePickerInput(
-                    image: _file,
-                    onFileChanged: (file) => handlePickImage(file),
+        child: BlocConsumer<RecipeBloc, RecipeState>(
+          listener: (context, state) {
+            if (state.status == CreateRecipeStatus.success) {
+              _createSuccess();
+            }
+            if (state.status == CreateRecipeStatus.error) {
+              SnackBarManager.showSnackBar(
+                context,
+                message: state.errorMessage,
+                icon: Icons.error,
+              );
+            }
+          },
+          builder: (context, state) {
+            return Container(
+              width: responsive.width,
+              height: responsive.height,
+              padding: const EdgeInsets.all(10),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      ImagePickerInput(
+                        image: _file,
+                        onFileChanged: (file) => handlePickImage(file),
+                      ),
+                      InputCustom(
+                        formKey: _formKey,
+                        onChange: (value) {
+                          data["name"] = value;
+                        },
+                        hint: context.translate('name_recipe'),
+                        label: context.translate('name_recipe'),
+                        validator: (value) =>
+                            pipeFirstNotNullOrNull<String, String>(value!, [
+                          (value) => Validations.isRequired(value,
+                              message: context.translate('is_required')),
+                          (value) => Validations.isNotEmpty(value,
+                              message: context.translate('is_empty')),
+                        ]),
+                      ),
+                      InputCustom(
+                        formKey: _formKey,
+                        onChange: (value) => data["description"] = value,
+                        hint: context.translate('description_recipe'),
+                        label: context.translate('description_recipe'),
+                        validator: (value) =>
+                            pipeFirstNotNullOrNull<String, String>(value!, [
+                          (value) => Validations.isRequired(value,
+                              message: context.translate('is_required')),
+                          (value) => Validations.isNotEmpty(value,
+                              message: context.translate('is_empty')),
+                        ]),
+                      ),
+                      InputCustom(
+                        formKey: _formKey,
+                        onChange: (value) {
+                          if (value.isNotEmpty) {
+                            data["cooking_time"] = int.parse(value);
+                          }
+                        },
+                        hint: context.translate('cooking_time'),
+                        label: context.translate('cooking_time'),
+                        keyboardType: TextInputType.number,
+                        validator: (value) =>
+                            pipeFirstNotNullOrNull<String, String>(value!, [
+                          (value) => Validations.isRequired(value,
+                              message: context.translate('is_required')),
+                          (value) => Validations.isNotEmpty(value,
+                              message: context.translate('is_empty')),
+                        ]),
+                        textSuffix: "Min",
+                      ),
+                      _inputSearchCategory(),
+                      _inputSearchIngredient(context),
+                      ListIngredientsSelected(
+                        items: _selectedIngredients,
+                        itemBuilder: (index) {
+                          return Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 1.0),
+                            child: Chip(
+                              onDeleted: () => setState(
+                                () => _selectedIngredients.removeAt(index),
+                              ),
+                              label: Text(
+                                _translateText(
+                                    _selectedIngredients[index].name),
+                                style: getRegularStyle(),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      StepInput(
+                        steps: _steps,
+                        messageError: stepsError,
+                      ),
+                      const UploadVideoInput(),
+                      ButtonCustom(
+                        onPressed: () => _saveRecipe(),
+                        text: context.translate('save'),
+                        width: responsive.wp(90),
+                        isLoading: state.loadingCreate,
+                      )
+                    ],
                   ),
-                  InputCustom(
-                    formKey: _formKey,
-                    onChange: (value) {
-                      data["name"] = value;
-                    },
-                    hint: context.translate('name_recipe'),
-                    label: context.translate('name_recipe'),
-                    validator: (value) =>
-                        pipeFirstNotNullOrNull<String, String>(value!, [
-                      (value) => Validations.isRequired(value,
-                          message: context.translate('is_required')),
-                      (value) => Validations.isNotEmpty(value,
-                          message: context.translate('is_empty')),
-                    ]),
-                  ),
-                  InputCustom(
-                    formKey: _formKey,
-                    onChange: (value) => data["description"] = value,
-                    hint: context.translate('description_recipe'),
-                    label: context.translate('description_recipe'),
-                    validator: (value) =>
-                        pipeFirstNotNullOrNull<String, String>(value!, [
-                      (value) => Validations.isRequired(value,
-                          message: context.translate('is_required')),
-                      (value) => Validations.isNotEmpty(value,
-                          message: context.translate('is_empty')),
-                    ]),
-                  ),
-                  InputCustom(
-                    formKey: _formKey,
-                    onChange: (value) => data["cooking_time"] = value,
-                    hint: context.translate('cooking_time'),
-                    label: context.translate('cooking_time'),
-                    keyboardType: TextInputType.number,
-                    validator: (value) =>
-                        pipeFirstNotNullOrNull<String, String>(value!, [
-                      (value) => Validations.isRequired(value,
-                          message: context.translate('is_required')),
-                      (value) => Validations.isNotEmpty(value,
-                          message: context.translate('is_empty')),
-                    ]),
-                  ),
-                  _inputSearchCategory(),
-                  _inputSearchIngredient(context),
-                  ListIngredientsSelected(
-                    items: _selectedIngredients,
-                    itemBuilder: (index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 1.0),
-                        child: Chip(
-                          onDeleted: () => setState(
-                            () => _selectedIngredients.removeAt(index),
-                          ),
-                          label: Text(
-                            _translateText(_selectedIngredients[index].name),
-                            style: getRegularStyle(),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  StepInput(
-                    steps: _steps,
-                    messageError: stepsError,
-                  ),
-                  const UploadVideoInput(),
-                  ButtonCustom(
-                    onPressed: () => _saveRecipe(),
-                    text: context.translate('save'),
-                    width: responsive.wp(90),
-                  )
-                ],
+                ),
               ),
-            ),
-          ),
+            );
+          },
         ),
       ),
     );

@@ -67,6 +67,7 @@ Map<String, String> enBase = {
   'add_action': 'Add action',
   'action': 'Action',
   'find_ingredient': 'Find ingredient',
+  'recipe_created': 'Recipe created successfully',
   // GENERAL
   'error': 'Error!',
   'loading': 'Loading...',

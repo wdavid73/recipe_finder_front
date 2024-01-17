@@ -49,10 +49,5 @@ class IngredientBloc extends Bloc<IngredientEvent, IngredientState> {
       ingredients: response.data,
       loading: false,
     );
-    /* List<Ingredient> ingredients = state.ingredients;
-    List<Ingredient> ingredientsFiltered = ingredients
-        .where((ingredient) => ingredient.name.toLowerCase().contains(name))
-        .toList();
-    return state.copyWith(ingredients: ingredientsFiltered); */
   }
 }
