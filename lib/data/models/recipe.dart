@@ -9,6 +9,7 @@ class Recipe extends RecipeEntity {
   bool isFavorite;
   String mainPicture;
   Category category;
+  String rating;
 
   Recipe({
     required this.idRecipe,
@@ -18,6 +19,7 @@ class Recipe extends RecipeEntity {
     this.isFavorite = false,
     required this.mainPicture,
     required this.category,
+    this.rating = '0.0',
   });
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
@@ -27,6 +29,7 @@ class Recipe extends RecipeEntity {
       description: json['description'] as String,
       cookingTime: json['cooking_time'] as int,
       mainPicture: json["main_picture"] as String,
+      rating: json['ratings'] as String,
       category: Category.fromJson(json['category']),
     );
   }

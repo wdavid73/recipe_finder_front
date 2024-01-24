@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:recipe_finder/data/models/recipe.dart';
 import 'package:recipe_finder/routes/navigation_manager.dart';
+import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
+import 'package:recipe_finder/ui/bloc/recipe/recipe_bloc.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/ui/pages/recipes/widgets/bottom_sheet_filter_recipe.dart';
 import 'package:recipe_finder/utils/extensions.dart';
 import 'package:recipe_finder/widgets/button_custom.dart';
+import 'package:recipe_finder/widgets/image_network.dart';
 import 'package:recipe_finder/widgets/input_custom.dart';
+import 'package:recipe_finder/widgets/loading.dart';
+import 'package:recipe_finder/widgets/loading_first_page.dart';
 
 class RecipesPage extends StatefulWidget {
   const RecipesPage({super.key});
@@ -23,6 +30,8 @@ class _RecipesPageState extends State<RecipesPage>
   late AnimationController _animationController;
   late Animation<Offset> _slideAnimation;
   Duration animationDuration = const Duration(milliseconds: 500);
+  final PagingController<int, Recipe> _pagingController =
+      PagingController(firstPageKey: 0);
 
   @override
   void initState() {
@@ -40,6 +49,7 @@ class _RecipesPageState extends State<RecipesPage>
         curve: Curves.easeInOut,
       ),
     );
+    _init();
     super.initState();
   }
 
@@ -67,9 +77,51 @@ class _RecipesPageState extends State<RecipesPage>
     );
   }
 
+  void _init() {
+    _pagingController.addPageRequestListener(_fetchData);
+  }
+
+  Future<void> _fetchData(int pageKey) async {
+    try {
+      final recipeBloc = BlocProvider.of<RecipeBloc>(context);
+      recipeBloc.add(SetParamsEvent(key: 'skip', value: pageKey));
+      recipeBloc.add(GetRecipesByUser());
+    } catch (e) {
+      _pagingController.error = e;
+    }
+  }
+
+  void _setItemsInPage() {
+    final recipeBloc = BlocProvider.of<RecipeBloc>(context);
+    insertItemsInList(
+      items: recipeBloc.state.recipes,
+      skip: recipeBloc.state.params['skip'],
+      limit: recipeBloc.state.params['limit'],
+      total: recipeBloc.state.total,
+    );
+  }
+
+  void insertItemsInList({
+    required dynamic items,
+    required int skip,
+    required int limit,
+    required int total,
+  }) {
+    final fetchedItemsCount = _pagingController.itemList?.length ?? 0;
+    final bool isLastPage = fetchedItemsCount >= total || items.length == 0;
+
+    if (isLastPage) {
+      _pagingController.appendLastPage(items);
+    } else {
+      final nextPageKey = (skip + limit).toInt();
+      _pagingController.appendPage(items, nextPageKey);
+    }
+  }
+
   @override
   void dispose() {
     _animationController.dispose();
+    _pagingController.dispose();
     super.dispose();
   }
 
@@ -78,61 +130,7 @@ class _RecipesPageState extends State<RecipesPage>
     final Responsive responsive = Responsive(context);
     return Scaffold(
       appBar: AppBar(
-        title: AnimatedSwitcher(
-          duration: animationDuration,
-          child: showSearchRecipe
-              ? SlideTransition(
-                  position: _slideAnimation,
-                  child: InputCustom(
-                    onChange: (value) {},
-                    hint: context.translate('search'),
-                    label: context.translate('search'),
-                    bottomPadding: 0,
-                    iconPrefix: const Icon(Icons.search),
-                    customSuffixWidget: Container(
-                      width: 70,
-                      margin: const EdgeInsets.only(right: 10),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          SizedBox(
-                            width: 30,
-                            height: 30,
-                            child: IconButton(
-                              padding: EdgeInsets.zero,
-                              onPressed: () => showSearchRecipeBar(false),
-                              icon: const Icon(
-                                Icons.close,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          const Gap(5),
-                          SizedBox(
-                            width: 30,
-                            height: 30,
-                            child: IconButton(
-                              padding: EdgeInsets.zero,
-                              onPressed: () => showBottomSheetFilter(),
-                              icon: const Icon(
-                                Icons.tune,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-              : Text(
-                  context.translate('my_recipes'),
-                  style: getSemiBoldStyle(
-                    fontSize: responsive.dp(1.8),
-                  ),
-                ),
-        ),
+        title: _titleAppBar(context, responsive),
         centerTitle: true,
         actions: [
           !showSearchRecipe
@@ -176,26 +174,54 @@ class _RecipesPageState extends State<RecipesPage>
                   ),
                 ),
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 15.0, top: 5),
-                  child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    itemBuilder: (context, index) {
-                      return Animate(
-                        effects: const [
-                          SlideEffect(
-                            begin: Offset(1.0, 0.0),
-                            end: Offset(0, 0),
-                            curve: Curves.decelerate,
-                            delay: Duration(milliseconds: 300),
-                          )
-                        ],
-                        child: _recipeItem(responsive, context),
-                      );
-                    },
-                  ),
-                ),
+              BlocConsumer<RecipeBloc, RecipeState>(
+                listener: (context, state) {
+                  if (state.statusGet == GetRecipeStatus.success) {
+                    _setItemsInPage();
+                  }
+                },
+                builder: (context, state) {
+                  return Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        await Future.delayed(const Duration(milliseconds: 500))
+                            .then(
+                          (_) => Future.sync(
+                            () => _pagingController.refresh(),
+                          ),
+                        );
+                      },
+                      child: PagedListView<int, Recipe>(
+                        pagingController: _pagingController,
+                        builderDelegate: PagedChildBuilderDelegate<Recipe>(
+                          firstPageProgressIndicatorBuilder: (context) {
+                            return const LoadingFirstPage();
+                          },
+                          newPageProgressIndicatorBuilder: (context) {
+                            return const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              child: Loading(
+                                orientation: Orientation.landscape,
+                              ),
+                            );
+                          },
+                          itemBuilder: (context, recipe, index) {
+                            return Animate(
+                              effects: const [
+                                SlideEffect(
+                                  begin: Offset(1.0, 0.0),
+                                  end: Offset(0, 0),
+                                  curve: Curves.decelerate,
+                                ),
+                              ],
+                              child: _recipeItem(recipe, responsive, context),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -204,13 +230,72 @@ class _RecipesPageState extends State<RecipesPage>
     );
   }
 
-  Widget _recipeItem(Responsive responsive, BuildContext context) {
+  AnimatedSwitcher _titleAppBar(BuildContext context, Responsive responsive) {
+    return AnimatedSwitcher(
+      duration: animationDuration,
+      child: showSearchRecipe
+          ? SlideTransition(
+              position: _slideAnimation,
+              child: InputCustom(
+                onChange: (value) {},
+                hint: context.translate('search'),
+                label: context.translate('search'),
+                bottomPadding: 0,
+                iconPrefix: const Icon(Icons.search),
+                customSuffixWidget: Container(
+                  width: 70,
+                  margin: const EdgeInsets.only(right: 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        width: 30,
+                        height: 30,
+                        child: IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: () => showSearchRecipeBar(false),
+                          icon: const Icon(
+                            Icons.close,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      const Gap(5),
+                      SizedBox(
+                        width: 30,
+                        height: 30,
+                        child: IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: () => showBottomSheetFilter(),
+                          icon: const Icon(
+                            Icons.tune,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          : Text(
+              context.translate('my_recipes'),
+              style: getSemiBoldStyle(
+                fontSize: responsive.dp(1.8),
+              ),
+            ),
+    );
+  }
+
+  Widget _recipeItem(
+      Recipe recipe, Responsive responsive, BuildContext context) {
     return Container(
       height: 250,
       margin: const EdgeInsets.only(bottom: 20),
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        color: ColorManager.secondaryBackgroundColor,
+        color: ColorManager.placeholderColor,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -218,18 +303,28 @@ class _RecipesPageState extends State<RecipesPage>
           Container(
             color: ColorManager.accentColorLight,
             width: responsive.width,
-            child: _recipeInformation(responsive, context),
+            child: _recipeInformation(
+              recipe,
+              responsive,
+              context,
+            ),
           ),
           Expanded(
             child: Container(
+              alignment: Alignment.center,
               width: responsive.width,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                    'assets/images/recipe_image_example.jpg',
-                  ),
-                  fit: BoxFit.fill,
-                ),
+              child: ImageNetwork(
+                imageUrl: recipe.mainPicture,
+                imageBuilder: (context, imageProvider) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           )
@@ -238,7 +333,8 @@ class _RecipesPageState extends State<RecipesPage>
     );
   }
 
-  Widget _recipeInformation(Responsive responsive, BuildContext context) {
+  Widget _recipeInformation(
+      Recipe recipe, Responsive responsive, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
       child: Column(
@@ -262,23 +358,19 @@ class _RecipesPageState extends State<RecipesPage>
                           fontSize: responsive.dp(1.6),
                         ),
                         children: [
-                          const TextSpan(text: 'Chocolate Chip Cookies'),
+                          TextSpan(text: "${recipe.id} - "),
+                          TextSpan(text: recipe.name.capitalize()),
                           const TextSpan(text: ' - '),
                           TextSpan(
                             text: context.translate(
-                              'Soups and Stews'.toLowerCase(),
+                              recipe.category.name
+                                  .toLowerCase()
+                                  .replaceAll(' ', '_'),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    /* Text(
-                      "- By You",
-                      style: getBoldStyle(
-                        color: Colors.white,
-                        fontSize: responsive.dp(1.6),
-                      ),
-                    ), */
                   ],
                 ),
               ),
@@ -289,7 +381,7 @@ class _RecipesPageState extends State<RecipesPage>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "4.7",
+                      recipe.rating,
                       style: getBoldStyle(
                         color: Colors.white,
                         fontSize: responsive.dp(1.6),

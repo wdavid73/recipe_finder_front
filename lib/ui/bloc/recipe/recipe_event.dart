@@ -13,3 +13,10 @@ class CreateRecipe extends RecipeEvent {
   final FormData data;
   const CreateRecipe({required this.data});
 }
+
+class SetParamsEvent extends RecipeEvent {
+  final String key;
+  final dynamic value;
+
+  const SetParamsEvent({required this.key, required this.value});
+}

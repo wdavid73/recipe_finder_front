@@ -92,6 +92,8 @@ Map<String, String> esBase = {
   'unknown': 'Se ha producido un error desconocido al procesar la solicitud.',
   'cancel': 'La solicitud ha sido cancelada manualmente por el usuario.',
   'not_internet': 'No se ha detectado conexión a Internet, inténtelo de nuevo.',
+  'image_not_found': 'Imagen no encontrada',
+  'error_get_image': 'Error obteniendo la imagen.'
 };
 
 Map<String, String> es = {

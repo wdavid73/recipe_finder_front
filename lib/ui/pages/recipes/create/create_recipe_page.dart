@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:recipe_finder/data/models/category.dart';
 import 'package:recipe_finder/data/models/ingredient.dart';
 import 'package:recipe_finder/data/models/step.dart';
-import 'package:recipe_finder/routes/navigation_manager.dart';
 import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
 import 'package:recipe_finder/ui/bloc/category/category_bloc.dart';
 import 'package:recipe_finder/ui/bloc/ingredient/ingredient_bloc.dart';

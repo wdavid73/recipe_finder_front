@@ -91,6 +91,8 @@ Map<String, String> enBase = {
   'unknown': 'An unknown error occurred processing the request.',
   'cancel': 'The request was manually cancelled by the user.',
   'not_internet': 'No internet connection detected, please try again.',
+  'image_not_found': 'Image not found.',
+  'error_get_image': 'Error getting image.'
 };
 
 Map<String, String> en = {

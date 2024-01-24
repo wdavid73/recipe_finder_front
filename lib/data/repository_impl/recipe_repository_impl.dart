@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:recipe_finder/data/api/api_client.dart';
 import 'package:recipe_finder/data/api/api_endpoint.dart';
 import 'package:recipe_finder/data/api/response.dart';
+import 'package:recipe_finder/data/models/list_data.dart';
+import 'package:recipe_finder/data/models/recipe.dart';
 import 'package:recipe_finder/domain/repository/recipe_repository.dart';
 
 class RecipeRepositoryImpl extends RecipeRepository {
@@ -16,15 +18,23 @@ class RecipeRepositoryImpl extends RecipeRepository {
         '${ApiEndpoint.recipe}/',
         queryParams: queryParams,
       );
-      print(response.data);
-      return ResponseSuccess(null, response.statusCode!);
+      ListData listData = ListData(
+        total: response.data['total'],
+        data: parseRecipes(response.data['data']),
+      );
+      return ResponseSuccess(listData, response.statusCode!);
     } catch (e) {
       DioException error = e as DioException;
-      return ResponseFailed(DioException(
+      return ResponseFailed(
+        DioException(
           error: e,
           type: error.type,
           message: error.message,
-          requestOptions: RequestOptions(path: ApiEndpoint.recipe)));
+          requestOptions: RequestOptions(
+            path: ApiEndpoint.recipe,
+          ),
+        ),
+      );
     }
   }
 
@@ -32,8 +42,7 @@ class RecipeRepositoryImpl extends RecipeRepository {
   Future<ResponseState> create({required dynamic body}) async {
     try {
       final response = await _client.post('${ApiEndpoint.recipe}/', body);
-      print("create recipe ${response.data}");
-      return ResponseSuccess(null, 201);
+      return ResponseSuccess(response.data, response.statusCode!);
     } catch (e) {
       DioException error = e as DioException;
       return ResponseFailed(
