@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:recipe_finder/utils/extensions.dart';
 
 DateTime parseStringToDateTime(String date) {
@@ -49,4 +50,22 @@ FormData parseMapToFormData(Map<String, dynamic> map) {
   });
 
   return formData;
+}
+
+void insertItemsInList<T>({
+  required PagingController<int, T> pagingController,
+  required List<T> items,
+  required int skip,
+  required int limit,
+  required int total,
+}) {
+  final fetchedItemsCount = pagingController.itemList?.length ?? 0;
+  final bool isLastPage = fetchedItemsCount >= total || items.isEmpty;
+
+  if (isLastPage) {
+    pagingController.appendLastPage(items);
+  } else {
+    final nextPageKey = (skip + limit).toInt();
+    pagingController.appendPage(items, nextPageKey);
+  }
 }

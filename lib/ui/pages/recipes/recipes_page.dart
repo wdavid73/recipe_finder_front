@@ -11,6 +11,7 @@ import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/ui/pages/recipes/widgets/bottom_sheet_filter_recipe.dart';
 import 'package:recipe_finder/utils/extensions.dart';
+import 'package:recipe_finder/utils/functions.dart';
 import 'package:recipe_finder/widgets/button_custom.dart';
 import 'package:recipe_finder/widgets/image_network.dart';
 import 'package:recipe_finder/widgets/input_custom.dart';
@@ -94,28 +95,12 @@ class _RecipesPageState extends State<RecipesPage>
   void _setItemsInPage() {
     final recipeBloc = BlocProvider.of<RecipeBloc>(context);
     insertItemsInList(
+      pagingController: _pagingController,
       items: recipeBloc.state.recipes,
       skip: recipeBloc.state.params['skip'],
       limit: recipeBloc.state.params['limit'],
       total: recipeBloc.state.total,
     );
-  }
-
-  void insertItemsInList({
-    required dynamic items,
-    required int skip,
-    required int limit,
-    required int total,
-  }) {
-    final fetchedItemsCount = _pagingController.itemList?.length ?? 0;
-    final bool isLastPage = fetchedItemsCount >= total || items.length == 0;
-
-    if (isLastPage) {
-      _pagingController.appendLastPage(items);
-    } else {
-      final nextPageKey = (skip + limit).toInt();
-      _pagingController.appendPage(items, nextPageKey);
-    }
   }
 
   @override
