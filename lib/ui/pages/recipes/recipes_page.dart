@@ -50,6 +50,7 @@ class _RecipesPageState extends State<RecipesPage>
         curve: Curves.easeInOut,
       ),
     );
+    _resetParams();
     _init();
     super.initState();
   }
@@ -75,7 +76,17 @@ class _RecipesPageState extends State<RecipesPage>
       builder: (context) {
         return const BottomSheetFiltersRecipe();
       },
-    );
+      isDismissible: false,
+    ).then((value) {
+      if (value != null) {
+        _pagingController.refresh();
+      }
+    });
+  }
+
+  void _resetParams() {
+    final recipeBloc = BlocProvider.of<RecipeBloc>(context);
+    recipeBloc.add(ResetParamsEvent());
   }
 
   void _init() {
@@ -160,6 +171,10 @@ class _RecipesPageState extends State<RecipesPage>
                 ),
               ),
               BlocConsumer<RecipeBloc, RecipeState>(
+                listenWhen: (previous, current) {
+                  return previous.statusGet == GetRecipeStatus.none &&
+                      current.statusGet == GetRecipeStatus.success;
+                },
                 listener: (context, state) {
                   if (state.statusGet == GetRecipeStatus.success) {
                     _setItemsInPage();

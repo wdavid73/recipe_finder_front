@@ -13,6 +13,7 @@ class InputSearchSuggestion extends StatelessWidget {
   final void Function(String)? onChanged;
   final double bottomMargin;
   final String? Function(String?)? validator;
+  final EdgeInsets padding;
   const InputSearchSuggestion({
     super.key,
     required this.childBuilder,
@@ -22,6 +23,7 @@ class InputSearchSuggestion extends StatelessWidget {
     this.onChanged,
     this.bottomMargin = 20,
     this.validator,
+    this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
   });
 
   @override
@@ -33,7 +35,7 @@ class InputSearchSuggestion extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: padding,
             child: TextFormField(
               controller: controller,
               focusNode: focusNode,

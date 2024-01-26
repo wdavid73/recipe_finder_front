@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:recipe_finder/data/api/api_endpoint.dart';
 import 'package:recipe_finder/data/api/interceptors/api_errors_interceptor.dart';
 import 'package:recipe_finder/data/api/interceptors/api_token_interceptor.dart';
+import 'package:recipe_finder/utils/functions.dart';
 
 String baseUrl = ApiEndpoint.baseUrl;
 
@@ -30,7 +31,7 @@ class ApiClient {
       );
 
   Future<Response> get(String url, {Map<String, dynamic>? queryParams}) =>
-      _client.get(url, queryParameters: queryParams);
+      _client.get(url, queryParameters: serializerQueryParams(queryParams));
   Future<Response> post(String url, dynamic body) =>
       _client.post(url, data: body);
   Future<Response> put(String url, dynamic body) =>

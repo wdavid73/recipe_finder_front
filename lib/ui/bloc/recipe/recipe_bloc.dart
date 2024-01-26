@@ -16,6 +16,10 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
       emit.call(_setParams(key: event.key, value: event.value));
     });
 
+    on<ResetParamsEvent>((event, emit) {
+      emit.call(_resetParams());
+    });
+
     on<CreateRecipe>((event, emit) async {
       emit.call(state.copyWith(
         loadingCreate: true,
@@ -25,7 +29,11 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
     });
 
     on<GetRecipesByUser>((event, emit) async {
-      emit.call(state.copyWith(loading: true, statusGet: GetRecipeStatus.none));
+      emit.call(state.copyWith(
+        loading: true,
+        statusGet: GetRecipeStatus.none,
+        recipes: const <Recipe>[],
+      ));
       emit.call(await _getRecipesByUser());
     });
   }
@@ -35,6 +43,13 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
     params.addAll(state.params);
     params[key] = value;
     return state.copyWith(params: params);
+  }
+
+  RecipeState _resetParams() {
+    return state.copyWith(params: {
+      'skip': 0,
+      'limit': 15,
+    });
   }
 
   Future<RecipeState> _getRecipesByUser() async {

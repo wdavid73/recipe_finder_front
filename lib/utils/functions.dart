@@ -69,3 +69,15 @@ void insertItemsInList<T>({
     pagingController.appendPage(items, nextPageKey);
   }
 }
+
+Map<String, dynamic> serializerQueryParams(Map<String, dynamic>? queryParams) {
+  Map<String, dynamic> validatedParams = {};
+  if (queryParams != null) {
+    queryParams.forEach((key, value) {
+      if (value != null && value.toString().isNotEmpty) {
+        validatedParams[key] = value;
+      }
+    });
+  }
+  return validatedParams;
+}

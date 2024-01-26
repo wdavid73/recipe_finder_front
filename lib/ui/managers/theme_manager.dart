@@ -223,6 +223,8 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
     ),
     dividerTheme: DividerThemeData(
       color: ColorManager.divider,
+      endIndent: 15,
+      indent: 15,
     ),
     fontFamily: 'Nunito',
     bottomSheetTheme: BottomSheetThemeData(

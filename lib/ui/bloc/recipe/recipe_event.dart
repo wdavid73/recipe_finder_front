@@ -20,3 +20,5 @@ class SetParamsEvent extends RecipeEvent {
 
   const SetParamsEvent({required this.key, required this.value});
 }
+
+class ResetParamsEvent extends RecipeEvent {}
