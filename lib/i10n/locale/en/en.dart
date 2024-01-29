@@ -92,7 +92,9 @@ Map<String, String> enBase = {
   'cancel': 'The request was manually cancelled by the user.',
   'not_internet': 'No internet connection detected, please try again.',
   'image_not_found': 'Image not found.',
-  'error_get_image': 'Error getting image.'
+  'error_get_image': 'Error getting image.',
+  'not_recipe_filters': "You don't seem to have recipes for this filter.",
+  'end_list': 'You have reached the end of the list.'
 };
 
 Map<String, String> en = {

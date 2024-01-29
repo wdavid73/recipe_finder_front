@@ -8,12 +8,10 @@ import 'package:recipe_finder/ui/managers/font_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/ui/pages/recipes/widgets/input_autocomplete_search.dart';
-import 'package:recipe_finder/ui/pages/recipes/widgets/search_input.dart';
-import 'package:recipe_finder/utils/constants.dart';
 import 'package:recipe_finder/utils/extensions.dart';
-import 'package:recipe_finder/utils/validations.dart';
 import 'package:recipe_finder/widgets/button_custom.dart';
 import 'package:recipe_finder/widgets/input_custom.dart';
+import 'package:recipe_finder/widgets/loadings.dart';
 import 'package:recipe_finder/widgets/star_ratings.dart';
 
 class BottomSheetFiltersRecipe extends StatefulWidget {
@@ -47,24 +45,12 @@ class _BottomSheetFiltersRecipeState extends State<BottomSheetFiltersRecipe> {
 
   void _init() {
     final recipeBloc = BlocProvider.of<RecipeBloc>(context);
-    // _searchController = TextEditingController(text: );
-    /* String translateKey = recipeBloc.state.params['category'] != null
-        ? _translateText(recipeBloc.state.params['category'])
-        : ''; */
     if (recipeBloc.state.params['category'] != null) {
       _searchController.text = recipeBloc.state.params['category'];
     }
     setState(
       () => _selectedRating = recipeBloc.state.params['ratings'] ?? -1,
     );
-    /*
-    
-    setState(() {
-      _selectedRating = recipeBloc.state.params['ratings'] ?? -1;
-      _searchController.text = recipeBloc.state.params['category'] != null
-          ? "$translateKey (${recipeBloc.state.params['category']})"
-          : '';
-    }); */
   }
 
   String _translateText(String text) =>
@@ -99,6 +85,11 @@ class _BottomSheetFiltersRecipeState extends State<BottomSheetFiltersRecipe> {
     return recipeBloc.state.params[key] != null
         ? recipeBloc.state.params[key].toString()
         : '';
+  }
+
+  void clearCategorySelect() {
+    _searchController.text = '';
+    setFilterParams(key: "category", value: '');
   }
 
   @override
@@ -212,6 +203,8 @@ class _BottomSheetFiltersRecipeState extends State<BottomSheetFiltersRecipe> {
         controller: _searchController,
         bottomMargin: 20,
         onChanged: onChangeSearchSuggestionCategory,
+        iconSuffix: const Icon(Icons.close),
+        onPressedSuffix: clearCategorySelect,
         childBuilder: BlocBuilder<CategoryBloc, CategoryState>(
           builder: (context, state) {
             if (state.loading) {

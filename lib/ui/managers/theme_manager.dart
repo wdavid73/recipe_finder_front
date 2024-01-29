@@ -5,7 +5,8 @@ import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 ThemeData getApplicationDarkTheme({bool isDark = true}) {
   return ThemeData(
     useMaterial3: true,
-    primaryColor: isDark ? ColorManager.primaryColor : Colors.red,
+    primaryColor:
+        isDark ? ColorManager.primaryColor : ColorManager.primaryColorDark,
     primaryColorLight: ColorManager.primaryColorLight,
     primaryColorDark: ColorManager.primaryColorDark,
     disabledColor: ColorManager.disabledColor,
@@ -92,6 +93,7 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
       suffixStyle: getMediumStyle(
         color: ColorManager.placeholderColor,
       ),
+      suffixIconColor: isDark ? Colors.white : ColorManager.backgroundDarkColor,
       errorStyle: getRegularStyle(color: ColorManager.error),
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
@@ -330,5 +332,8 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
         borderRadius: BorderRadius.circular(12),
       ),
     ),
+    /* primaryTextTheme: TextTheme(
+      bodyLarge: getRegularStyle(),
+    ), */
   );
 }

@@ -13,10 +13,11 @@ import 'package:recipe_finder/ui/pages/recipes/widgets/bottom_sheet_filter_recip
 import 'package:recipe_finder/utils/extensions.dart';
 import 'package:recipe_finder/utils/functions.dart';
 import 'package:recipe_finder/widgets/button_custom.dart';
+import 'package:recipe_finder/widgets/empty_recipe_list.dart';
+import 'package:recipe_finder/widgets/end_list.dart';
 import 'package:recipe_finder/widgets/image_network.dart';
 import 'package:recipe_finder/widgets/input_custom.dart';
-import 'package:recipe_finder/widgets/loading.dart';
-import 'package:recipe_finder/widgets/loading_first_page.dart';
+import 'package:recipe_finder/widgets/loadings.dart';
 
 class RecipesPage extends StatefulWidget {
   const RecipesPage({super.key});
@@ -114,6 +115,18 @@ class _RecipesPageState extends State<RecipesPage>
     );
   }
 
+  double _calculateHeightFilters(int lengthFilters, BuildContext context) {
+    final Responsive responsive = Responsive(context);
+    double heightBase = 5;
+    if (lengthFilters == 0) {
+      return responsive.hp(heightBase);
+    }
+    return responsive.hp(heightBase * 2);
+  }
+
+  String _translateText(String text) =>
+      context.translate(text.toLowerCase().replaceAll(' ', '_'));
+
   @override
   void dispose() {
     _animationController.dispose();
@@ -146,30 +159,77 @@ class _RecipesPageState extends State<RecipesPage>
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Align(
-                alignment: Alignment.centerRight,
-                child: ButtonCustom(
-                  onPressed: () => NavigationManager.go(
-                    context,
-                    'create_recipe',
-                    transition: 'slide',
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: BlocBuilder<RecipeBloc, RecipeState>(
+                      builder: (context, state) {
+                        final List<String> keysToExclude = ['skip', 'limit'];
+                        final filteredParams = Map.fromEntries(
+                          state.params.entries.where(
+                            (entry) =>
+                                !keysToExclude.contains(entry.key) &&
+                                (entry.value != '' && entry.value != null),
+                          ),
+                        );
+                        return SizedBox(
+                          width: responsive.width,
+                          height: _calculateHeightFilters(
+                              filteredParams.length, context),
+                          child: filteredParams.isNotEmpty
+                              ? ListView.builder(
+                                  itemCount: filteredParams.length,
+                                  itemBuilder: (context, index) {
+                                    final key =
+                                        filteredParams.keys.elementAt(index);
+                                    final value = filteredParams[key] is! String
+                                        ? filteredParams[key]
+                                        : _translateText(filteredParams[key]);
+                                    return Container(
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: ColorManager.primaryColor,
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      margin: const EdgeInsets.only(bottom: 3),
+                                      child: Text(
+                                        "${context.translate(key)}: $value",
+                                      ),
+                                    );
+                                  },
+                                )
+                              : const SizedBox.shrink(),
+                        );
+                      },
+                    ),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.add),
-                      Text(
-                        context.translate('create_recipe'),
-                        style: getMediumStyle(
-                          fontSize: responsive.dp(1.6),
+                  const Gap(5),
+                  ButtonCustom(
+                    onPressed: () => NavigationManager.go(
+                      context,
+                      'create_recipe',
+                      transition: 'slide',
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.add),
+                        Text(
+                          context.translate('create_recipe'),
+                          style: getMediumStyle(
+                            fontSize: responsive.dp(1.6),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
+                ],
               ),
+              const Gap(5),
               BlocConsumer<RecipeBloc, RecipeState>(
                 listenWhen: (previous, current) {
                   return previous.statusGet == GetRecipeStatus.none &&
@@ -204,6 +264,15 @@ class _RecipesPageState extends State<RecipesPage>
                                 orientation: Orientation.landscape,
                               ),
                             );
+                          },
+                          noItemsFoundIndicatorBuilder: (context) {
+                            return EmptyRecipeList(
+                              complementMessage:
+                                  context.translate('not_recipe_filters'),
+                            );
+                          },
+                          noMoreItemsIndicatorBuilder: (context) {
+                            return const EndList();
                           },
                           itemBuilder: (context, recipe, index) {
                             return Animate(

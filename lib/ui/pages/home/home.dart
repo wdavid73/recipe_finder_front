@@ -12,7 +12,7 @@ import 'package:recipe_finder/ui/pages/home/widgets/drawer_home.dart';
 import 'package:recipe_finder/ui/pages/home/your_recipe_container.dart';
 import 'package:recipe_finder/utils/extensions.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:recipe_finder/widgets/loading_overlay.dart';
+import 'package:recipe_finder/widgets/loadings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
@@ -160,7 +160,7 @@ class _MyHomePageState extends State<HomePage>
             ),
             ...overlayLoading(
               show: state.userLoading,
-              text: context.translate('loading'),
+              context: context,
             ),
           ],
         );

@@ -93,7 +93,9 @@ Map<String, String> esBase = {
   'cancel': 'La solicitud ha sido cancelada manualmente por el usuario.',
   'not_internet': 'No se ha detectado conexión a Internet, inténtelo de nuevo.',
   'image_not_found': 'Imagen no encontrada',
-  'error_get_image': 'Error obteniendo la imagen.'
+  'error_get_image': 'Error obteniendo la imagen.',
+  'not_recipe_filters': 'Parece que no tienes recetas para este filtro.',
+  'end_list': 'Has llegado al final de la lista.'
 };
 
 Map<String, String> es = {

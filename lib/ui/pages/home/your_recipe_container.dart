@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:recipe_finder/routes/navigation_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/utils/extensions.dart';
 import 'package:recipe_finder/widgets/button_custom.dart';
+import 'package:recipe_finder/widgets/empty_recipe_list.dart';
 import 'package:recipe_finder/widgets/icon_app.dart';
 
 class YourRecipesContainer extends StatelessWidget {
@@ -36,30 +38,10 @@ class YourRecipesContainer extends StatelessWidget {
                 ),
               ),
             ),
-            IconApp(
-              icon: "assets/icons/empty_recipes.svg",
-              size: responsive.dp(20),
-            ),
-            Text(
-              context.translate('its_empty'),
-              textAlign: TextAlign.center,
-              style: getRegularStyle(
-                fontSize: responsive.dp(1.6),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              child: Text(
-                context.translate('list_empty_home'),
-                textAlign: TextAlign.center,
-                style: getRegularStyle(
-                  fontSize: responsive.dp(1.6),
-                ),
-              ),
-            ),
+            const EmptyRecipeList(),
             const Gap(10),
             ButtonCustom(
-              onPressed: () {},
+              onPressed: () => NavigationManager.go(context, 'test_page'),
               height: 30,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
@@ -14,6 +13,9 @@ class InputSearchSuggestion extends StatelessWidget {
   final double bottomMargin;
   final String? Function(String?)? validator;
   final EdgeInsets padding;
+  final Widget? iconSuffix;
+  final void Function()? onPressedSuffix;
+
   const InputSearchSuggestion({
     super.key,
     required this.childBuilder,
@@ -24,6 +26,8 @@ class InputSearchSuggestion extends StatelessWidget {
     this.bottomMargin = 20,
     this.validator,
     this.padding = const EdgeInsets.symmetric(horizontal: 8.0),
+    this.iconSuffix,
+    this.onPressedSuffix,
   });
 
   @override
@@ -44,6 +48,12 @@ class InputSearchSuggestion extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: label,
                 prefixIcon: const Icon(Icons.search),
+                suffixIcon: iconSuffix != null
+                    ? IconButton(
+                        icon: iconSuffix!,
+                        onPressed: onPressedSuffix,
+                      )
+                    : null,
               ),
             ),
           ),
@@ -93,35 +103,6 @@ class ErrorBuilder extends StatelessWidget {
         style: getMediumStyle(
           color: ColorManager.error,
         ),
-      ),
-    );
-  }
-}
-
-class LoadingBuilder extends StatelessWidget {
-  const LoadingBuilder({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      alignment: Alignment.center,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(
-            width: 25,
-            height: 25,
-            child: CircularProgressIndicator.adaptive(),
-          ),
-          const Gap(10),
-          Text(
-            context.translate('loading'),
-            style: getMediumStyle(),
-          ),
-        ],
       ),
     );
   }
