@@ -22,3 +22,5 @@ class SetParamsEvent extends RecipeEvent {
 }
 
 class ResetParamsEvent extends RecipeEvent {}
+
+class GetLastFiveRecipe extends RecipeEvent {}

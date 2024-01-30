@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:recipe_finder/data/api/response.dart';
 import 'package:recipe_finder/data/models/list_data.dart';
 import 'package:recipe_finder/data/models/recipe.dart';
@@ -35,6 +36,14 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
         recipes: const <Recipe>[],
       ));
       emit.call(await _getRecipesByUser());
+    });
+
+    on<GetLastFiveRecipe>((event, emit) async {
+      emit.call(state.copyWith(
+        loading: true,
+        lastFiveRecipes: <Recipe>[],
+      ));
+      emit.call(await _getLastFiveRecipes());
     });
   }
 
@@ -87,6 +96,21 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
       loadingCreate: false,
       status: CreateRecipeStatus.success,
       errorMessage: '',
+    );
+  }
+
+  Future<RecipeState> _getLastFiveRecipes() async {
+    ResponseState response = await _recipeUseCase.getLastFive();
+    if (response is ResponseFailed) {
+      return state.copyWith(
+        loading: false,
+        lastFiveRecipes: <Recipe>[],
+        errorMessage: response.error!.error.toString(),
+      );
+    }
+    return state.copyWith(
+      loading: false,
+      lastFiveRecipes: response.data,
     );
   }
 }

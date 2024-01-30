@@ -16,7 +16,7 @@ Map<String, String> esBase = {
   'forget_password': '¿Olvidaste tu contraseña?',
   // HOME
   'title_home': '¡Bienvenido a RecipeFinder!',
-  'your_recipes': 'Tus Recetas',
+  'your_recipes': 'Tus ultimas recetas',
   'its_empty': '¡Uy! Está vacío',
   'list_empty_home': 'Parece que no tienes nada en tu lista',
   'add_new_recipe': 'Crear nueva',

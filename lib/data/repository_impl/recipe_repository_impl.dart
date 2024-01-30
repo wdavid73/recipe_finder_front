@@ -57,4 +57,28 @@ class RecipeRepositoryImpl extends RecipeRepository {
       );
     }
   }
+
+  @override
+  Future<ResponseState> getLastFive({Map<String, dynamic>? queryParams}) async {
+    try {
+      final response = await _client.get(
+        '${ApiEndpoint.recipe}/last_five',
+        queryParams: queryParams,
+      );
+      List<Recipe> recipes = parseRecipes(response.data);
+      return ResponseSuccess(recipes, response.statusCode!);
+    } catch (e) {
+      DioException error = e as DioException;
+      return ResponseFailed(
+        DioException(
+          error: e,
+          type: error.type,
+          message: error.message,
+          requestOptions: RequestOptions(
+            path: ApiEndpoint.recipe,
+          ),
+        ),
+      );
+    }
+  }
 }

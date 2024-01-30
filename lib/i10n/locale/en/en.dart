@@ -16,7 +16,7 @@ Map<String, String> enBase = {
   'forget_password': 'Forget Password?',
   // HOME
   'title_home': '¡Welcome to RecipeFinder!',
-  'your_recipes': 'Your Recipes',
+  'your_recipes': 'Your latest recipes',
   'its_empty': 'Oops! It’s Empty',
   'list_empty_home': 'Looks like you don’t have anything in your list',
   'add_new_recipe': 'Add new',

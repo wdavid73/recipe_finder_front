@@ -15,4 +15,9 @@ class RecipeUseCase {
     final response = await _recipeRepository.create(body: body);
     return response;
   }
+
+  Future<ResponseState> getLastFive() async {
+    final response = await _recipeRepository.getLastFive();
+    return response;
+  }
 }

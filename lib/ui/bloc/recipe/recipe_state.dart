@@ -11,6 +11,7 @@ class RecipeState extends Equatable {
   final CreateRecipeStatus status;
   final GetRecipeStatus statusGet;
   final List<Recipe> recipes;
+  final List<Recipe> lastFiveRecipes;
   final int total;
   final Map<String, dynamic> params;
 
@@ -20,6 +21,7 @@ class RecipeState extends Equatable {
     this.status = CreateRecipeStatus.none,
     this.statusGet = GetRecipeStatus.none,
     this.recipes = const <Recipe>[],
+    this.lastFiveRecipes = const <Recipe>[],
     this.total = 0,
     this.errorMessage = '',
     this.params = const {
@@ -35,6 +37,7 @@ class RecipeState extends Equatable {
         errorMessage,
         status,
         recipes,
+        lastFiveRecipes,
         params,
       ];
 
@@ -45,6 +48,7 @@ class RecipeState extends Equatable {
     CreateRecipeStatus? status,
     GetRecipeStatus? statusGet,
     List<Recipe>? recipes,
+    List<Recipe>? lastFiveRecipes,
     Map<String, dynamic>? params,
     int? total,
   }) =>
@@ -55,6 +59,7 @@ class RecipeState extends Equatable {
         status: status ?? this.status,
         statusGet: statusGet ?? this.statusGet,
         recipes: recipes ?? this.recipes,
+        lastFiveRecipes: lastFiveRecipes ?? this.lastFiveRecipes,
         params: params ?? this.params,
         total: total ?? this.total,
       );

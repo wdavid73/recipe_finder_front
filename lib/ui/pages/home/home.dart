@@ -4,6 +4,7 @@ import 'package:recipe_finder/routes/navigation_manager.dart';
 import 'package:recipe_finder/ui/bloc/auth/auth_bloc.dart';
 import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
 import 'package:recipe_finder/ui/bloc/category/category_bloc.dart';
+import 'package:recipe_finder/ui/bloc/recipe/recipe_bloc.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/snack_bar_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
@@ -72,6 +73,9 @@ class _MyHomePageState extends State<HomePage>
   void _initServices() {
     final categoryBloc = BlocProvider.of<CategoryBloc>(context);
     categoryBloc.add(GetCategories());
+
+    final recipeBloc = BlocProvider.of<RecipeBloc>(context);
+    recipeBloc.add(GetLastFiveRecipe());
   }
 
   @override
