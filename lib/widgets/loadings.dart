@@ -159,8 +159,8 @@ List<Widget> overlayLoading({
   return [];
 }
 
-class LoadingFirstPage extends StatelessWidget {
-  const LoadingFirstPage({super.key});
+class LoadingShimmer extends StatelessWidget {
+  const LoadingShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {

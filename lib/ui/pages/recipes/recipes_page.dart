@@ -255,7 +255,7 @@ class _RecipesPageState extends State<RecipesPage>
                         pagingController: _pagingController,
                         builderDelegate: PagedChildBuilderDelegate<Recipe>(
                           firstPageProgressIndicatorBuilder: (context) {
-                            return const LoadingFirstPage();
+                            return const LoadingShimmer();
                           },
                           newPageProgressIndicatorBuilder: (context) {
                             return const Padding(
