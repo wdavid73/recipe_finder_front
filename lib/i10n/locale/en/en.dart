@@ -34,6 +34,12 @@ Map<String, String> enBase = {
   'num_recipes': 'N° Recipes',
   'favorite_recipes': 'Favorite Recipes',
   'show_all': 'Show all',
+  'average_rating': 'Average Rating',
+  'average_time': 'Average Cooking time',
+  'total_enable': 'No. of enabled recipes',
+  'total_disable': 'No. of disabled recipes',
+  'total_hide': 'No. of hidden recipes',
+  'not_recipe_favorites': "You don't seem to have a favorite recipe",
   // SETTING PAGE
   'report_bug': 'Report a bug',
   'send_feedback': 'Send a feedback',

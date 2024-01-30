@@ -83,4 +83,25 @@ class AuthRepositoryImpl extends AuthRepository {
       );
     }
   }
+
+  @override
+  Future<ResponseState> getFullUser() async {
+    try {
+      final response = await _client.get('${ApiEndpoint.auth}/get_full_user');
+      FullUser user = FullUser.fromJson(response.data);
+      return ResponseSuccess(user, response.statusCode!);
+    } catch (e) {
+      DioException error = e as DioException;
+      return ResponseFailed(
+        DioException(
+          error: e,
+          type: error.type,
+          message: error.message,
+          requestOptions: RequestOptions(
+            path: "${ApiEndpoint.auth}/get_full_user",
+          ),
+        ),
+      );
+    }
+  }
 }

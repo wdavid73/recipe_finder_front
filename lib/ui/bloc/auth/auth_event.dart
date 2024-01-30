@@ -21,3 +21,5 @@ class GetUser extends AuthEvent {
   final String token;
   const GetUser(this.token);
 }
+
+class GetFullUser extends AuthEvent {}

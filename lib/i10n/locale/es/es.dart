@@ -34,6 +34,12 @@ Map<String, String> esBase = {
   'num_recipes': 'N° Recetas',
   'favorite_recipes': 'Recetas Favoritas',
   'show_all': 'Mostrar Todas',
+  'average_rating': 'Promedio de Calif.',
+  'average_time': 'Promedio de tiempo prep.',
+  'total_enable': 'N° Recetas habilitadas',
+  'total_disable': 'N° Recetas deshabilitadas',
+  'not_recipe_favorites': "Parece que no tienes ninguna receta como favorita",
+  'total_hide': 'N° Recetas ocultas',
   // SETTING PAGE
   'report_bug': 'Reportar un error',
   'send_feedback': 'Enviar feedback',

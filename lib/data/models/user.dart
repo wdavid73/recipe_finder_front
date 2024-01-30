@@ -1,3 +1,4 @@
+import 'package:recipe_finder/data/models/recipe.dart';
 import 'package:recipe_finder/domain/entity/user_entity.dart';
 import 'package:recipe_finder/utils/functions.dart';
 
@@ -47,5 +48,51 @@ class User extends UserEntity {
   @override
   String toString() {
     return "User: $id, $name, $email";
+  }
+}
+
+class FullUser extends User {
+  int totalRecipe;
+  int totalRecipeEnable;
+  int totalRecipeDisable;
+  int totalRecipeHide;
+  double averageRating;
+  double averageTime;
+  List<Recipe> recipeFavorites;
+
+  FullUser({
+    required super.idUser,
+    required super.username,
+    required super.name,
+    required super.email,
+    required super.birthday,
+    super.profilePicture,
+    this.totalRecipe = 0,
+    this.totalRecipeDisable = 0,
+    this.totalRecipeEnable = 0,
+    this.totalRecipeHide = 0,
+    this.averageRating = 0,
+    this.averageTime = 0,
+    this.recipeFavorites = const <Recipe>[],
+  });
+
+  factory FullUser.fromJson(Map<String, dynamic> json) {
+    User user = User.fromJson(json["user"]);
+    List<Recipe> recipeFavorites = parseRecipes(json['recipe_favorite']);
+    return FullUser(
+      idUser: user.id,
+      username: user.username,
+      name: user.name,
+      birthday: user.birthday,
+      profilePicture: user.profilePicture,
+      email: user.email,
+      averageRating: json["average_rating"] as double,
+      averageTime: json["average_time"] as double,
+      totalRecipe: json["total_recipes"] as int,
+      totalRecipeDisable: json["total_recipe_disable"] as int,
+      totalRecipeEnable: json["total_recipe_enable"] as int,
+      totalRecipeHide: json["total_recipe_hide"] as int,
+      recipeFavorites: recipeFavorites,
+    );
   }
 }

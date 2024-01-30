@@ -34,6 +34,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ));
       emit.call(await _getUser(event.token));
     });
+
+    on<GetFullUser>((event, emit) async {
+      emit.call(state.copyWith(
+        fullUserLoading: true,
+      ));
+      emit.call(await _getFullUser());
+    });
   }
 
   Future<AuthState> _register(Map<String, dynamic> data) async {
@@ -86,6 +93,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       token: token,
       userLoading: false,
       userStatus: UserStatus.none,
+    );
+  }
+
+  Future<AuthState> _getFullUser() async {
+    ResponseState response = await _authUseCase.getFullUser();
+    if (response is ResponseFailed) {
+      return state.copyWith(
+        fullUserLoading: false,
+        errorMessage: response.error!.error.toString(),
+      );
+    }
+    return state.copyWith(
+      fullUser: response.data,
+      fullUserLoading: false,
+      errorMessage: '',
     );
   }
 }

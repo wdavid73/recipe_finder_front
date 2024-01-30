@@ -5,6 +5,7 @@ abstract class AuthRepository {
   Future<ResponseState> register(Map<String, dynamic> data);
   Future<ResponseState> recoveryPassword();
   Future<ResponseState> getUser();
+  Future<ResponseState> getFullUser();
   Future<void> logout();
   Future<bool> isTokenExpired(String token);
 }
