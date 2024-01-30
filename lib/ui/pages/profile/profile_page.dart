@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:recipe_finder/data/models/user.dart';
 import 'package:recipe_finder/ui/bloc/auth/auth_bloc.dart';
 import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/ui/pages/home/widgets/user_avatar.dart';
-import 'package:recipe_finder/ui/pages/profile/widgets/favorities_recipes.dart';
+import 'package:recipe_finder/ui/pages/profile/widgets/favorites_recipes.dart';
 import 'package:recipe_finder/ui/pages/profile/widgets/profile_extra_information.dart';
 import 'package:recipe_finder/ui/pages/profile/widgets/profile_information.dart';
 import 'package:recipe_finder/utils/extensions.dart';

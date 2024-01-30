@@ -6,7 +6,6 @@ import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/utils/extensions.dart';
 import 'package:recipe_finder/widgets/button_custom.dart';
 import 'package:recipe_finder/widgets/empty_recipe_list.dart';
-import 'package:recipe_finder/widgets/icon_app.dart';
 
 class YourRecipesContainer extends StatelessWidget {
   const YourRecipesContainer({
