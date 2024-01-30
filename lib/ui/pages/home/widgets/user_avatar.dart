@@ -13,9 +13,13 @@ class UserAvatar extends StatelessWidget {
     super.key,
     required this.responsive,
     this.user,
+    this.radius,
+    this.withBorder = false,
   });
 
   final Responsive responsive;
+  final double? radius;
+  final bool withBorder;
   final User? user;
 
   String useName(String name) {
@@ -88,7 +92,16 @@ class UserAvatar extends StatelessWidget {
   CircleAvatar _builderCircleAvatar({required Widget child}) {
     return CircleAvatar(
       backgroundColor: ColorManager.backgroundDarkColor,
-      child: child,
+      radius: radius,
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: withBorder
+              ? Border.all(color: ColorManager.backgroundColor, width: 1)
+              : null,
+        ),
+        child: child,
+      ),
     );
   }
 }
