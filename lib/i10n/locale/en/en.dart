@@ -3,17 +3,25 @@ import 'package:recipe_finder/i10n/locale/en/form_validation.dart';
 import 'package:recipe_finder/i10n/locale/en/ingredients.dart';
 
 Map<String, String> enBase = {
+  'name': 'Name',
+  'email': 'Email',
+  'email_address': 'Email Address',
+  'birthday': 'Birthday',
+  // AUTH
   'login': 'Login',
   'sign_up': 'Sign up',
   'logout': 'Log Out',
   'not_user_yet': 'Not a user yet?',
-  'name': 'Name',
-  'email': 'Email',
-  'email_address': 'Email Address',
   'password': 'Password',
   'confirm_password': 'Confirm Password',
-  'birthday': 'Birthday',
+  'new_password': 'New Password',
   'forget_password': 'Forget Password?',
+  "recovery_password": 'Password Recovery',
+  "sign_in_failed": "Sign In Failed",
+  "confirm_email": "Confirm Email",
+  "confirm_email_msg":
+      "Please enter your email address to verify it exists and continue with the password reset process.",
+  "password_update": "Password Updated Successfully",
   // HOME
   'title_home': '¡Welcome to RecipeFinder!',
   'your_recipes': 'Your latest recipes',

@@ -41,6 +41,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ));
       emit.call(await _getFullUser());
     });
+
+    on<ConfirmEmailEvent>((event, emit) async {
+      emit.call(state.copyWith(
+        loading: true,
+      ));
+      emit.call(await _confirmEmail(event.email));
+    });
+
+    on<RecoveryPasswordEvent>((event, emit) async {
+      emit.call(state.copyWith(
+        loading: true,
+      ));
+      emit.call(await _recoveryPassword(event.data));
+    });
   }
 
   Future<AuthState> _register(Map<String, dynamic> data) async {
@@ -108,6 +122,36 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       fullUser: response.data,
       fullUserLoading: false,
       errorMessage: '',
+    );
+  }
+
+  Future<AuthState> _confirmEmail(String email) async {
+    ResponseState response = await _authUseCase.confirmEmail(email);
+    if (response is ResponseFailed) {
+      return state.copyWith(
+        loading: false,
+        isUserExist: false,
+        errorMessage: response.error!.message,
+      );
+    }
+    return state.copyWith(
+      loading: false,
+      isUserExist: true,
+    );
+  }
+
+  Future<AuthState> _recoveryPassword(Map<String, dynamic> data) async {
+    ResponseState response = await _authUseCase.recoveryPassword(data);
+    if (response is ResponseFailed) {
+      return state.copyWith(
+        loading: false,
+        errorMessage: response.error!.message,
+        recoveryStatus: RecoveryStatus.hasError,
+      );
+    }
+    return state.copyWith(
+      loading: false,
+      recoveryStatus: RecoveryStatus.isSuccess,
     );
   }
 }

@@ -44,7 +44,11 @@ class UserAvatar extends StatelessWidget {
             child: CachedNetworkImage(
               imageUrl: state.user!.profilePicture!,
               placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+              errorWidget: (context, url, error) => Icon(
+                Icons.error,
+                color: ColorManager.error,
+                size: responsive.dp(5),
+              ),
               imageBuilder: (context, imageProvider) => Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -52,23 +56,6 @@ class UserAvatar extends StatelessWidget {
                     image: imageProvider,
                     fit: BoxFit.cover,
                   ),
-                ),
-              ),
-            ),
-          );
-        }
-
-        if (state.user != null && state.user!.profilePicture != null) {
-          return _builderCircleAvatar(
-            child: CachedNetworkImage(
-              imageUrl: state.user!.profilePicture!,
-              placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-              imageBuilder: (context, imageProvider) => Text(
-                useName(state.user!.name),
-                style: getBoldStyle(
-                  color: Colors.white,
-                  fontSize: responsive.dp(4),
                 ),
               ),
             ),

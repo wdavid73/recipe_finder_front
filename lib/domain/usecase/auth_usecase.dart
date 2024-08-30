@@ -25,4 +25,14 @@ class AuthUseCase {
     final response = await _authRepository.getFullUser();
     return response;
   }
+
+  Future<ResponseState> confirmEmail(String email) async {
+    final response = await _authRepository.confirmEmail(email);
+    return response;
+  }
+
+  Future<ResponseState> recoveryPassword(Map<String, dynamic> data) async {
+    final response = await _authRepository.recoveryPassword(data);
+    return response;
+  }
 }

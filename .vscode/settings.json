@@ -11,6 +11,10 @@
     "Nunito",
     "typeahead",
     "unfocus",
+    "usecase",
     "vsync"
-  ]
+  ],
+  "editor.formatOnPaste": false,
+  "editor.defaultFormatter": "Dart-Code.dart-code",
+  "editor.formatOnSave": true
 }

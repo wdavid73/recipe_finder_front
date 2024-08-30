@@ -191,3 +191,12 @@ class ApiException extends DioException {
     return 'An unknown error occurred processing the request.';
   }
 }
+
+class GoogleSignInError {
+  final String message;
+
+  GoogleSignInError(this.message);
+
+  @override
+  String toString() => "GoogleSignInError: $message";
+}

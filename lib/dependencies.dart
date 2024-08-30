@@ -23,7 +23,8 @@ List<RepositoryProvider> buildRepositories() {
   return [
     // AUTH
     RepositoryProvider<AuthRepository>(
-      create: (_) => AuthRepositoryImpl(ApiClient.instance),
+      create: (_) =>
+          AuthRepositoryImpl(ApiClient.instance),
     ),
     RepositoryProvider<AuthUseCase>(
       create: (context) => AuthUseCase(context.read()),

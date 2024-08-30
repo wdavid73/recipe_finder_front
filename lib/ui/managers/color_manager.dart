@@ -25,6 +25,7 @@ class ColorManager {
 
   static Color error = HexColor.fromHex("#EF5350");
   static Color divider = HexColor.fromHex("#BDBDBD");
+  static Color success = HexColor.fromHex("#4caf50");
 }
 
 extension HexColor on Color {

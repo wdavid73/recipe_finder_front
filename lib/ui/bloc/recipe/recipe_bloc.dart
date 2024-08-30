@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:recipe_finder/data/api/response.dart';
 import 'package:recipe_finder/data/models/list_data.dart';
 import 'package:recipe_finder/data/models/recipe.dart';

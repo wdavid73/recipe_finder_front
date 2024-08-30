@@ -23,3 +23,13 @@ class GetUser extends AuthEvent {
 }
 
 class GetFullUser extends AuthEvent {}
+
+class ConfirmEmailEvent extends AuthEvent {
+  final String email;
+  const ConfirmEmailEvent(this.email);
+}
+
+class RecoveryPasswordEvent extends AuthEvent {
+  final Map<String, dynamic> data;
+  const RecoveryPasswordEvent(this.data);
+}

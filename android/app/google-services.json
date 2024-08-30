@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "421911796045",
+    "project_id": "recipe-finder-21e27",
+    "storage_bucket": "recipe-finder-21e27.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:421911796045:android:ca3b2b85ffe9c7fbb03f04",
+        "android_client_info": {
+          "package_name": "com.guicho.devs.recipe_finder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "421911796045-buss8diq63fr6ukovqjg6et26avctokt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.guicho.devs.recipe_finder",
+            "certificate_hash": "7113fb97bf9a5694562d06bc66cae1ac9137eb97"
+          }
+        },
+        {
+          "client_id": "421911796045-s9g5ubkql59a91c22jscfbufldr142tu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.guicho.devs.recipe_finder",
+            "certificate_hash": "532c56da9a461d5e3e84d014dd8d1d489e2f6bbb"
+          }
+        },
+        {
+          "client_id": "421911796045-fuc0gk3qtm1gkj7u0ht21j6e7u2fa8lf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeCRmZysWfCjfviGNv0ZierlZAtueJvKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "421911796045-fuc0gk3qtm1gkj7u0ht21j6e7u2fa8lf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

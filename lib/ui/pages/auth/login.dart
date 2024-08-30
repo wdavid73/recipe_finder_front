@@ -76,10 +76,15 @@ class _LoginContainerState extends State<LoginContainer> {
     }
   }
 
+  void _googleSignIn() {
+    // final authBloc = BlocProvider.of<AuthBloc>(context);
+    // authBloc.add(GoogleSignInEvent());
+  }
+
   void _showSnackBar(String message, IconData icon) {
     SnackBarManager.showSnackBar(
       context,
-      message: message,
+      message: context.translate(message),
       icon: icon,
     );
   }
@@ -158,11 +163,16 @@ class _LoginContainerState extends State<LoginContainer> {
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Align(
                     alignment: Alignment.topRight,
-                    child: Text(
-                      context.translate('forget_password'),
-                      style: getRegularStyle(
-                        textDecoration: TextDecoration.underline,
-                        fontSize: responsive.dp(1.5),
+                    child: GestureDetector(
+                      onTap: () => NavigationManager.go(
+                          context, "forget_password",
+                          transition: "slide"),
+                      child: Text(
+                        context.translate('forget_password'),
+                        style: getRegularStyle(
+                          textDecoration: TextDecoration.underline,
+                          fontSize: responsive.dp(1.5),
+                        ),
                       ),
                     ),
                   ),
@@ -179,7 +189,11 @@ class _LoginContainerState extends State<LoginContainer> {
                     ),
                   ),
                 ),
-                const OtherLoginOptions(),
+                OtherLoginOptions(
+                  googleSignIn: () {
+                    _googleSignIn();
+                  },
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -216,7 +230,8 @@ class _LoginContainerState extends State<LoginContainer> {
 }
 
 class OtherLoginOptions extends StatelessWidget {
-  const OtherLoginOptions({super.key});
+  final void Function() googleSignIn;
+  const OtherLoginOptions({super.key, required this.googleSignIn});
 
   @override
   Widget build(BuildContext context) {
@@ -257,9 +272,12 @@ class OtherLoginOptions extends StatelessWidget {
                 size: responsive.dp(6),
               ),
               const Gap(20),
-              IconApp(
-                icon: "assets/icons/google_icon.svg",
-                size: responsive.dp(6),
+              GestureDetector(
+                onTap: () => googleSignIn(),
+                child: IconApp(
+                  icon: "assets/icons/google_icon.svg",
+                  size: responsive.dp(6),
+                ),
               ),
             ],
           ),

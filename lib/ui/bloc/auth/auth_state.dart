@@ -6,6 +6,8 @@ enum LoginStatus { none, isLogged, hasError }
 
 enum UserStatus { none, hasError }
 
+enum RecoveryStatus { none, isSuccess, hasError }
+
 class AuthState extends Equatable {
   final bool loading;
   final bool userLoading;
@@ -17,6 +19,9 @@ class AuthState extends Equatable {
   final String token;
   final User? user;
   final FullUser? fullUser;
+  // * Validation to check is email of user exist to flow of recovery password
+  final bool isUserExist;
+  final RecoveryStatus recoveryStatus;
 
   const AuthState({
     this.loading = false,
@@ -29,6 +34,8 @@ class AuthState extends Equatable {
     this.token = '',
     this.user,
     this.fullUser,
+    this.isUserExist = false,
+    this.recoveryStatus = RecoveryStatus.none,
   });
 
   @override
@@ -39,6 +46,7 @@ class AuthState extends Equatable {
         status,
         loginStatus,
         userStatus,
+        recoveryStatus,
         if (user != null) user!,
         if (fullUser != null) fullUser!,
       ];
@@ -54,6 +62,8 @@ class AuthState extends Equatable {
     String? token,
     User? user,
     FullUser? fullUser,
+    bool? isUserExist,
+    RecoveryStatus? recoveryStatus,
   }) {
     return AuthState(
       loading: loading ?? this.loading,
@@ -66,6 +76,8 @@ class AuthState extends Equatable {
       fullUserLoading: fullUserLoading ?? this.fullUserLoading,
       userStatus: userStatus ?? this.userStatus,
       fullUser: fullUser ?? this.fullUser,
+      isUserExist: isUserExist ?? this.isUserExist,
+      recoveryStatus: recoveryStatus ?? this.recoveryStatus,
     );
   }
 

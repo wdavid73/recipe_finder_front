@@ -61,7 +61,25 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<void> logout() => throw UnimplementedError();
 
   @override
-  Future<ResponseState> recoveryPassword() => throw UnimplementedError();
+  Future<ResponseState> recoveryPassword(Map<String, dynamic> data) async {
+    try {
+      final response =
+          await _client.post('${ApiEndpoint.auth}/recovery_password/', data);
+      return ResponseSuccess(response, response.statusCode!);
+    } catch (e) {
+      DioException error = e as DioException;
+      return ResponseFailed(
+        DioException(
+          error: e,
+          type: error.type,
+          message: error.message,
+          requestOptions: RequestOptions(
+            path: "${ApiEndpoint.auth}/get_user",
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Future<ResponseState> getUser() async {
@@ -99,6 +117,29 @@ class AuthRepositoryImpl extends AuthRepository {
           message: error.message,
           requestOptions: RequestOptions(
             path: "${ApiEndpoint.auth}/get_full_user",
+          ),
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<ResponseState> confirmEmail(String email) async {
+    try {
+      final response = await _client.post(
+        '${ApiEndpoint.auth}/confirm_email',
+        {"email": email},
+      );
+      return ResponseSuccess(true, response.statusCode!);
+    } catch (e) {
+      DioException error = e as DioException;
+      return ResponseFailed(
+        DioException(
+          error: e,
+          type: error.type,
+          message: error.message,
+          requestOptions: RequestOptions(
+            path: "${ApiEndpoint.auth}/confirm_email",
           ),
         ),
       );

@@ -1,74 +1,90 @@
-name: Update Version
+name: Update App Version
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
-      - develop
-  
+      - "develop"
+
 jobs:
-    update_version:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
+  update-version:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
 
-        - name: Set up Python
-          uses: actions/setup-python@v2
-          with:
-            python-version: '3.x'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Clona todo el historial y todas las ramas
+          ref: develop
 
-        - name: Install bumpversion
-          run: pip install bumpversion
-        - name: Configure Git author identity
-          run: |
-            git config --global user.email "wdavidw26@gmail.com"
-            git config --global user.name "Wilson Padilla"
-            cd ${{ github.workspace }}
-            git checkout develop
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
 
+      - name: Install bumpversion
+        run: |
+          pip install bumpversion
 
-        - name: Check commit message
-          id: check_commit
-          run: |
-            # Analiza los mensajes de confirmación
-            bump_level=none # Por defecto
+      - name: Determine branch name
+        id: branch
+        run: |
+          BRANCH_NAME=${{ github.event.pull_request.head.ref }}
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
 
-            # Lista de palabras clave
-            keywords=("fix" "feat" "breaking" "redesign" "hotfix" "sparkles" "ambulance" "bug" "adhesive_bandage" "new_version", "Merge", "merge")
+      - name: Display Current Branch
+        run: |
+          echo "Current branch: $BRANCH_NAME"
+        env:
+          BRANCH_NAME: ${{ env.BRANCH_NAME }}
 
-            last_commit_message=$(git log -1 --pretty=%B)
+      - name: Configure Git author identity
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          cd ${{ github.workspace }}
+          git checkout develop
 
-            for keyword in "${keywords[@]}"; do
-              if echo "$last_commit_message" | grep -q "$keyword"; then
-                if [ "$keyword" == "fix" ] || [ "$keyword" == "hotfix" ] || [ "$keyword" == "bug" ] || [ "$keyword" == "adhesive_bandage" ]; then
-                  bump_level="patch"  # Incremento de versión de tipo patch
-                elif [ "$keyword" == "feat" ] || [ "$keyword" == "sparkles" ] || [ "$keyword" == "redesign" ] || [ "$keyword" == "Merge" ] || [ "$keyword" == "merge" ]; then
-                  bump_level="minor"  # Incremento de versión de tipo minor
-                elif [ "$keyword" == "breaking" ] || [ "$keyword" == "new_version" ]; then
-                  bump_level="major"  # Incremento de versión de tipo major
-                fi
-                break  # Detén la búsqueda en cuanto se encuentra una coincidencia
-              fi
-            done
+      - name: Check version based on branch
+        run: |
+          # Define el nivel de versión según el nombre de la rama
+          bump_level=none
 
-            echo "Increment version of $bump_level"
-            echo "BUMP_LEVEL=$bump_level" >> $GITHUB_ENV
-          shell: bash
+          if [[ $BRANCH_NAME == feature/* ]]; then
+            bump_level="minor"
+          elif [[ $BRANCH_NAME == release/* ]]; then
+            bump_level="major"
+          elif [[ $BRANCH_NAME == hotfix/* || $BRANCH_NAME == bugfix/* ]]; then
+            bump_level="patch"
+          else
+            echo "Branch name does not match any known pattern"
+          fi
 
-        - name: Bump version
-          if : env.BUMP_LEVEL != 'none'
-          run: |
-            cd ${{ github.workspace }}
-            bumpversion ${{ env.BUMP_LEVEL }}
-          continue-on-error: true # Continuar incluso si no se encuentra una coincidencia
+          echo "Increment version of $bump_level"
+          echo "BUMP_LEVEL=$bump_level" >> $GITHUB_ENV
+        env:
+          BRANCH_NAME: ${{ env.BRANCH_NAME }}
 
-        - name: Create bumpversion.log
-          run: touch ${{ github.workspace }}/bumpversion.log
+      - name: Update version
+        if: env.BUMP_LEVEL != 'none'
+        run: |
+          cd ${{ github.workspace }}
+          bumpversion ${{ env.BUMP_LEVEL }}
+        env:
+          BUMP_LEVEL: ${{ env.BUMP_LEVEL }}
 
-        - name: Commit and push changes
-          run: |
-            git config --local user.email "action@github.com"
-            git config --local user.name "GitHub Action"
-            git push
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: List modified files
+        run: |
+          git status
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Action"
+          git push
+          # git add .
+          # git commit -m "Bump version"
+          # git push --follow-tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
