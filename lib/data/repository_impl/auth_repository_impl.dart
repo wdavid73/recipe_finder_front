@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:recipe_finder/data/api/api_client.dart';
 import 'package:recipe_finder/data/api/api_endpoint.dart';
 import 'package:recipe_finder/data/api/response.dart';
@@ -58,7 +59,27 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<void> logout() => throw UnimplementedError();
+  Future<ResponseState> logout() async {
+    try {
+      final response = await _client.post("${ApiEndpoint.auth}/logout/", null);
+      // GOOGLE SIGN IN LOGOUT;
+      GoogleSignIn googleSignIn = GoogleSignIn();
+      await googleSignIn.disconnect();
+      return ResponseSuccess(null, response.statusCode!);
+    } catch (e) {
+      DioException error = e as DioException;
+      return ResponseFailed(
+        DioException(
+          error: e,
+          type: error.type,
+          message: error.message,
+          requestOptions: RequestOptions(
+            path: "${ApiEndpoint.auth}/login",
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Future<ResponseState> recoveryPassword(Map<String, dynamic> data) async {
@@ -140,6 +161,47 @@ class AuthRepositoryImpl extends AuthRepository {
           message: error.message,
           requestOptions: RequestOptions(
             path: "${ApiEndpoint.auth}/confirm_email",
+          ),
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<ResponseState> setGoogleAccount() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser!.authentication;
+      return ResponseSuccess(googleAuth.idToken, 200);
+    } catch (e) {
+      return ResponseFailed(
+        DioException(
+          error: e,
+          message: e.toString(),
+          requestOptions: RequestOptions(
+            path: "${ApiEndpoint.auth}/google_sign_in",
+          ),
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<ResponseState> googleSignIn(String data) async {
+    try {
+      final response =
+          await _client.post("${ApiEndpoint.auth}/google/", {"idToken": data});
+      return ResponseSuccess(response.data, response.statusCode!);
+    } catch (e) {
+      DioException error = e as DioException;
+      return ResponseFailed(
+        DioException(
+          error: e,
+          type: error.type,
+          message: error.message,
+          requestOptions: RequestOptions(
+            path: "${ApiEndpoint.auth}/google_sign_in",
           ),
         ),
       );

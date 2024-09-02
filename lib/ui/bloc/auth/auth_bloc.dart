@@ -56,8 +56,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit.call(await _recoveryPassword(event.data));
     });
 
-    on<LogoutEvent>((event, emit) {
-      emit.call(_logout());
+    on<SetGoogleAccountEvent>((event, emit) async {
+      emit.call(await _googleSetAccount());
+    });
+
+    on<GoogleSignInEvent>((event, emit) async {
+      emit.call(state.copyWith(
+        googleSignInLoading: true,
+        googleStatus: GoogleSignInStatus.none,
+        googleUser: '',
+        loginStatus: LoginStatus.none,
+      ));
+      emit.call(await _googleSignIn(event.idToken));
+    });
+
+    on<LogoutEvent>((event, emit) async {
+      emit.call(await _logout());
     });
   }
 
@@ -159,7 +173,48 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  AuthState _logout() {
+  Future<AuthState> _googleSetAccount() async {
+    ResponseState response = await _authUseCase.setGoogleAccount();
+    if (response is ResponseFailed) {
+      return state.copyWith(
+        googleStatus: GoogleSignInStatus.hasError,
+        errorMessage: response.error!.message,
+      );
+    }
+    return state.copyWith(
+      googleStatus: GoogleSignInStatus.isSuccess,
+      googleUser: response.data,
+    );
+  }
+
+  Future<AuthState> _googleSignIn(String idToken) async {
+    ResponseState response = await _authUseCase.googleSignIn(idToken);
+    if (response is ResponseFailed) {
+      return state.copyWith(
+        googleSignInLoading: false,
+        loginStatus: LoginStatus.hasError,
+        errorMessage: response.error!.error.toString(),
+      );
+    }
+    return state.copyWith(
+      googleSignInLoading: false,
+      loginStatus: LoginStatus.isLogged,
+      errorMessage: '',
+      token: response.data["token"],
+      user: User.fromJson(response.data["user"]),
+    );
+  }
+
+  Future<AuthState> _logout() async {
+    final response = await _authUseCase.logout();
+    if (response is ResponseFailed) {
+      return state.copyWith(
+        loading: false,
+        userLoading: false,
+        fullUserLoading: false,
+        errorMessage: response.error!.error.toString(),
+      );
+    }
     return state.copyWith(
       loading: false,
       userLoading: false,

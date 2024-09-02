@@ -34,4 +34,11 @@ class RecoveryPasswordEvent extends AuthEvent {
   const RecoveryPasswordEvent(this.data);
 }
 
+class SetGoogleAccountEvent extends AuthEvent {}
+
+class GoogleSignInEvent extends AuthEvent {
+  final String idToken;
+  const GoogleSignInEvent(this.idToken);
+}
+
 class LogoutEvent extends AuthEvent {}

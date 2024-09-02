@@ -12,6 +12,7 @@ import 'package:recipe_finder/utils/validations.dart';
 import 'package:recipe_finder/widgets/button_custom.dart';
 import 'package:recipe_finder/widgets/icon_app.dart';
 import 'package:recipe_finder/widgets/input_custom.dart';
+import 'package:recipe_finder/widgets/loadings.dart';
 import 'package:recipe_finder/widgets/logo_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,34 +22,46 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          context.translate('login'),
-          style: getBoldStyle(
-            fontSize: responsive.dp(3),
-          ),
-        ),
-        elevation: 0,
-        centerTitle: true,
-        scrolledUnderElevation: 0,
-      ),
-      body: SafeArea(
-        child: Container(
-          width: responsive.width,
-          height: responsive.height,
-          margin: const EdgeInsets.symmetric(vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              LogoApp(size: responsive.dp(25)),
-              const Gap(30),
-              const Expanded(child: LoginContainer()),
-            ],
-          ),
-        ),
-      ),
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        return Stack(
+          children: [
+            Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  context.translate('login'),
+                  style: getBoldStyle(
+                    fontSize: responsive.dp(3),
+                  ),
+                ),
+                elevation: 0,
+                centerTitle: true,
+                scrolledUnderElevation: 0,
+              ),
+              body: SafeArea(
+                child: Container(
+                  width: responsive.width,
+                  height: responsive.height,
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      LogoApp(size: responsive.dp(25)),
+                      const Gap(30),
+                      const Expanded(child: LoginContainer()),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            ...overlayLoading(
+              context: context,
+              show: state.googleSignInLoading,
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -76,9 +89,14 @@ class _LoginContainerState extends State<LoginContainer> {
     }
   }
 
+  void _setGoogleAccount() {
+    final authBloc = BlocProvider.of<AuthBloc>(context);
+    authBloc.add(SetGoogleAccountEvent());
+  }
+
   void _googleSignIn() {
-    // final authBloc = BlocProvider.of<AuthBloc>(context);
-    // authBloc.add(GoogleSignInEvent());
+    final authBloc = BlocProvider.of<AuthBloc>(context);
+    authBloc.add(GoogleSignInEvent(authBloc.state.googleUser));
   }
 
   void _showSnackBar(String message, IconData icon) {
@@ -92,7 +110,7 @@ class _LoginContainerState extends State<LoginContainer> {
   void _loginSuccess() async {
     final authBloc = BlocProvider.of<AuthBloc>(context);
     SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString("email", data["username"]);
+    pref.setString("email", data["username"] ?? authBloc.state.user?.email);
     pref.setString('token', authBloc.state.token);
     await Future.delayed(const Duration(milliseconds: 1000)).then((_) {
       NavigationManager.goAndRemove(context, "home", transition: "slide");
@@ -109,6 +127,10 @@ class _LoginContainerState extends State<LoginContainer> {
           _loginSuccess();
         } else if (state.loginStatus == LoginStatus.hasError) {
           _showSnackBar(state.errorMessage, Icons.error);
+        }
+
+        if (state.googleStatus == GoogleSignInStatus.isSuccess) {
+          _googleSignIn();
         }
       },
       builder: (context, state) {
@@ -191,7 +213,7 @@ class _LoginContainerState extends State<LoginContainer> {
                 ),
                 OtherLoginOptions(
                   googleSignIn: () {
-                    _googleSignIn();
+                    _setGoogleAccount();
                   },
                 ),
                 Row(

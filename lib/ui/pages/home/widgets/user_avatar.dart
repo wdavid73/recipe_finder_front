@@ -8,6 +8,7 @@ import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/utils/constants.dart';
 import 'package:recipe_finder/utils/extensions.dart';
+import 'package:recipe_finder/utils/functions.dart';
 
 class UserAvatar extends StatelessWidget {
   const UserAvatar({
@@ -43,13 +44,16 @@ class UserAvatar extends StatelessWidget {
         if (state.user != null && state.user!.profilePicture != null) {
           return _builderCircleAvatar(
             child: CachedNetworkImage(
-              imageUrl: state.user!.profilePicture!,
+              imageUrl: transformProfilePictureUrl(state.user!.profilePicture!),
               placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Icon(
-                Icons.error,
-                color: ColorManager.error,
-                size: responsive.dp(5),
-              ),
+              errorWidget: (context, url, error) {
+                print(error);
+                return Icon(
+                  Icons.error,
+                  color: ColorManager.error,
+                  size: responsive.dp(5),
+                );
+              },
               imageBuilder: (context, imageProvider) => Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
