@@ -8,6 +8,8 @@ enum UserStatus { none, hasError, isSuccess }
 
 enum RecoveryStatus { none, isSuccess, hasError }
 
+enum GoogleSignInStatus { none, isSuccess, hasError }
+
 class AuthState extends Equatable {
   final bool loading;
   final bool userLoading;
@@ -22,6 +24,10 @@ class AuthState extends Equatable {
   // * Validation to check is email of user exist to flow of recovery password
   final bool isUserExist;
   final RecoveryStatus recoveryStatus;
+  // ? Google Sign In
+  final bool googleSignInLoading;
+  final GoogleSignInStatus googleStatus;
+  final String googleUser;
 
   const AuthState({
     this.loading = false,
@@ -36,6 +42,9 @@ class AuthState extends Equatable {
     this.fullUser,
     this.isUserExist = false,
     this.recoveryStatus = RecoveryStatus.none,
+    this.googleSignInLoading = false,
+    this.googleStatus = GoogleSignInStatus.none,
+    this.googleUser = '',
   });
 
   @override
@@ -47,6 +56,9 @@ class AuthState extends Equatable {
         loginStatus,
         userStatus,
         recoveryStatus,
+        googleSignInLoading,
+        googleStatus,
+        googleUser,
         if (user != null) user!,
         if (fullUser != null) fullUser!,
       ];
@@ -64,6 +76,9 @@ class AuthState extends Equatable {
     FullUser? fullUser,
     bool? isUserExist,
     RecoveryStatus? recoveryStatus,
+    bool? googleSignInLoading,
+    GoogleSignInStatus? googleStatus,
+    String? googleUser,
   }) {
     return AuthState(
       loading: loading ?? this.loading,
@@ -78,6 +93,9 @@ class AuthState extends Equatable {
       fullUser: fullUser ?? this.fullUser,
       isUserExist: isUserExist ?? this.isUserExist,
       recoveryStatus: recoveryStatus ?? this.recoveryStatus,
+      googleSignInLoading: googleSignInLoading ?? this.googleSignInLoading,
+      googleStatus: googleStatus ?? this.googleStatus,
+      googleUser: googleUser ?? this.googleUser,
     );
   }
 

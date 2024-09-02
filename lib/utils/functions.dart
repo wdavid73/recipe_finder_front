@@ -6,16 +6,19 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:recipe_finder/utils/extensions.dart';
 
-DateTime parseStringToDateTime(String date) {
-  List<String> dateParts = date.split('-');
+DateTime? parseStringToDateTime(String? date) {
+  if (date != null) {
+    List<String> dateParts = date.split('-');
 
-  int year = int.parse(dateParts[0]);
-  int month = int.parse(dateParts[1]);
-  int day = int.parse(dateParts[2]);
+    int year = int.parse(dateParts[0]);
+    int month = int.parse(dateParts[1]);
+    int day = int.parse(dateParts[2]);
 
-  DateTime dateParsed = DateTime(year, month, day);
+    DateTime dateParsed = DateTime(year, month, day);
 
-  return dateParsed;
+    return dateParsed;
+  }
+  return null;
 }
 
 String formatValidationMessage(
@@ -80,4 +83,27 @@ Map<String, dynamic> serializerQueryParams(Map<String, dynamic>? queryParams) {
     });
   }
   return validatedParams;
+}
+
+String transformProfilePictureUrl(String profilePicture) {
+  String decodeString = Uri.decodeFull(profilePicture);
+
+  int mediaIndex = decodeString.indexOf("media/");
+
+  String profileUrl = decodeString
+      .substring(mediaIndex, decodeString.length)
+      .split("media/")
+      .join('');
+
+  if (profileUrl.contains("http:/")) {
+    profileUrl = profileUrl.replaceFirst("http:/", "http://");
+    return profileUrl;
+  }
+
+  if (profileUrl.contains("https:/")) {
+    profileUrl = profileUrl.replaceFirst("https:/", "https://");
+    return profileUrl;
+  }
+
+  return profilePicture;
 }

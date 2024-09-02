@@ -35,4 +35,18 @@ class AuthUseCase {
     final response = await _authRepository.recoveryPassword(data);
     return response;
   }
+
+  Future<ResponseState> setGoogleAccount() async {
+    final response = await _authRepository.setGoogleAccount();
+    return response;
+  }
+
+  Future<ResponseState> googleSignIn(String data) async {
+    final response = await _authRepository.googleSignIn(data);
+    return response;
+  }
+
+  Future<ResponseState> logout() async {
+    return await _authRepository.logout();
+  }
 }

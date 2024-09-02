@@ -7,7 +7,7 @@ class User extends UserEntity {
   String username;
   String name;
   String? profilePicture;
-  DateTime birthday;
+  DateTime? birthday;
   String email;
 
   User({
@@ -16,7 +16,7 @@ class User extends UserEntity {
     required this.name,
     this.profilePicture,
     required this.email,
-    required this.birthday,
+    this.birthday,
   });
 
   @override
@@ -39,7 +39,7 @@ class User extends UserEntity {
       idUser: json['id'] as int,
       username: json['username'] as String,
       name: json['name'] as String,
-      birthday: parseStringToDateTime(json['birthday'] as String),
+      birthday: parseStringToDateTime(json['birthday'] as String?),
       profilePicture: json['profile_picture'] as String?,
       email: json["email"] as String,
     );

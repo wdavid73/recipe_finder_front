@@ -6,7 +6,9 @@ abstract class AuthRepository {
   Future<ResponseState> recoveryPassword(Map<String, dynamic> data);
   Future<ResponseState> getUser();
   Future<ResponseState> getFullUser();
-  Future<void> logout();
+  Future<ResponseState> logout();
   Future<bool> isTokenExpired(String token);
   Future<ResponseState> confirmEmail(String email);
+  Future<dynamic> setGoogleAccount();
+  Future<ResponseState> googleSignIn(String data);
 }
