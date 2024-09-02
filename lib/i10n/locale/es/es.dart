@@ -22,6 +22,8 @@ Map<String, String> esBase = {
   "confirm_email_msg":
       "Por favor ingrese su correo electrónico, para verificar que existe y seguir con su proceso de restablecimiento de contraseña",
   "password_update": "Contraseña actualizada correctamente",
+  "accept__btn": "Aceptar",
+  "cancel__btn": "Cancelar",
   // HOME
   'title_home': '¡Bienvenido a RecipeFinder!',
   'your_recipes': 'Tus ultimas recetas',

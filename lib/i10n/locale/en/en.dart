@@ -22,6 +22,8 @@ Map<String, String> enBase = {
   "confirm_email_msg":
       "Please enter your email address to verify it exists and continue with the password reset process.",
   "password_update": "Password Updated Successfully",
+  "accept__btn": "Accept",
+  "cancel__btn": "Cancel",
   // HOME
   'title_home': '¡Welcome to RecipeFinder!',
   'your_recipes': 'Your latest recipes',

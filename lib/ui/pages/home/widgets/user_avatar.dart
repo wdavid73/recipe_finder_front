@@ -6,6 +6,7 @@ import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
 import 'package:recipe_finder/ui/managers/style_text_manager.dart';
+import 'package:recipe_finder/utils/constants.dart';
 import 'package:recipe_finder/utils/extensions.dart';
 
 class UserAvatar extends StatelessWidget {
@@ -86,6 +87,7 @@ class UserAvatar extends StatelessWidget {
           border: withBorder
               ? Border.all(color: ColorManager.backgroundColor, width: 1)
               : null,
+          boxShadow: kBoxShadowCircle,
         ),
         child: child,
       ),

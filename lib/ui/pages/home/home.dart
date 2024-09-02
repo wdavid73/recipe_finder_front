@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:recipe_finder/routes/navigation_manager.dart';
@@ -26,6 +28,8 @@ class HomePage extends StatefulWidget {
 class _MyHomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
+  Completer<void>? _completer;
+
   @override
   void initState() {
     _animationController = AnimationController(
@@ -37,37 +41,27 @@ class _MyHomePageState extends State<HomePage>
   }
 
   void _init() async {
+    _completer = Completer<void>();
     final authBloc = BlocProvider.of<AuthBloc>(context);
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    String? token = pref.getString("token");
-    String? tokenBloc = await validateToken();
-    bool validTokenBloc = tokenBloc != '' && tokenBloc != null;
-    if (validTokenBloc) {
-      authBloc.add(GetUser("$token"));
+    final token = await _getValidToken(authBloc);
+
+    if (token != null) {
+      authBloc.add(GetUser(token));
       _initServices();
     } else {
       _navigateToLogin();
     }
   }
 
-  Future<String?> validateToken() async {
-    final authBloc = BlocProvider.of<AuthBloc>(context);
+  Future<String?> _getValidToken(AuthBloc bloc) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    String? token = pref.getString("token");
-    String authBlocToken = authBloc.state.token;
-    return authBlocToken != '' ? authBlocToken : token;
+    final savedToken = pref.getString("token");
+    final blocToken = bloc.state.token;
+    return blocToken.isNotEmpty ? blocToken : savedToken;
   }
 
   void _navigateToLogin() {
     NavigationManager.goAndRemove(context, "login");
-  }
-
-  void _errorServices(String message) {
-    SnackBarManager.showSnackBar(
-      context,
-      message: message,
-      icon: Icons.error,
-    );
   }
 
   void _initServices() {
@@ -78,9 +72,19 @@ class _MyHomePageState extends State<HomePage>
     recipeBloc.add(GetLastFiveRecipe());
   }
 
+  void _errorServices(String message) {
+    SnackBarManager.showSnackBar(
+      context,
+      message: message,
+      icon: Icons.error,
+    );
+  }
+
   @override
   void dispose() {
     _animationController.dispose();
+    _completer?.complete();
+    _completer = null;
     super.dispose();
   }
 

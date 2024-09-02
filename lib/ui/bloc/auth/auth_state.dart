@@ -4,7 +4,7 @@ enum AuthStatus { none, isCreate, hasError }
 
 enum LoginStatus { none, isLogged, hasError }
 
-enum UserStatus { none, hasError }
+enum UserStatus { none, hasError, isSuccess }
 
 enum RecoveryStatus { none, isSuccess, hasError }
 

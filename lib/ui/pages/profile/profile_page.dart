@@ -87,7 +87,7 @@ class _ProfilePageState extends State<ProfilePage> {
       return const SizedBox.shrink();
     }
 
-    if (state.fullUserLoading) {
+    if (state.fullUserLoading == true) {
       return _builderBase(
         responsive: responsive,
         child: Column(
@@ -129,7 +129,7 @@ class _ProfilePageState extends State<ProfilePage> {
       return const SizedBox.shrink();
     }
 
-    if (state.fullUserLoading) {
+    if (state.fullUserLoading == true) {
       return _builderBase(
         responsive: responsive,
         child: Column(

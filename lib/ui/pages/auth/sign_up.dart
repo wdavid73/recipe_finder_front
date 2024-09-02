@@ -40,14 +40,15 @@ class _SignUpState extends State<SignUp> {
   }
 
   void _openDatePicker() async {
+    DateTime maxDate = DateTime.now().subtract(const Duration(days: 365 * 18));
     DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: maxDate,
       firstDate: DateTime(1950),
-      lastDate: DateTime(3000),
+      lastDate: maxDate,
       initialEntryMode: DatePickerEntryMode.calendarOnly,
-      confirmText: "Aceptar",
-      cancelText: "Cancelar",
+      confirmText: context.translate("accept__btn"),
+      cancelText: context.translate("cancel__btn"),
     );
     if (pickedDate != null) {
       String date = DateFormat('yyyy-MM-dd').format(pickedDate);
@@ -162,6 +163,19 @@ class _SignUpState extends State<SignUp> {
                                     message: context.translate('is_email'))
                               ]),
                             ),
+                            InputDateCustom(
+                              onTap: () => _openDatePicker(),
+                              hint: context.translate('birthday'),
+                              label: context.translate('birthday'),
+                              iconPrefix: const Icon(Icons.calendar_month),
+                              readOnly: true,
+                              controller: _dateController,
+                              validator: (value) =>
+                                  pipeFirstNotNullOrNull(value, [
+                                (value) => Validations.isNotEmptyDate(value,
+                                    message: context.translate('is_empty')),
+                              ]),
+                            ),
                             InputCustom(
                               onChange: (value) {
                                 setState(() => data["password"] = value);
@@ -185,19 +199,6 @@ class _SignUpState extends State<SignUp> {
                               ]),
                             ),
                             _inputConfirmPassword(context),
-                            InputDateCustom(
-                              onTap: () => _openDatePicker(),
-                              hint: context.translate('birthday'),
-                              label: context.translate('birthday'),
-                              iconPrefix: const Icon(Icons.calendar_month),
-                              readOnly: true,
-                              controller: _dateController,
-                              validator: (value) =>
-                                  pipeFirstNotNullOrNull(value, [
-                                (value) => Validations.isNotEmptyDate(value,
-                                    message: context.translate('is_empty')),
-                              ]),
-                            ),
                             ButtonCustom(
                               onPressed: () => _registerUser(),
                               width: responsive.wp(60),

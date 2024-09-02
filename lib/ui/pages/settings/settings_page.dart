@@ -166,6 +166,7 @@ class ItemSetting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.max,
       children: [
         ListTile(
           onTap: onTap != null ? () => onTap!() : null,
@@ -174,13 +175,16 @@ class ItemSetting extends StatelessWidget {
             title,
             style: getRegularStyle(),
           ),
-          trailing: const Icon(
+          trailing: Icon(
             Icons.arrow_forward_ios,
+            color: ColorManager.accentColorLight,
           ),
           contentPadding: EdgeInsets.zero,
         ),
         Divider(
           height: 0,
+          endIndent: 0,
+          indent: 0,
           color: ColorManager.divider,
         ),
       ],

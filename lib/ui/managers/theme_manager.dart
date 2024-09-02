@@ -29,9 +29,10 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
     cardTheme: CardTheme(
       color: isDark
           ? ColorManager.backgroundDarkColor
-          : ColorManager.secondaryBackgroundColor.withOpacity(0.5),
-      shadowColor: isDark ? ColorManager.shadowColorDark : Colors.white54,
-      elevation: 1,
+          : ColorManager.backgroundColor,
+      shadowColor:
+          isDark ? ColorManager.shadowColorDark : ColorManager.shadowColorDark,
+      elevation: isDark ? 1 : 5,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -145,12 +146,6 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
       headerHeadlineStyle: getBoldStyle(fontSize: 30),
       headerHelpStyle: getMediumStyle(fontSize: 16),
       dividerColor: ColorManager.divider,
-      dayBackgroundColor: MaterialStatePropertyAll<Color>(
-        isDark ? ColorManager.accentColor.withOpacity(0.8) : Colors.white,
-      ),
-      dayForegroundColor: MaterialStatePropertyAll<Color>(
-        isDark ? Colors.white : ColorManager.primaryColorDark,
-      ),
       dayOverlayColor: MaterialStatePropertyAll<Color>(
         ColorManager.primaryColorDark.withOpacity(0.8),
       ),
@@ -175,16 +170,10 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
       todayBackgroundColor: MaterialStatePropertyAll<Color>(
         ColorManager.splashColor,
       ),
-      todayForegroundColor: const MaterialStatePropertyAll<Color>(
-        Colors.white,
-      ),
       weekdayStyle: getRegularStyle(
         color:
             isDark ? ColorManager.textPrimaryLight : ColorManager.textPrimary,
         fontSize: 14,
-      ),
-      yearBackgroundColor: MaterialStatePropertyAll<Color>(
-        ColorManager.accentColor,
       ),
       yearOverlayColor: MaterialStatePropertyAll<Color>(
         ColorManager.primaryColorDark.withOpacity(0.8),
@@ -202,7 +191,7 @@ ThemeData getApplicationDarkTheme({bool isDark = true}) {
     ),
     switchTheme: SwitchThemeData(
       trackColor: MaterialStatePropertyAll<Color>(
-        ColorManager.accentColor.withOpacity(0.5),
+        ColorManager.accentColor.withOpacity(0.2),
       ),
       thumbColor: MaterialStatePropertyAll<Color>(
         ColorManager.accentColor,

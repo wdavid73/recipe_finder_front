@@ -33,3 +33,5 @@ class RecoveryPasswordEvent extends AuthEvent {
   final Map<String, dynamic> data;
   const RecoveryPasswordEvent(this.data);
 }
+
+class LogoutEvent extends AuthEvent {}

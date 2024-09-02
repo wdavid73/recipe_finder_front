@@ -80,7 +80,7 @@ class CategoriesContainer extends StatelessWidget {
   Widget _itemCategory(
       Responsive responsive, Category category, BuildContext ctx) {
     Widget icon =
-        categories.firstWhere((e) => e['name'] == category.name, orElse: () {
+        kCategories.firstWhere((e) => e['name'] == category.name, orElse: () {
       return {
         "icon": Icon(
           Icons.extension,

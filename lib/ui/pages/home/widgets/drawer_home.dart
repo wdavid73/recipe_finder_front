@@ -9,10 +9,40 @@ import 'package:recipe_finder/ui/managers/style_text_manager.dart';
 import 'package:recipe_finder/ui/pages/home/widgets/drawer_item.dart';
 import 'package:recipe_finder/ui/pages/home/widgets/user_avatar.dart';
 import 'package:recipe_finder/utils/extensions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
-class DrawerHome extends StatelessWidget {
+class DrawerHome extends StatefulWidget {
   const DrawerHome({super.key});
+
+  @override
+  State<DrawerHome> createState() => _DrawerHomeState();
+}
+
+class _DrawerHomeState extends State<DrawerHome> {
+  void _logout() async {
+    // Close Drawer
+    Navigator.pop(context);
+
+    // Logout Event Store
+    final authBloc = BlocProvider.of<AuthBloc>(context);
+    authBloc.add(LogoutEvent());
+
+    // Go to Login page
+    _navigateToLogin();
+
+    // Clear SharedPreferences
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+  }
+
+  void _navigateToLogin() {
+    NavigationManager.goAndRemove(
+      context,
+      'login',
+      transition: 'slide',
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,14 +130,7 @@ class DrawerHome extends StatelessWidget {
           DrawerItem(
             icon: Icons.exit_to_app,
             title: context.translate('logout'),
-            onTap: () {
-              Navigator.pop(context);
-              NavigationManager.goAndRemove(
-                context,
-                'login',
-                transition: 'slide',
-              );
-            },
+            onTap: () => _logout(),
           ),
         ],
       ),

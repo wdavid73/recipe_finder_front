@@ -27,7 +27,7 @@ class InformationContainer extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: ColorManager.secondaryBackgroundColor,
+            color: ColorManager.accentColorLight,
             width: 5,
           ),
         ),

@@ -71,7 +71,7 @@ class ImagePickerInput extends StatelessWidget {
               decoration: BoxDecoration(
                 color: ColorManager.containerColorDark,
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: boxShadow,
+                boxShadow: kBoxShadow,
               ),
               child: child,
             ),
@@ -136,7 +136,7 @@ class ImagePickerSelected extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: ColorManager.accentColor,
                         shape: BoxShape.circle,
-                        boxShadow: boxShadow,
+                        boxShadow: kBoxShadow,
                       ),
                       child: Icon(
                         Icons.camera_alt_outlined,

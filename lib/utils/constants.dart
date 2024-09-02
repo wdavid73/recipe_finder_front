@@ -2,15 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:recipe_finder/ui/managers/color_manager.dart';
 import 'package:recipe_finder/widgets/icon_app.dart';
 
-List<BoxShadow> boxShadow = const [
+List<BoxShadow> kBoxShadow = const [
   BoxShadow(
     color: Colors.black26,
     blurRadius: 5,
     offset: Offset(0, 5),
   ),
 ];
+List<BoxShadow> kBoxShadowCircle = const [
+  BoxShadow(
+    color: Colors.black26,
+    blurRadius: 7,
+    offset: Offset(1, 3),
+  ),
+];
 
-List<Map<String, dynamic>> categories = [
+List<Map<String, dynamic>> kCategories = [
   {
     "name": 'Starters',
     "icon": Icon(

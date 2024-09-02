@@ -55,6 +55,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ));
       emit.call(await _recoveryPassword(event.data));
     });
+
+    on<LogoutEvent>((event, emit) {
+      emit.call(_logout());
+    });
   }
 
   Future<AuthState> _register(Map<String, dynamic> data) async {
@@ -106,7 +110,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       user: response.data,
       token: token,
       userLoading: false,
-      userStatus: UserStatus.none,
+      userStatus: UserStatus.isSuccess,
     );
   }
 
@@ -129,13 +133,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     ResponseState response = await _authUseCase.confirmEmail(email);
     if (response is ResponseFailed) {
       return state.copyWith(
-        loading: false,
+        fullUserLoading: false,
         isUserExist: false,
         errorMessage: response.error!.message,
       );
     }
     return state.copyWith(
-      loading: false,
+      fullUserLoading: false,
       isUserExist: true,
     );
   }
@@ -152,6 +156,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     return state.copyWith(
       loading: false,
       recoveryStatus: RecoveryStatus.isSuccess,
+    );
+  }
+
+  AuthState _logout() {
+    return state.copyWith(
+      loading: false,
+      userLoading: false,
+      fullUserLoading: false,
+      status: AuthStatus.none,
+      loginStatus: LoginStatus.none,
+      userStatus: UserStatus.none,
+      errorMessage: '',
+      token: '',
+      user: null,
+      fullUser: null,
+      isUserExist: false,
+      recoveryStatus: RecoveryStatus.none,
     );
   }
 }
