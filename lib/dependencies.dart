@@ -14,6 +14,7 @@ import 'package:recipe_finder/domain/usecase/recipe_usecase.dart';
 import 'package:recipe_finder/ui/bloc/auth/auth_bloc.dart';
 import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
 import 'package:recipe_finder/ui/bloc/category/category_bloc.dart';
+import 'package:recipe_finder/ui/bloc/create_recipe/create_recipe_bloc.dart';
 import 'package:recipe_finder/ui/bloc/ingredient/ingredient_bloc.dart';
 import 'package:recipe_finder/ui/bloc/recipe/recipe_bloc.dart';
 import 'package:recipe_finder/ui/pages/settings/cubit/settings_cubit.dart';
@@ -23,8 +24,7 @@ List<RepositoryProvider> buildRepositories() {
   return [
     // AUTH
     RepositoryProvider<AuthRepository>(
-      create: (_) =>
-          AuthRepositoryImpl(ApiClient.instance),
+      create: (_) => AuthRepositoryImpl(ApiClient.instance),
     ),
     RepositoryProvider<AuthUseCase>(
       create: (context) => AuthUseCase(context.read()),
@@ -63,6 +63,9 @@ List<BlocProvider> buildBlocs() {
     ),
     BlocProvider<RecipeBloc>(
       create: (context) => RecipeBloc(context.read()),
+    ),
+    BlocProvider<CreateRecipeBloc>(
+      create: (context) => CreateRecipeBloc(),
     )
   ];
 }

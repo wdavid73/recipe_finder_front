@@ -47,7 +47,6 @@ class UserAvatar extends StatelessWidget {
               imageUrl: transformProfilePictureUrl(state.user!.profilePicture!),
               placeholder: (context, url) => const CircularProgressIndicator(),
               errorWidget: (context, url, error) {
-                print(error);
                 return Icon(
                   Icons.error,
                   color: ColorManager.error,
