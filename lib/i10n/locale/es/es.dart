@@ -83,7 +83,9 @@ Map<String, String> esBase = {
   'add_action': 'Agregar paso',
   'action': 'Acción',
   'find_ingredient': 'Buscar ingrediente',
+  'select_ingredient': 'Selecciona uno o mas ingredients',
   'recipe_created': 'Receta creada exitosamente',
+  'no_item_selected': 'Ningún elemento seleccionado',
   // GENERAL
   'error': '¡Error!',
   'loading': 'Cargando...',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_finder/data/models/category.dart';
+import 'package:recipe_finder/data/models/ingredient.dart';
 import 'package:recipe_finder/ui/bloc/bloc_imports.dart';
 import 'package:recipe_finder/ui/bloc/recipe/recipe_bloc.dart';
 import 'package:recipe_finder/ui/managers/responsive_manager.dart';
@@ -10,7 +11,6 @@ import 'package:recipe_finder/ui/pages/recipes/create/create_recipe_viewmodel.da
 import 'package:recipe_finder/ui/pages/recipes/create/widgets/image_picker.dart';
 import 'package:recipe_finder/ui/pages/recipes/create/widgets/input_search_category.dart';
 import 'package:recipe_finder/ui/pages/recipes/create/widgets/input_search_ingredient.dart';
-import 'package:recipe_finder/ui/pages/recipes/create/widgets/list_ingredients.dart';
 import 'package:recipe_finder/ui/pages/recipes/widgets/step_input.dart';
 import 'package:recipe_finder/utils/extensions.dart';
 import 'package:recipe_finder/utils/validations.dart';
@@ -127,17 +127,19 @@ class CreateRecipePage extends StatelessWidget {
                           InputSearchIngredient(
                             controller: viewModel.controller,
                             focusNode: viewModel.focusNode,
-                            onTapIngredient: (ingredient) {
-                              viewModel.onTapIngredient(ingredient);
+                            onChange: (ingredients) {
+                              viewModel.onTapIngredient(ingredients);
                             },
                             onChangeSearchSuggestion: (text) {
                               viewModel.onChangeSearchSuggestion(text);
                             },
-                          ),
-                          ListIngredientCreateRecipe(
-                            onDeleted: (ingredient) {
-                              viewModel.removeIngredient(ingredient);
-                            },
+                            validator: (value) => pipeFirstNotNullOrNull<String,
+                                List<Ingredient>>(value!, [
+                              (value) => Validations.isRequired(value,
+                                  message: context.translate('is_required')),
+                              (value) => Validations.isNotEmptyList(value,
+                                  message: context.translate('is_empty'))
+                            ]),
                           ),
                           const StepInput(),
                           /* const UploadVideoInput(), */

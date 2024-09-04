@@ -16,7 +16,7 @@ class CreateRecipeBloc extends Bloc<CreateRecipeEvent, CreateRecipeState> {
     });
 
     on<SetIngredientsEvent>((event, emit) {
-      emit.call(_setIngredients(event.ingredient));
+      emit.call(_setIngredients(event.ingredients));
     });
 
     on<RemoveIngredientEvent>((event, emit) {
@@ -61,11 +61,8 @@ class CreateRecipeBloc extends Bloc<CreateRecipeEvent, CreateRecipeState> {
   // * ----------- PRIVATE FUNCTIONS ------------- * //
   CreateRecipeState _setImage(File? file) => state.copyWith(file: file);
 
-  CreateRecipeState _setIngredients(Ingredient ingredient) {
-    if (!state.ingredients.contains(ingredient)) {
-      return state.copyWith(ingredients: [...state.ingredients, ingredient]);
-    }
-    return state;
+  CreateRecipeState _setIngredients(List<Ingredient> ingredients) {
+    return state.copyWith(ingredients: ingredients);
   }
 
   CreateRecipeState _removeIngredient(Ingredient ingredient) {

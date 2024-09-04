@@ -13,8 +13,8 @@ class SetImageRecipeEvent extends CreateRecipeEvent {
 }
 
 class SetIngredientsEvent extends CreateRecipeEvent {
-  final Ingredient ingredient;
-  const SetIngredientsEvent({required this.ingredient});
+  final List<Ingredient> ingredients;
+  const SetIngredientsEvent({required this.ingredients});
 }
 
 class RemoveIngredientEvent extends CreateRecipeEvent {

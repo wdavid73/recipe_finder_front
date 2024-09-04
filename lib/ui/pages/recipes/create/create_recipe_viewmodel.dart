@@ -80,10 +80,10 @@ class CreateRecipeViewModel extends ChangeNotifier {
     // TODO: -----------------
   }
 
-  void onTapIngredient(Ingredient ingredient) {
+  void onTapIngredient(List<Ingredient> ingredients) {
     final bloc = BlocProvider.of<CreateRecipeBloc>(context);
     focusNode.unfocus();
-    bloc.add(SetIngredientsEvent(ingredient: ingredient));
+    bloc.add(SetIngredientsEvent(ingredients: ingredients));
   }
 
   void removeIngredient(Ingredient ingredient) {

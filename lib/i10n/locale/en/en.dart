@@ -83,7 +83,9 @@ Map<String, String> enBase = {
   'add_action': 'Add action',
   'action': 'Action',
   'find_ingredient': 'Find ingredient',
+  'select_ingredient': 'Select one or more ingredients',
   'recipe_created': 'Recipe created successfully',
+  'no_item_selected': 'No item selected',
   // GENERAL
   'error': 'Error!',
   'loading': 'Loading...',
